@@ -13,7 +13,7 @@ public class ConsoleTest {
     @BeforeEach
     void setUp() {
         bot = new Bot();
-        bot.Start();
+        bot.start();
     }
 
     @Test

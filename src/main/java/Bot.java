@@ -7,7 +7,7 @@ import java.util.*;
 public class Bot {
     private Map<String, Command> commands;
 
-    public void Start() {
+    public void start() {
         initCommands();
     }
 
@@ -26,7 +26,6 @@ public class Bot {
         }
 
         var c = commands.get(message);
-        var a = c.getClass();
         return c.process();
     }
 }
