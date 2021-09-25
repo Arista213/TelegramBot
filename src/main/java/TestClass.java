@@ -1,4 +1,4 @@
-import Functionality.Dish;
+import brain.Functionality.Dish;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package Functionality;
+package brain.Functionality;
 
 import java.util.*;
 

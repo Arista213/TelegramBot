@@ -1,8 +1,8 @@
-package Commands;
+package brain;
 
 /**
  * Для реализации комманд для взаимодействия с ботом
  */
 public abstract class Command {
-    public abstract String process();
+    public abstract void process(Bot bot);
 }
