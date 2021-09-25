@@ -24,7 +24,8 @@ public class Bot {
         commands = new HashMap<>();
         commands.put("/start", new Start());
         commands.put("/hello", new Hello());
-        commands.put("/recipe", new RecipeByName());
+        commands.put("/recipe_name", new RecipeByName());
+        commands.put("/recipe_ingredients", new RecipeByIngredients());
     }
 
     private void startListening() {
