@@ -1,24 +1,21 @@
+import brain.Bot;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.BufferedReader;
-
 public class ConsoleTest {
-
     Bot bot;
-    BufferedReader br;
 
     @BeforeEach
     void setUp() {
         bot = new Bot();
-        bot.start();
     }
 
     @Test
     void botStartTest() {
-        var answer = bot.receive("/start");
+        bot.receive("/start");
+        var answer = waitForAnswer();
         String expected = "Bot has started!\n" +
                 "\n" +
                 "Here's what bot can do\n" +
@@ -29,15 +26,25 @@ public class ConsoleTest {
 
     @Test
     void botHelloTest() {
-        var answer = bot.receive("/hello");
+        bot.receive("/hello");
+        var answer = waitForAnswer();
         String expected = "Bot says hello!";
         assertEquals(expected, answer);
     }
 
     @Test
     void botUnknownCommandTest() {
-        var answer = bot.receive("Unknown Command");
+        bot.receive("Unknown Command");
+        var answer = waitForAnswer();
         String expected = "Unknown command!";
         assertEquals(expected, answer);
+    }
+
+    String waitForAnswer() {
+        String answer = null;
+        while (answer == null) {
+            answer = bot.getOutput();
+        }
+        return answer;
     }
 }
