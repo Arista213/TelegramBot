@@ -1,4 +1,4 @@
-import Functionality.Dish;
+import brain.cheif_cooker.Dish;
 
 import java.util.*;
 
