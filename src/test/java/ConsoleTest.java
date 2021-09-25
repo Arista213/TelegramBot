@@ -1,9 +1,14 @@
+import Functionality.Dish;
+import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 public class ConsoleTest {
 
@@ -39,5 +44,29 @@ public class ConsoleTest {
         var answer = bot.receive("Unknown Command");
         String expected = "Unknown command!";
         assertEquals(expected, answer);
+    }
+
+    @Test
+    public void givenListOfMyClass_whenSerializing_thenCorrect() {
+        Dish friedEggs = new Dish("Яишница", new HashMap<>() {{
+            put("яйца", "2 шт");
+        }});
+
+        Dish pancakes = new Dish("Блины", new HashMap<>() {{
+            put("яйца", "3 шт");
+            put("тесто", "300г");
+            put("молоко", "500мл");
+        }});
+
+        List<Dish> list = Arrays.asList(pancakes, friedEggs);
+
+        Gson gson = new Gson();
+        String jsonString = gson.toJson(list);
+        String expectedString = "[{\"name\":\"Блины\",\"recipe\":" +
+                "{\"тесто\":\"300г\",\"молоко\":\"500мл\"," +
+                "\"яйца\":\"3 шт\"}}," +
+                "{\"name\":\"Яишница\",\"recipe\":{\"яйца\":\"2 шт\"}}]";
+
+        assertEquals(expectedString, jsonString);
     }
 }

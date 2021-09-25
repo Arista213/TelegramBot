@@ -2,6 +2,9 @@ import Functionality.Dish;
 
 import java.util.*;
 
+import static Functionality.JSONWorker.saveDishesToJSON;
+import static Functionality.JSONWorker.loadDishesFromJSON;
+
 public class TestClass {
     public static void main(String[] args) {
         HashSet<String> ingredients = new HashSet<>() {{
@@ -20,19 +23,23 @@ public class TestClass {
             put("молоко", "500мл");
         }});
 
-        List<Dish> dishes = new ArrayList<>() {{
-            add(friedEggs);
-            add(pancakes);
-        }};
+        List<Dish> dishes = Arrays.asList(friedEggs, pancakes);
 
+        saveDishesToJSON(dishes, "test.json");
+
+        List<Dish> dishList = loadDishesFromJSON("test.json");
+        System.out.println(dishList);
+    }
+
+    private static String whatCanBeCooked(HashSet<String> ingredients, List<Dish> dishes) {
+        StringBuilder sb = new StringBuilder();
         for (Dish dish : dishes) {
             if (dish.isIngredientsFit(ingredients)) {
-                System.out.println("Можно приготовить: " + dish + "\n");
+                sb.append("Можно приготовить: " + dish + "\n");
             }
         }
-
-        System.out.println("Поиск блюда по названию");
-        Dish d = Dish.findDishByName(dishes, "яишница");
-        System.out.println(d);
+        return sb.toString();
     }
+
+
 }
