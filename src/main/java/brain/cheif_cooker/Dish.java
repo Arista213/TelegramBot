@@ -5,15 +5,15 @@ import java.util.*;
 public class Dish {
     public final String name;
 
-    public Dish(String name, Map<String, String> ingredients) {
+    public Dish(String name, List<String> ingredients) {
         this.name = name;
         this.recipe = ingredients;
     }
 
-    private final Map<String, String> recipe;
+    private final List<String> recipe;
 
     public boolean isIngredientsFit(HashSet<String> ingredients) {
-        for (String ingredient : recipe.keySet())
+        for (String ingredient : recipe)
             if (!ingredients.contains(ingredient))
                 return false;
 
@@ -33,8 +33,8 @@ public class Dish {
         StringBuilder sb = new StringBuilder();
         sb.append("\n------Рецепт------\t\n");
 
-        for (String ingredient : recipe.keySet()) {
-            sb.append(ingredient + "\t-\t" + recipe.get(ingredient) + "\n");
+        for (String ingredient : recipe) {
+            sb.append(ingredient + "\n");
         }
 
         sb.append("------------------\n");

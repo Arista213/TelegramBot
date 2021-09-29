@@ -4,15 +4,8 @@ import java.util.*;
 
 public class Dishes {
     public static List<Dish> list = new ArrayList<>() {{
-        add(new Dish("Яишница", new HashMap<>() {{
-            put("яйца", "2 шт");
-        }}));
-
-        add(new Dish("Блины", new HashMap<>() {{
-            put("яйца", "3 шт");
-            put("мука", "300г");
-            put("молоко", "500мл");
-        }}));
+        add(new Dish("Яишница", Arrays.asList("яйца")));
+        add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
     }};
 
     public static String whatCanBeCooked(HashSet<String> ingredients) {

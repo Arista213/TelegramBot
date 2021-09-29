@@ -1,16 +1,16 @@
 package brain;
 
-import brain.commands.Command;
-import brain.commands.RecipeByIngredients;
+import brain.commands.*;
 import brain.commands.RecipeByName;
 import brain.commands.Start;
 
 import java.util.*;
 
 public class Bot {
+    public User user = new User();
     private Map<String, Command> commands;
 
-    private volatile String input = null;
+    private String input = null;
     private String output = null;
 
     public boolean commandInRunning;
@@ -28,8 +28,13 @@ public class Bot {
     private void initCommands() {
         commands = new HashMap<>();
         commands.put("/start", new Start());
+        commands.put("/recipe", new RecipeByName());
         commands.put("/recipe_name", new RecipeByName());
         commands.put("/recipe_ingredients", new RecipeByIngredients());
+        commands.put("/admin_on", new AdminOn());
+        commands.put("/admin_off", new AdminOff());
+        commands.put("1", new PutRecipeByAdmin());
+        commands.put("2", new RemoveRecipeByAdmin());
     }
 
     private void startListening() {
@@ -58,12 +63,12 @@ public class Bot {
         inputRead();
     }
 
-    private void outputRead() {
-        output = null;
-    }
-
     public synchronized void setOutput(String output) {
         this.output = output;
+    }
+
+    private void outputRead() {
+        output = null;
     }
 
     private void inputRead() {

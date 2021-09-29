@@ -41,28 +41,20 @@ public class ConsoleTest {
 
     @Test
     public void givenListOfMyClass_whenSerializing_thenCorrect() {
-        Dish friedEggs = new Dish("Яишница", new HashMap<>() {{
-            put("яйца", "2 шт");
-        }});
-
-        Dish pancakes = new Dish("Блины", new HashMap<>() {{
-            put("яйца", "3 шт");
-            put("тесто", "300г");
-            put("молоко", "500мл");
-        }});
+        Dish friedEggs = new Dish("Яишница", Arrays.asList("яйца"));
+        Dish pancakes = new Dish("Блины", Arrays.asList("яйца", "тесто", "молоко"));
 
         List<Dish> list = Arrays.asList(pancakes, friedEggs);
 
         Gson gson = new Gson();
         String jsonString = gson.toJson(list);
-        String expectedString = "[{\"name\":\"Блины\",\"recipe\":" +
-                "{\"тесто\":\"300г\",\"молоко\":\"500мл\"," +
-                "\"яйца\":\"3 шт\"}}," +
-                "{\"name\":\"Яишница\",\"recipe\":{\"яйца\":\"2 шт\"}}]";
+        String expectedString = "[{\"name\":\"Блины\",\"recipe\":[\"яйца\",\"тесто\"" +
+                ",\"молоко\"]},{\"name\":\"Яишница\",\"recipe\":[\"яйца\"]}]";
 
         assertEquals(expectedString, jsonString);
     }
 
+    @Test
     void botRecipeByNameTest() {
         bot.receive("/recipe_name");
         String answer = bot.waitForOutput();
@@ -71,9 +63,8 @@ public class ConsoleTest {
 
         bot.receive("Яишница");
         answer = bot.waitForOutput();
-        excepted = "\n" +
-                "------Рецепт------\t\n" +
-                "яйца\t-\t2 шт\n" +
+        excepted = "\n------Рецепт------\t\n" +
+                "яйца\n" +
                 "------------------\n";
         assertEquals(excepted, answer);
     }
@@ -89,15 +80,16 @@ public class ConsoleTest {
         answer = bot.waitForOutput();
         excepted = "Можно приготовить: Яишница\n" +
                 "------Рецепт------\t\n" +
-                "яйца\t-\t2 шт\n" +
+                "яйца\n" +
                 "------------------\n" +
                 "\n" +
                 "Можно приготовить: Блины\n" +
                 "------Рецепт------\t\n" +
-                "мука\t-\t300г\n" +
-                "молоко\t-\t500мл\n" +
-                "яйца\t-\t3 шт\n" +
-                "------------------\n\n";
+                "яйца\n" +
+                "мука\n" +
+                "молоко\n" +
+                "------------------\n" +
+                "\n";
         assertEquals(excepted, answer);
     }
 }
