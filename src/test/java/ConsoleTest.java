@@ -1,47 +1,40 @@
-import Functionality.Dish;
+import brain.cheif_cooker.Dish;
 import com.google.gson.Gson;
+import brain.Bot;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.io.BufferedReader;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 public class ConsoleTest {
-
     Bot bot;
-    BufferedReader br;
 
     @BeforeEach
     void setUp() {
         bot = new Bot();
-        bot.start();
     }
 
     @Test
     void botStartTest() {
-        var answer = bot.receive("/start");
-        String expected = "Bot has started!\n" +
+        bot.receive("/start");
+        var answer = bot.waitForOutput();
+        String expected = "Шеф-повар здесь!\n" +
                 "\n" +
-                "Here's what bot can do\n" +
-                "/start - starts bot\n" +
-                "/hello - bot says hello\n";
-        assertEquals(expected, answer);
-    }
-
-    @Test
-    void botHelloTest() {
-        var answer = bot.receive("/hello");
-        String expected = "Bot says hello!";
+                "Вот то, что я умею делать бот\n" +
+                "/recipe_name - рецепт блюда по его названию\n" +
+                "/recipe_ingredients - рецепт блюд, которые можно приготовить при имеющихся ингредиентах\n";
         assertEquals(expected, answer);
     }
 
     @Test
     void botUnknownCommandTest() {
-        var answer = bot.receive("Unknown Command");
+        bot.receive("Unknown Command");
+        var answer = bot.waitForOutput();
         String expected = "Unknown command!";
         assertEquals(expected, answer);
     }
@@ -68,5 +61,43 @@ public class ConsoleTest {
                 "{\"name\":\"Яишница\",\"recipe\":{\"яйца\":\"2 шт\"}}]";
 
         assertEquals(expectedString, jsonString);
+    }
+
+    void botRecipeByNameTest() {
+        bot.receive("/recipe_name");
+        String answer = bot.waitForOutput();
+        String excepted = "Введите название блюда, которое вы хотите приготовить";
+        assertEquals(excepted, answer);
+
+        bot.receive("Яишница");
+        answer = bot.waitForOutput();
+        excepted = "\n" +
+                "------Рецепт------\t\n" +
+                "яйца\t-\t2 шт\n" +
+                "------------------\n";
+        assertEquals(excepted, answer);
+    }
+
+    @Test
+    void botRecipeByIngredientsTest() {
+        bot.receive("/recipe_ingredients");
+        String answer = bot.waitForOutput();
+        String excepted = "Введите ингредиенты, которые у вас имеются";
+        assertEquals(excepted, answer);
+
+        bot.receive("яйца молоко мука");
+        answer = bot.waitForOutput();
+        excepted = "Можно приготовить: Яишница\n" +
+                "------Рецепт------\t\n" +
+                "яйца\t-\t2 шт\n" +
+                "------------------\n" +
+                "\n" +
+                "Можно приготовить: Блины\n" +
+                "------Рецепт------\t\n" +
+                "мука\t-\t300г\n" +
+                "молоко\t-\t500мл\n" +
+                "яйца\t-\t3 шт\n" +
+                "------------------\n\n";
+        assertEquals(excepted, answer);
     }
 }

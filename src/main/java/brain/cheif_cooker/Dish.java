@@ -1,4 +1,4 @@
-package Functionality;
+package brain.cheif_cooker;
 
 import java.util.*;
 
@@ -31,17 +31,19 @@ public class Dish {
 
     public String getRecipe() {
         StringBuilder sb = new StringBuilder();
+        sb.append("\n------Рецепт------\t\n");
+
         for (String ingredient : recipe.keySet()) {
-            if (sb.length() != 0) sb.append("\n");
-            sb.append(ingredient + "\t-\t" + recipe.get(ingredient));
+            sb.append(ingredient + "\t-\t" + recipe.get(ingredient) + "\n");
         }
+
+        sb.append("------------------\n");
 
         return sb.toString();
     }
 
     @Override
     public String toString() {
-        return name + "\n\n------Рецепт------\t\n"
-                + getRecipe() + "\n------------------";
+        return name + getRecipe();
     }
 }

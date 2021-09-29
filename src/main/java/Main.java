@@ -1,22 +1,34 @@
-import Functionality.Dish;
+import brain.Bot;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Bot bot = new Bot();
-        String answer;
-        bot.start();
-
         Scanner scanner = new Scanner(System.in);
+        String answer;
 
-        do {
-            String message = scanner.nextLine();
-            answer = bot.receive(message);
+        Thread thread = new Thread(() -> sendMessages(scanner, bot));
+        thread.start();
+
+        while (true) {
+            answer = bot.waitForOutput();
             System.out.println(answer);
-        } while (true);
+        }
+    }
+
+    /**
+     * Отправка сообщений боту в потоке
+     * @param scanner
+     * @param bot
+     */
+    private static void sendMessages(Scanner scanner, Bot bot) {
+
+        while (!Thread.interrupted()) {
+            String message = scanner.nextLine();
+            bot.receive(message);
+        }
     }
 }
