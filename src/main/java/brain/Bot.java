@@ -3,6 +3,7 @@ package brain;
 import java.util.*;
 
 public class Bot {
+    public User user = new User();
     private Map<String, Command> commands;
 
     private String message = null;
@@ -25,6 +26,10 @@ public class Bot {
         commands.put("/start", new Start());
         commands.put("/hello", new Hello());
         commands.put("/recipe", new RecipeByName());
+        commands.put("/admin_on", new AdminOn());
+        commands.put("/admin_off", new AdminOff());
+        commands.put("1", new PutRecipeByAdmin());
+        commands.put("2", new RemoveRecipeByAdmin());
     }
 
     private void startListening() {
