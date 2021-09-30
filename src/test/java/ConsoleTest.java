@@ -123,13 +123,34 @@ public class ConsoleTest {
         bot.receive("/recipe_name");
         bot.waitForOutput();
         bot.receive("тестовая котлета");
-        var a = Dishes.list;
         String answer = bot.waitForOutput();
         String expected = "\n" +
                 "------Рецепт------\t\n" +
                 "ингредиент_1\n" +
                 "ингредиент_2\n" +
                 "------------------\n";
+        assertEquals(expected, answer);
+    }
+
+    @Test
+    void removeRecipeByAdminTest() {
+        bot.receive("/admin_on");
+        bot.waitForOutput();
+        bot.receive("/admin_add_recipe");
+        bot.waitForOutput();
+        bot.receive("тестовая котлета");
+        bot.waitForOutput();
+        bot.receive("ингредиент_1 ингредиент_2");
+        bot.waitForOutput();
+        bot.receive("/admin_remove_recipe");
+        bot.waitForOutput();
+        bot.receive("тестовая котлета");
+        bot.waitForOutput();
+        bot.receive("/recipe_name");
+        bot.waitForOutput();
+        bot.receive("тестовая котлета");
+        String answer = bot.waitForOutput();
+        String expected = "К сожалению блюдо не найдено(";
         assertEquals(expected, answer);
     }
 }
