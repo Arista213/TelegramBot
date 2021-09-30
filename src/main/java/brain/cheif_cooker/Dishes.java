@@ -18,4 +18,14 @@ public class Dishes {
 
         return sb.toString();
     }
+
+    public static void removeDish(String dishName) {
+        for (int i = 0; i < list.size(); i++) {
+            Dish currentDish = list.get(i);
+            if (currentDish.name.equals(dishName)) {
+                list.remove(i);
+                break;
+            }
+        }
+    }
 }

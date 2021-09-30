@@ -28,13 +28,12 @@ public class Bot {
     private void initCommands() {
         commands = new HashMap<>();
         commands.put("/start", new Start());
-        commands.put("/recipe", new RecipeByName());
         commands.put("/recipe_name", new RecipeByName());
         commands.put("/recipe_ingredients", new RecipeByIngredients());
         commands.put("/admin_on", new AdminOn());
         commands.put("/admin_off", new AdminOff());
-        commands.put("1", new PutRecipeByAdmin());
-        commands.put("2", new RemoveRecipeByAdmin());
+        commands.put("/admin_add_recipe", new AddRecipeByAdmin());
+        commands.put("/admin_remove_recipe", new RemoveRecipeByAdmin());
     }
 
     private void startListening() {

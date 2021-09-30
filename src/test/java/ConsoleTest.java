@@ -1,4 +1,5 @@
 import brain.cheif_cooker.Dish;
+import brain.cheif_cooker.Dishes;
 import com.google.gson.Gson;
 import brain.Bot;
 
@@ -91,5 +92,44 @@ public class ConsoleTest {
                 "------------------\n" +
                 "\n";
         assertEquals(excepted, answer);
+    }
+
+    @Test
+    void getAdminTest() {
+        bot.receive("/admin_on");
+        String answer = bot.waitForOutput();
+        String excepted = "Теперь вы администратор этого сервера-сервиса dxdxdxd";
+        assertEquals(excepted, answer);
+    }
+
+    @Test
+    void lostAdminTest() {
+        bot.receive("/admin_off");
+        String answer = bot.waitForOutput();
+        String excepted = "Админом больше, админом меньше, какая разница.... ;DDDDDDDD";
+        assertEquals(excepted, answer);
+    }
+
+    @Test
+    void addRecipeByAdminTest() {
+        bot.receive("/admin_on");
+        bot.waitForOutput();
+        bot.receive("/admin_add_recipe");
+        bot.waitForOutput();
+        bot.receive("тестовая котлета");
+        bot.waitForOutput();
+        bot.receive("ингредиент_1 ингредиент_2");
+        bot.waitForOutput();
+        bot.receive("/recipe_name");
+        bot.waitForOutput();
+        bot.receive("тестовая котлета");
+        var a = Dishes.list;
+        String answer = bot.waitForOutput();
+        String expected = "\n" +
+                "------Рецепт------\t\n" +
+                "ингредиент_1\n" +
+                "ингредиент_2\n" +
+                "------------------\n";
+        assertEquals(expected, answer);
     }
 }
