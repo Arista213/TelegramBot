@@ -8,11 +8,8 @@ import java.util.HashSet;
 /**
  * Бот выводит рецепты по ингредиентам
  */
-public class RecipeByIngredients extends Command {
-
-    @Override
+public class RecipeByIngredients implements ICommand {
     public void process(Bot bot) {
-        bot.commandInRunning = true;
         bot.setOutput("Введите ингредиенты, которые у вас имеются");
         String input = bot.waitForInput();
 
@@ -22,7 +19,6 @@ public class RecipeByIngredients extends Command {
             result = "Сходи в магазин(";
         
         bot.setOutput(result);
-        bot.commandInRunning = false;
     }
 
     private HashSet<String> getIngredients(String[] ingredientsStr) {

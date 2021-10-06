@@ -7,11 +7,8 @@ import brain.cheif_cooker.Dishes;
 /**
  * Бот выводит рецепт по названию блюда
  */
-public class RecipeByName extends Command {
-
-    @Override
+public class RecipeByName implements ICommand {
     public void process(Bot bot) {
-        bot.commandInRunning = true;
         bot.setOutput("Введите название блюда, которое вы хотите приготовить");
         String dishName = bot.waitForInput();
 
@@ -20,7 +17,5 @@ public class RecipeByName extends Command {
         bot.setOutput(dish != null
                 ? Dish.findDishByName(Dishes.list, dishName).getRecipe()
                 : "К сожалению блюдо не найдено(");
-
-        bot.commandInRunning = false;
     }
 }

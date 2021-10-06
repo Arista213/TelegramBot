@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,9 @@ public class ConsoleTest {
     @BeforeEach
     void setUp() {
         bot = new Bot();
+        Dishes.list = new ArrayList<>();
+        Dishes.list.add(new Dish("Яишница", Arrays.asList("яйца")));
+        Dishes.list.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
     }
 
     @Test
@@ -34,9 +38,9 @@ public class ConsoleTest {
 
     @Test
     void botUnknownCommandTest() {
-        bot.receive("Unknown Command");
+        bot.receive("Неизвестная комманда");
         var answer = bot.waitForOutput();
-        String expected = "Unknown command!";
+        String expected = "Неизвестная комманда";
         assertEquals(expected, answer);
     }
 
@@ -104,6 +108,8 @@ public class ConsoleTest {
 
     @Test
     void lostAdminTest() {
+        bot.receive("/admin_on");
+        bot.waitForOutput();
         bot.receive("/admin_off");
         String answer = bot.waitForOutput();
         String excepted = "Админом больше, админом меньше, какая разница.... ;DDDDDDDD";

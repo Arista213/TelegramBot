@@ -8,16 +8,11 @@ import java.util.*;
 
 public class Bot {
     public User user = new User();
-    private Map<String, Command> commands;
 
-    private String input = null;
-    private String output = null;
-
-    public boolean commandInRunning;
+    private volatile String input = null;
+    private volatile String output = null;
 
     public Bot() {
-        initCommands();
-
         Thread thread = new Thread(this::startListening);
         thread.start();
     }
@@ -25,23 +20,27 @@ public class Bot {
     /**
      * Здесь происходит заполение словоря коммандами
      */
-    private void initCommands() {
-        commands = new HashMap<>();
-        commands.put("/start", new Start());
-        commands.put("/recipe_name", new RecipeByName());
-        commands.put("/recipe_ingredients", new RecipeByIngredients());
-        commands.put("/admin_on", new AdminOn());
-        commands.put("/admin_off", new AdminOff());
-        commands.put("/admin_add_recipe", new AddRecipeByAdmin());
-        commands.put("/admin_remove_recipe", new RemoveRecipeByAdmin());
+    private void runCommand() {
+        ICommand command = switch (input) {
+            case "/start" -> new Start();
+            case "/recipe_name" -> new RecipeByName();
+            case "/recipe_ingredients" -> new RecipeByIngredients();
+            case "/admin_on" -> new AdminOn();
+            case "/admin_off" -> new AdminOff();
+            case "/admin_add_recipe" -> new AddRecipeByAdmin();
+            case "/admin_remove_recipe" -> new RemoveRecipeByAdmin();
+            default -> new UnknownCommand();
+        };
+
+
+        inputRead();
+        command.process(this);
     }
 
     private void startListening() {
         while (!Thread.currentThread().isInterrupted()) {
-            if (!commandInRunning) {
-                if (input != null)
-                    runCommand();
-            }
+            if (input != null)
+                runCommand();
         }
     }
 
@@ -49,42 +48,29 @@ public class Bot {
         this.input = input;
     }
 
-    private void runCommand() {
-        if (!commands.containsKey(input)) {
-            setOutput("Unknown command!");
-            inputRead();
-            return;
-        }
-
-        var c = commands.get(input);
-        Thread thread = new Thread(() -> c.process(this));
-        thread.start();
-        inputRead();
-    }
-
     public synchronized void setOutput(String output) {
         this.output = output;
     }
 
-    private void outputRead() {
+    private String outputRead() {
+        String tempOutput = output;
         output = null;
+        return tempOutput;
     }
 
-    private void inputRead() {
+    private String inputRead() {
+        String tempInput = input;
         input = null;
+        return tempInput;
     }
 
     public String waitForInput() {
         while (input == null) Thread.onSpinWait();
-        var tempInput = input;
-        inputRead();
-        return tempInput;
+        return inputRead();
     }
 
     public String waitForOutput() {
         while (output == null) Thread.onSpinWait();
-        var tempOutput = output;
-        outputRead();
-        return tempOutput;
+        return outputRead();
     }
 }

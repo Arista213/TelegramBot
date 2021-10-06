@@ -2,8 +2,7 @@ package brain.commands;
 
 import brain.Bot;
 
-public class Start extends Command {
-    @Override
+public class Start implements ICommand {
     public void process(Bot bot) {
         bot.setOutput("Шеф-повар здесь!\n" +
                 "\n" +

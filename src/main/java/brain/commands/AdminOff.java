@@ -2,8 +2,7 @@ package brain.commands;
 
 import brain.Bot;
 
-public class AdminOff extends Command {
-    @Override
+public class AdminOff implements ICommand {
     public void process(Bot bot) {
         if (bot.user.isAdmin()) {
             bot.user.switchAdminStatus();
