@@ -1,4 +1,4 @@
-package brain;
+package logic;
 
 public class User {
     private boolean m_isAdmin;

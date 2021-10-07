@@ -1,8 +1,8 @@
-package brain.commands;
+package logic.commands;
 
-import brain.Bot;
-import brain.cheif_cooker.Dish;
-import brain.cheif_cooker.Dishes;
+import logic.Bot;
+import logic.cheif_cooker.Dish;
+import logic.cheif_cooker.Dishes;
 
 public class RemoveRecipeByAdmin implements ICommand {
     public void process(Bot bot) {
@@ -13,7 +13,7 @@ public class RemoveRecipeByAdmin implements ICommand {
 
         bot.setOutput("Введите название блюда, которое вы хотите удалить");
         String dishName = bot.waitForInput();
-        Dish dish = Dish.findDishByName(Dishes.list, dishName);
+        Dish dish = Dishes.getDishByName(dishName);
         if (dish != null) {
             Dishes.removeDish(dishName);
             bot.setOutput("Блюдо удалено воуоуоу");

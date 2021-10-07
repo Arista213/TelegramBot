@@ -1,6 +1,6 @@
-package brain.commands;
+package logic.commands;
 
-import brain.Bot;
+import logic.Bot;
 
 public class UnknownCommand implements ICommand {
     public void process(Bot bot) {

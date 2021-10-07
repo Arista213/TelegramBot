@@ -1,7 +1,6 @@
-import brain.cheif_cooker.Dish;
-import brain.cheif_cooker.Dishes;
-import com.google.gson.Gson;
-import brain.Bot;
+import logic.cheif_cooker.Dish;
+import logic.cheif_cooker.Dishes;
+import logic.Bot;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,8 +9,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 
 public class ConsoleTest {
     Bot bot;
@@ -19,9 +16,9 @@ public class ConsoleTest {
     @BeforeEach
     void setUp() {
         bot = new Bot();
-        Dishes.list = new ArrayList<>();
-        Dishes.list.add(new Dish("Яишница", Arrays.asList("яйца")));
-        Dishes.list.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
+        Dishes.dishesList = new ArrayList<>();
+        Dishes.dishesList.add(new Dish("Яишница", Arrays.asList("яйца")));
+        Dishes.dishesList.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
     }
 
     @Test
@@ -44,20 +41,6 @@ public class ConsoleTest {
         assertEquals(expected, answer);
     }
 
-    @Test
-    public void givenListOfMyClass_whenSerializing_thenCorrect() {
-        Dish friedEggs = new Dish("Яишница", Arrays.asList("яйца"));
-        Dish pancakes = new Dish("Блины", Arrays.asList("яйца", "тесто", "молоко"));
-
-        List<Dish> list = Arrays.asList(pancakes, friedEggs);
-
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(list);
-        String expectedString = "[{\"name\":\"Блины\",\"recipe\":[\"яйца\",\"тесто\"" +
-                ",\"молоко\"]},{\"name\":\"Яишница\",\"recipe\":[\"яйца\"]}]";
-
-        assertEquals(expectedString, jsonString);
-    }
 
     @Test
     void botRecipeByNameTest() {

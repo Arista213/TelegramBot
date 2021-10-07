@@ -1,7 +1,5 @@
-import brain.Bot;
+import logic.Bot;
 
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class Main {

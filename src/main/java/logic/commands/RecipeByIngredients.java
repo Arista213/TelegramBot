@@ -1,7 +1,7 @@
-package brain.commands;
+package logic.commands;
 
-import brain.Bot;
-import brain.cheif_cooker.Dishes;
+import logic.Bot;
+import logic.cheif_cooker.Dishes;
 
 import java.util.HashSet;
 

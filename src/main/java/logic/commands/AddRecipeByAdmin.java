@@ -1,8 +1,8 @@
-package brain.commands;
+package logic.commands;
 
-import brain.Bot;
-import brain.cheif_cooker.Dish;
-import brain.cheif_cooker.Dishes;
+import logic.Bot;
+import logic.cheif_cooker.Dish;
+import logic.cheif_cooker.Dishes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ public class AddRecipeByAdmin implements ICommand {
         bot.setOutput("Введите ингредиенты, из которых будет приготовлено блюдо");
         List<String> ingredients = Arrays.asList(bot.waitForInput().split(" "));
         Dish dish = new Dish(dishName, ingredients);
-        Dishes.list.add(dish);
+        Dishes.dishesList.add(dish);
         bot.setOutput("Блюдо добавлено, надеюсь вы счастливы");
     }
 }

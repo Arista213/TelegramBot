@@ -1,10 +1,8 @@
-package brain;
+package logic;
 
-import brain.commands.*;
-import brain.commands.RecipeByName;
-import brain.commands.Start;
-
-import java.util.*;
+import logic.commands.*;
+import logic.commands.RecipeByName;
+import logic.commands.Start;
 
 public class Bot {
     public User user = new User();
@@ -29,9 +27,9 @@ public class Bot {
             case "/admin_off" -> new AdminOff();
             case "/admin_add_recipe" -> new AddRecipeByAdmin();
             case "/admin_remove_recipe" -> new RemoveRecipeByAdmin();
+            case "/help" -> new Help();
             default -> new UnknownCommand();
         };
-
 
         inputRead();
         command.process(this);

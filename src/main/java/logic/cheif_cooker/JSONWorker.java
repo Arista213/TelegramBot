@@ -1,6 +1,5 @@
-package brain.cheif_cooker;
+package logic.cheif_cooker;
 
-import brain.cheif_cooker.Dish;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

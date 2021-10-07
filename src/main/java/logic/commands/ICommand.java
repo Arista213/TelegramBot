@@ -1,6 +1,6 @@
-package brain.commands;
+package logic.commands;
 
-import brain.Bot;
+import logic.Bot;
 
 /**
  * Для реализации комманд для взаимодействия с ботом
