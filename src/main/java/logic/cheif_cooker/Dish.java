@@ -26,6 +26,6 @@ public class Dish {
 
     @Override
     public String toString() {
-        return name + '\n' + getRecipe();
+        return name + "\n" + getRecipe();
     }
 }

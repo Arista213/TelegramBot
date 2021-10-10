@@ -19,8 +19,6 @@ public class Main {
 
     /**
      * Отправка сообщений боту в потоке
-     * @param scanner
-     * @param bot
      */
     private static void sendMessages(Scanner scanner, Bot bot) {
 

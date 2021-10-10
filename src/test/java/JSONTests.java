@@ -7,6 +7,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Тесты пока на не хорошо реализованную работу с json
+ */
 public class JSONTests {
     @Test
     public void givenListOfMyClass_whenSerializing_thenCorrect() {

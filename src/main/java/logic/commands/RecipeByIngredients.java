@@ -1,7 +1,7 @@
 package logic.commands;
 
 import logic.Bot;
-import logic.cheif_cooker.Dishes;
+import logic.cheif_cooker.DishService;
 
 import java.util.HashSet;
 
@@ -14,7 +14,7 @@ public class RecipeByIngredients implements ICommand {
         String input = bot.waitForInput();
 
         HashSet<String> ingredients = getIngredients(input.split(" "));
-        String result = Dishes.whatCanBeCooked(ingredients);
+        String result = DishService.whatCanBeCooked(ingredients);
         if (result.isBlank())
             result = "Сходи в магазин(";
         

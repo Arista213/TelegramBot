@@ -2,11 +2,14 @@ package logic.commands;
 
 import logic.Bot;
 import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.Dishes;
+import logic.cheif_cooker.DishService;
 
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Если есть админка, то мы принимаем название блюда и список инградиентов и кладем их в какой-то список
+ */
 public class AddRecipeByAdmin implements ICommand {
     public void process(Bot bot) {
         if (!bot.user.isAdmin()) {
@@ -19,7 +22,7 @@ public class AddRecipeByAdmin implements ICommand {
         bot.setOutput("Введите ингредиенты, из которых будет приготовлено блюдо");
         List<String> ingredients = Arrays.asList(bot.waitForInput().split(" "));
         Dish dish = new Dish(dishName, ingredients);
-        Dishes.dishesList.add(dish);
+        DishService.dishes.add(dish);
         bot.setOutput("Блюдо добавлено, надеюсь вы счастливы");
     }
 }

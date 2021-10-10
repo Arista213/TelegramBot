@@ -1,5 +1,5 @@
 import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.Dishes;
+import logic.cheif_cooker.DishService;
 import logic.Bot;
 
 import logic.commands.AddRecipeByAdmin;
@@ -20,9 +20,9 @@ public class AdminModeCommandsTests {
     @BeforeEach
     void setUp() {
         bot = new Bot();
-        Dishes.dishesList = new ArrayList<>();
-        Dishes.dishesList.add(new Dish("Яичница", Arrays.asList("яйца")));
-        Dishes.dishesList.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
+        DishService.dishes = new ArrayList<>();
+        DishService.dishes.add(new Dish("Яичница", Arrays.asList("яйца")));
+        DishService.dishes.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
     }
 
     @Test
@@ -46,8 +46,7 @@ public class AdminModeCommandsTests {
         String testIngredients = "ингредиент_1 ингредиент_2";
         getAdminMode();
         addDishByAdmin(testDishName, testIngredients);
-        Dish dish = Dishes.getDishByName(testDishName);
-        assert dish != null;
+        Dish dish = DishService.getDishByName(testDishName);
         assertEquals(testDishName, dish.name);
         assertEquals(testIngredients, dish.getRecipe());
     }
@@ -56,9 +55,9 @@ public class AdminModeCommandsTests {
     void addRecipeByNoAdminTest() {
         String testDishName = "тестовая котлета";
         String testIngredients = "ингредиент_1 ингредиент_2";
-        int dishesCountBeforeAdd = Dishes.dishesList.size();
+        int dishesCountBeforeAdd = DishService.dishes.size();
         addDishByAdmin(testDishName, testIngredients);
-        assertEquals(dishesCountBeforeAdd, Dishes.dishesList.size());
+        assertEquals(dishesCountBeforeAdd, DishService.dishes.size());
     }
 
     private void addDishByAdmin(String dishName, String ingredients) {
@@ -77,9 +76,9 @@ public class AdminModeCommandsTests {
         String testIngredients = "ингредиент_1 ингредиент_2";
         getAdminMode();
         addDishByAdmin(testDishName, testIngredients);
-        int dishesCountAfterAdd = Dishes.dishesList.size();
+        int dishesCountAfterAdd = DishService.dishes.size();
         removeDishByAdmin(testDishName);
-        assertEquals(dishesCountAfterAdd - 1, Dishes.dishesList.size());
+        assertEquals(dishesCountAfterAdd - 1, DishService.dishes.size());
     }
 
     private void getAdminMode() {
@@ -92,9 +91,9 @@ public class AdminModeCommandsTests {
         String testDishName = "тестовая котлета";
         String testIngredients = "ингредиент_1 ингредиент_2";
         addDishByAdmin(testDishName, testIngredients);
-        int dishesCountAfterAdd = Dishes.dishesList.size();
+        int dishesCountAfterAdd = DishService.dishes.size();
         removeDishByAdmin(testDishName);
-        assertEquals(dishesCountAfterAdd, Dishes.dishesList.size());
+        assertEquals(dishesCountAfterAdd, DishService.dishes.size());
     }
 
     private void removeDishByAdmin(String testDishName) {

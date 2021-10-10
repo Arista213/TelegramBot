@@ -2,7 +2,7 @@ package logic.commands;
 
 import logic.Bot;
 import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.Dishes;
+import logic.cheif_cooker.DishService;
 
 /**
  * Бот выводит рецепт по названию блюда
@@ -12,10 +12,10 @@ public class RecipeByName implements ICommand {
         bot.setOutput("Введите название блюда, которое вы хотите приготовить");
         String dishName = bot.waitForInput();
 
-        Dish dish = Dishes.getDishByName(dishName);
+        Dish dish = DishService.getDishByName(dishName);
 
-        bot.setOutput(dish != null
-                ? Dishes.getDishByName(dishName).getRecipe()
+        bot.setOutput(!dish.name.equals("")
+                ? DishService.getDishByName(dishName).getRecipe()
                 : "К сожалению блюдо не найдено(");
     }
 }

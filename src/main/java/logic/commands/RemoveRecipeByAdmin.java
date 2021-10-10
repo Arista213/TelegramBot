@@ -2,7 +2,7 @@ package logic.commands;
 
 import logic.Bot;
 import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.Dishes;
+import logic.cheif_cooker.DishService;
 
 public class RemoveRecipeByAdmin implements ICommand {
     public void process(Bot bot) {
@@ -13,9 +13,9 @@ public class RemoveRecipeByAdmin implements ICommand {
 
         bot.setOutput("Введите название блюда, которое вы хотите удалить");
         String dishName = bot.waitForInput();
-        Dish dish = Dishes.getDishByName(dishName);
+        Dish dish = DishService.getDishByName(dishName);
         if (dish != null) {
-            Dishes.removeDish(dishName);
+            DishService.removeDish(dishName);
             bot.setOutput("Блюдо удалено воуоуоу");
         } else
             bot.setOutput("Такого блюда в базе данных не нашлось");
