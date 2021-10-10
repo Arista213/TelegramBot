@@ -9,8 +9,6 @@ import java.util.List;
 
 public class AddRecipeByAdmin implements ICommand {
     public void process(Bot bot) {
-        // TO DO
-        // Если есть админка, то мы принимаем название блюда и список инградиентов и кладем их в какой-то список
         if (!bot.user.isAdmin()) {
             bot.setOutput("У вас недостаточно прав");
             return;

@@ -21,19 +21,11 @@ public class Dish {
     }
 
     public String getRecipe() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n------Рецепт------\t\n");
-
-        for (String ingredient : recipe)
-            sb.append(ingredient + "\n");
-
-        sb.append("------------------\n");
-
-        return sb.toString();
+        return String.join(" ", recipe);
     }
 
     @Override
     public String toString() {
-        return name + getRecipe();
+        return name + '\n' + getRecipe();
     }
 }

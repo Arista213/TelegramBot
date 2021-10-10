@@ -50,13 +50,13 @@ public class Bot {
         this.output = output;
     }
 
-    private String outputRead() {
+    private synchronized String outputRead() {
         String tempOutput = output;
         output = null;
         return tempOutput;
     }
 
-    private String inputRead() {
+    private synchronized String inputRead() {
         String tempInput = input;
         input = null;
         return tempInput;
