@@ -1,38 +1,49 @@
-import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.DishService;
+import logic.User;
+import logic.cook.Dish;
+import logic.cook.DishService;
 import logic.Bot;
 
+import logic.cook.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 public class BotTests {
     Bot bot;
+    TestCommunicateService service;
 
     @BeforeEach
     void setUp() {
-        bot = new Bot();
+        service = new TestCommunicateService();
+        bot = new Bot(service, new User());
+        discardDishes();
+    }
+
+    private void discardDishes() {
         DishService.dishes = new ArrayList<>();
-        DishService.dishes.add(new Dish("Яишница", Arrays.asList("яйца")));
-        DishService.dishes.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
+        DishService.dishes.add(new Dish("Яишница", new Recipe(List.of("яйца"))));
+        DishService.dishes.add(new Dish("Блины", new Recipe(Arrays.asList("яйца", "мука", "молоко"))));
     }
 
     @Test
     void botStartTest() {
-        bot.receive("/start");
-        var answer = bot.waitForOutput();
+        service.setInstruction(List.of("/start"));
+        service.runInstruction(bot);
+
+        String answer = service.getOutput();
         String expected = "Шеф-повар здесь!\nНапиши мне /help и я расскажу, что умею\n";
         assertEquals(expected, answer);
     }
 
     @Test
     void botUnknownCommandTest() {
-        bot.receive("Неизвестная комманда");
-        var answer = bot.waitForOutput();
+        service.setInstruction(List.of("Неизвестная комманда"));
+        service.runInstruction(bot);
+
+        String answer = service.getOutput();
         String expected = "Неизвестная комманда";
         assertEquals(expected, answer);
     }
@@ -40,87 +51,108 @@ public class BotTests {
 
     @Test
     void botRecipeByNameTest() {
-        bot.receive("/recipe_name");
-        String answer = bot.waitForOutput();
-        String expected = "Введите название блюда, которое вы хотите приготовить";
+        service.setInstruction(Arrays.asList(
+                "/recipe_name",
+                "яишница"
+        ));
+        service.runInstruction(bot);
+        String answer;
+        String expected;
+
+        answer = service.getOutput();
+        expected = "Введите название блюда, которое вы хотите приготовить";
         assertEquals(expected, answer);
 
-        bot.receive("Яишница");
-        answer = bot.waitForOutput();
+        answer = service.getOutput();
         expected = "яйца";
         assertEquals(expected, answer);
     }
 
     @Test
     void botRecipeByIngredientsTest() {
-        bot.receive("/recipe_ingredients");
-        String answer = bot.waitForOutput();
-        String expected = "Введите ингредиенты, которые у вас имеются";
+        service.setInstruction(Arrays.asList(
+                "/recipe_ingredients",
+                "яйца молоко мука"
+        ));
+        service.runInstruction(bot);
+        String answer;
+        String expected;
+
+        answer = service.getOutput();
+        expected = "Введите ингредиенты, которые у вас имеются";
         assertEquals(expected, answer);
 
-        bot.receive("яйца молоко мука");
-        answer = bot.waitForOutput();
-        expected = "Можно приготовить: Яишница\n" +
-                "яйца\n" +
-                "Можно приготовить: Блины\n" +
-                "яйца мука молоко\n";
+        answer = service.getOutput();
+        expected = "Можно приготовить:\n" +
+                "Яишница\n" +
+                "яйца\n\n" +
+                "Блины\n" +
+                "яйца мука молоко\n\n";
         assertEquals(expected, answer);
     }
 
     @Test
-    void getAdminTest() {
-        bot.receive("/admin_on");
-        String answer = bot.waitForOutput();
-        String expected = "Теперь вы администратор этого сервера-сервиса dxdxdxd";
-        assertEquals(expected, answer);
-    }
+    void adminTest() {
+        service.setInstruction(Arrays.asList(
+                "/admin_on",
+                "/admin_off"
+        ));
+        service.runInstruction(bot);
+        String answer;
+        String expected;
 
-    @Test
-    void lostAdminTest() {
-        bot.receive("/admin_on");
-        bot.waitForOutput();
-        bot.receive("/admin_off");
-        String answer = bot.waitForOutput();
-        String expected = "Админом больше, админом меньше, какая разница.... ;DDDDDDDD";
+        answer = service.getOutput();
+        expected = "Теперь вы администратор этого сервера-сервиса dxdxdxd";
+        assertEquals(expected, answer);
+
+        answer = service.getOutput();
+        expected = "Админом больше, админом меньше, какая разница.... ;DDDDDDDD";
         assertEquals(expected, answer);
     }
 
     @Test
     void addRecipeByAdminTest() {
-        bot.receive("/admin_on");
-        bot.waitForOutput();
-        bot.receive("/admin_add_recipe");
-        bot.waitForOutput();
-        bot.receive("тестовая котлета");
-        bot.waitForOutput();
-        bot.receive("ингредиент_1 ингредиент_2");
-        bot.waitForOutput();
-        bot.receive("/recipe_name");
-        bot.waitForOutput();
-        bot.receive("тестовая котлета");
-        String answer = bot.waitForOutput();
+        service.setInstruction(Arrays.asList(
+                "/admin_on",
+                "/admin_add_recipe",
+                "тестовая котлета",
+                "ингредиент_1 ингредиент_2",
+                "/recipe_name",
+                "тестовая котлета"));
+        service.runInstruction(bot);
+
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+        String answer = service.getOutput();
         String expected = "ингредиент_1 ингредиент_2";
         assertEquals(expected, answer);
     }
 
     @Test
     void removeRecipeByAdminTest() {
-        bot.receive("/admin_on");
-        bot.waitForOutput();
-        bot.receive("/admin_add_recipe");
-        bot.waitForOutput();
-        bot.receive("тестовая котлета");
-        bot.waitForOutput();
-        bot.receive("ингредиент_1 ингредиент_2");
-        bot.waitForOutput();
-        bot.receive("/admin_remove_recipe");
-        bot.waitForOutput();
-        bot.receive("тестовая котлета");
-        bot.waitForOutput();
-        bot.receive("/recipe_name");
-        bot.waitForOutput();
-        bot.receive("тестовая котлета");
-        String answer = bot.waitForOutput();
+        service.setInstruction(Arrays.asList(
+                "/admin_on",
+                "/admin_add_recipe",
+                "тестовая котлета",
+                "ингредиент_1 ингредиент_2",
+                "/admin_remove_recipe",
+                "тестовая котлета",
+                "/recipe_name",
+                "тестовая котлета"
+        ));
+        service.runInstruction(bot);
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+        service.getOutput();
+
+        String answer = service.getOutput();
         String expected = "К сожалению блюдо не найдено(";
         assertEquals(expected, answer);
     }
