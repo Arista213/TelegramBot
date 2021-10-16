@@ -1,27 +1,28 @@
-import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.DishService;
 import logic.Bot;
-
-import logic.commands.AddRecipeByAdmin;
+import logic.User;
 import logic.commands.AdminOff;
 import logic.commands.AdminOn;
-import logic.commands.RemoveRecipeByAdmin;
+import logic.cook.Dish;
+import logic.cook.DishService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class AdminModeCommandsTests {
     Bot bot;
+    TestCommunicateService service;
 
     @BeforeEach
     void setUp() {
-        bot = new Bot();
+        service = new TestCommunicateService();
+        bot = new Bot(service, new User());
         DishService.dishes = new ArrayList<>();
-        DishService.dishes.add(new Dish("Яичница", Arrays.asList("яйца")));
+        DishService.dishes.add(new Dish("Яичница", List.of("яйца")));
         DishService.dishes.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
     }
 
@@ -42,14 +43,15 @@ public class AdminModeCommandsTests {
 
     @Test
     void addRecipeByAdminTest() {
+        new AdminOn().process(bot);
         String testDishName = "тестовая котлета";
         String testIngredients = "ингредиент_1 ингредиент_2";
-        getAdminMode();
         addDishByAdmin(testDishName, testIngredients);
-        Dish dish = DishService.getDishByName(testDishName);
-        assertEquals(testDishName, dish.name);
-        assertEquals(testIngredients, dish.getRecipe());
+        Dish dish = DishService.getDishByTitle(testDishName);
+        assertEquals(testDishName, dish.title);
+        assertEquals(testIngredients, dish.getRecipe().toString());
     }
+
 
     @Test
     void addRecipeByNoAdminTest() {
@@ -61,46 +63,41 @@ public class AdminModeCommandsTests {
     }
 
     private void addDishByAdmin(String dishName, String ingredients) {
-        Thread thread = new Thread(() -> new AddRecipeByAdmin().process(bot));
-        thread.start();
-        bot.waitForOutput();
-        bot.receive(dishName);
-        bot.waitForOutput();
-        bot.receive(ingredients);
-        bot.waitForOutput();
+        service.setInstruction(Arrays.asList(
+                "/admin_add_recipe",
+                dishName,
+                ingredients
+        ));
+        service.runInstruction(bot);
     }
 
     @Test
     void removeRecipeByAdminTest() {
+        new AdminOn().process(bot);
         String testDishName = "тестовая котлета";
         String testIngredients = "ингредиент_1 ингредиент_2";
-        getAdminMode();
         addDishByAdmin(testDishName, testIngredients);
         int dishesCountAfterAdd = DishService.dishes.size();
         removeDishByAdmin(testDishName);
         assertEquals(dishesCountAfterAdd - 1, DishService.dishes.size());
     }
 
-    private void getAdminMode() {
-        new AdminOn().process(bot);
-        bot.waitForOutput();
-    }
-
     @Test
     void removeRecipeByNoAdminTest() {
         String testDishName = "тестовая котлета";
         String testIngredients = "ингредиент_1 ингредиент_2";
+        int dishesCountBeforeAdd = DishService.dishes.size();
         addDishByAdmin(testDishName, testIngredients);
-        int dishesCountAfterAdd = DishService.dishes.size();
         removeDishByAdmin(testDishName);
-        assertEquals(dishesCountAfterAdd, DishService.dishes.size());
+
+        assertEquals(dishesCountBeforeAdd, DishService.dishes.size());
     }
 
     private void removeDishByAdmin(String testDishName) {
-        var thread = new Thread(() -> new RemoveRecipeByAdmin().process(bot));
-        thread.start();
-        bot.waitForOutput();
-        bot.receive(testDishName);
-        bot.waitForOutput();
+        service.setInstruction(Arrays.asList(
+                "/admin_remove_recipe",
+                testDishName
+        ));
+        service.runInstruction(bot);
     }
 }

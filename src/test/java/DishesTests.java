@@ -1,6 +1,7 @@
 import logic.Bot;
-import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.DishService;
+import logic.User;
+import logic.cook.Dish;
+import logic.cook.DishService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 /**
@@ -17,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class DishesTests {
     Bot bot;
+    TestCommunicateService communicateService;
     List<Dish> dishesList;
 
     /**
@@ -24,9 +26,9 @@ public class DishesTests {
      */
     @BeforeEach
     void setUp() {
-        bot = new Bot();
+        bot = new Bot(communicateService, new User());
         dishesList = new ArrayList<>();
-        dishesList.add(new Dish("Яишница", Arrays.asList("яйца")));
+        dishesList.add(new Dish("Яишница", List.of("яйца")));
         dishesList.add(new Dish("Блины", Arrays.asList("яйца", "мука", "молоко")));
         DishService.dishes = dishesList;
     }
@@ -35,25 +37,25 @@ public class DishesTests {
     void recipeByNameTest() {
         String dishName = "Блины";
         Dish pancakes = new Dish("Блины", Arrays.asList("яйца", "мука", "молоко"));
-        Dish dish = DishService.getDishByName(dishName);
-        assertEquals(pancakes.name, dish.name);
-        assertEquals(pancakes.getRecipe(), dish.getRecipe());
+        Dish dish = DishService.getDishByTitle(dishName);
+
+        assertEquals(pancakes.title, dish.title);
+        assertTrue(pancakes.getRecipe().isEqual(dish.getRecipe()));
     }
 
     @Test
     void recipeByNameButNameDidNotFindTest() {
         String dishName = "Тест";
-        Dish dish = DishService.getDishByName(dishName);
-        assertEquals("", dish.name);
-        assertEquals("", dish.getRecipe());
+        Dish dish = DishService.getDishByTitle(dishName);
+        assertFalse(dish.isExist);
     }
 
     @Test
     void recipeByIngredientsButIngredientsIsNotFitTest() {
         HashSet<String> ingredients = new HashSet<>();
         ingredients.add("Тест");
-        String result = DishService.whatCanBeCooked(ingredients);
-        assertEquals("", result);
+        List<Dish> result = DishService.getValidDishes(ingredients);
+        assertEquals(new ArrayList<Dish>(), result);
     }
 
     @Test
@@ -62,12 +64,13 @@ public class DishesTests {
         ingredients.add("мука");
         ingredients.add("яйца");
         ingredients.add("молоко");
-        String result = DishService.whatCanBeCooked(ingredients);
-        String expected =
-                "Можно приготовить: Яишница\n" +
+        List<Dish> dishes = DishService.getValidDishes(ingredients);
+        String expected = "Яишница\n" +
                 "яйца\n" +
-                "Можно приготовить: Блины\n" +
-                "яйца мука молоко\n";
-        assertEquals(expected, result);
+                "\n" +
+                "Блины\n" +
+                "яйца мука молоко\n" +
+                "\n";
+        assertEquals(expected, DishService.getStringFromDishes(dishes));
     }
 }

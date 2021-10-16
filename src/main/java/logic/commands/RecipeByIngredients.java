@@ -1,9 +1,12 @@
 package logic.commands;
 
 import logic.Bot;
-import logic.cheif_cooker.DishService;
+import logic.cook.Dish;
+import logic.cook.DishService;
 
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Бот выводит рецепты по ингредиентам
@@ -11,20 +14,24 @@ import java.util.HashSet;
 public class RecipeByIngredients implements ICommand {
     public void process(Bot bot) {
         bot.setOutput("Введите ингредиенты, которые у вас имеются");
-        String input = bot.waitForInput();
+        bot.requestInput();
+        String input = bot.getInput();
 
         HashSet<String> ingredients = getIngredients(input.split(" "));
-        String result = DishService.whatCanBeCooked(ingredients);
-        if (result.isBlank())
-            result = "Сходи в магазин(";
-        
-        bot.setOutput(result);
+        List<Dish> dishes = DishService.getValidDishes(ingredients);
+        if (dishes.isEmpty())
+            bot.setOutput("Сходи в магазин(");
+        else {
+            StringBuilder result = new StringBuilder();
+            result.append("Можно приготовить:\n");
+            dishes.forEach(e -> result.append(e).append("\n\n"));
+            bot.setOutput(result.toString());
+        }
     }
 
     private HashSet<String> getIngredients(String[] ingredientsStr) {
         return new HashSet<>() {{
-            for (String ingredient : ingredientsStr)
-                add(ingredient);
+            this.addAll(Arrays.asList(ingredientsStr));
         }};
     }
 }

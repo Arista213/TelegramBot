@@ -1,5 +1,0 @@
-brain.Bot has started!
-
-Here's what bot can do
-/start - starts bot
-/hello - bot says hello

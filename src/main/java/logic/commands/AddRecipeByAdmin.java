@@ -1,8 +1,8 @@
 package logic.commands;
 
 import logic.Bot;
-import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.DishService;
+import logic.cook.Dish;
+import logic.cook.DishService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,9 +18,11 @@ public class AddRecipeByAdmin implements ICommand {
         }
 
         bot.setOutput("Введите название блюда, которое вы добавляете");
-        String dishName = bot.waitForInput();
+        bot.requestInput();
+        String dishName = bot.getInput();
         bot.setOutput("Введите ингредиенты, из которых будет приготовлено блюдо");
-        List<String> ingredients = Arrays.asList(bot.waitForInput().split(" "));
+        bot.requestInput();
+        List<String> ingredients = Arrays.asList(bot.getInput().split(" "));
         Dish dish = new Dish(dishName, ingredients);
         DishService.dishes.add(dish);
         bot.setOutput("Блюдо добавлено, надеюсь вы счастливы");

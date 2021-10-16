@@ -1,8 +1,8 @@
 package logic.commands;
 
 import logic.Bot;
-import logic.cheif_cooker.Dish;
-import logic.cheif_cooker.DishService;
+import logic.cook.Dish;
+import logic.cook.DishService;
 
 /**
  * Бот выводит рецепт по названию блюда
@@ -10,12 +10,13 @@ import logic.cheif_cooker.DishService;
 public class RecipeByName implements ICommand {
     public void process(Bot bot) {
         bot.setOutput("Введите название блюда, которое вы хотите приготовить");
-        String dishName = bot.waitForInput();
+        bot.requestInput();
+        String dishName = bot.getInput();
 
-        Dish dish = DishService.getDishByName(dishName);
+        Dish dish = DishService.getDishByTitle(dishName);
 
-        bot.setOutput(!dish.name.equals("")
-                ? DishService.getDishByName(dishName).getRecipe()
+        bot.setOutput(dish.isExist
+                ? DishService.getDishByTitle(dishName).getRecipe().toString()
                 : "К сожалению блюдо не найдено(");
     }
 }
