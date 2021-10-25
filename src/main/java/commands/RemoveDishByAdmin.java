@@ -1,21 +1,29 @@
-package logic.commands;
+package commands;
 
-import logic.Bot;
-import logic.cook.Dish;
-import logic.cook.DishService;
+import api.DishApi;
+import model.Bot;
+import model.Dish;
 
-public class RemoveRecipeByAdmin implements ICommand {
-    public void process(Bot bot) {
-        if (!bot.user.isAdmin()) {
+/**
+ * Удалить блюдо, если в режиме администратора.
+ */
+public class RemoveDishByAdmin extends Command {
+    public RemoveDishByAdmin(Bot bot) {
+        super(bot);
+    }
+
+    @Override
+    public void process() {
+        if (!bot.getUser().isAdmin()) {
             bot.setOutput("У вас недостаточно прав");
             return;
         }
 
         bot.setOutput("Введите название блюда, которое вы хотите удалить");
         String dishName = bot.requestInput();
-        Dish dish = DishService.getDishByTitle(dishName);
+        Dish dish = DishApi.findDishByTitle(dishName);
         if (dish.isExist) {
-            DishService.removeDish(dishName);
+            DishApi.remove(dishName);
             bot.setOutput("Блюдо удалено воуоуоу");
         } else
             bot.setOutput("Такого блюда в базе данных не нашлось");
