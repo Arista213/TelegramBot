@@ -20,12 +20,12 @@ public class DishApi {
      * @return блюда, которые могут быть приготовлены.
      */
     public static Set<Dish> getValidDishes(Set<Product> products) {
-        HashSet<Dish> suitableDishes = new HashSet<>();
+        HashSet<Dish> validDishes = new HashSet<>();
         for (Dish dish : dishes)
             if (isProductsFit(dish, products))
-                suitableDishes.add(dish);
+                validDishes.add(dish);
 
-        return suitableDishes;
+        return validDishes;
     }
 
     /**
@@ -35,12 +35,8 @@ public class DishApi {
      * @return блюдо.
      */
     public static Dish findDishByTitle(String title) {
-        for (Dish dish : dishes) {
-            if (dish.title.equalsIgnoreCase(title))
-                return dish;
-        }
-
-        return new Dish();
+        Optional<Dish> dish = dishes.stream().filter(x -> Objects.equals(x.title, title)).findFirst();
+        return dish.orElseGet(Dish::new);
     }
 
     /**
@@ -67,11 +63,7 @@ public class DishApi {
      * Проверка подходит ли список продуктов рецепту блюда.
      */
     public static boolean isProductsFit(Dish dish, Set<Product> products) {
-        for (Product product : dish.getRecipe().getProducts())
-            if (!products.contains(product))
-                return false;
-
-        return true;
+        return products.containsAll(dish.getRecipe().getProducts());
     }
 
     /**
