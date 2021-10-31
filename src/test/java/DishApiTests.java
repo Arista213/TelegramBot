@@ -49,20 +49,20 @@ public class DishApiTests {
 
     @Test
     void recipeByproductsButProductsIsNotFitTest() {
-        HashSet<Product> products = new HashSet<>();
+        Set<Product> products = new HashSet<>();
         products.add(new Product("Тест"));
-        Set<Dish> result = DishApi.getValidDishes(products);
+        Set<Dish> result = DishApi.getAvailableForUser(products);
         assertEquals(new HashSet<Dish>(), result);
     }
 
     @Test
     void recipeByproductsTest() {
-        HashSet<Product> products = new HashSet<>();
+        Set<Product> products = new HashSet<>();
         products.add(new Product("мука"));
         products.add(new Product("яйца"));
         products.add(new Product("молоко"));
 
-        Set<Dish> validDishes = DishApi.getValidDishes(products);
+        Set<Dish> validDishes = DishApi.getAvailableForUser(products);
         Set<Dish> expectedDishes = new HashSet<>();
         expectedDishes.add(pancakes);
         expectedDishes.add(friedEggs);

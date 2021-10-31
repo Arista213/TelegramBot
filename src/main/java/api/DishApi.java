@@ -5,6 +5,7 @@ import model.Product;
 import model.Recipe;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Класс для работы с блюдами.
@@ -19,13 +20,8 @@ public class DishApi {
      * @param products имеющиеся у пользователя.
      * @return блюда, которые могут быть приготовлены.
      */
-    public static Set<Dish> getValidDishes(Set<Product> products) {
-        HashSet<Dish> validDishes = new HashSet<>();
-        for (Dish dish : dishes)
-            if (isProductsFit(dish, products))
-                validDishes.add(dish);
-
-        return validDishes;
+    public static Set<Dish> getAvailableForUser(Set<Product> products) {
+        return dishes.stream().filter(x -> isProductsFit(x, products)).collect(Collectors.toSet());
     }
 
     /**
@@ -35,8 +31,7 @@ public class DishApi {
      * @return блюдо.
      */
     public static Dish findDishByTitle(String title) {
-        Optional<Dish> dish = dishes.stream().filter(x -> Objects.equals(x.title, title)).findFirst();
-        return dish.orElseGet(Dish::new);
+        return dishes.stream().filter(x -> Objects.equals(x.title, title)).findFirst().orElse(new Dish());
     }
 
     /**
@@ -62,7 +57,7 @@ public class DishApi {
     /**
      * Проверка подходит ли список продуктов рецепту блюда.
      */
-    public static boolean isProductsFit(Dish dish, Set<Product> products) {
+    private static boolean isProductsFit(Dish dish, Set<Product> products) {
         return products.containsAll(dish.getRecipe().getProducts());
     }
 

@@ -22,8 +22,8 @@ public class DishByProducts extends Command {
     public void process() {
         bot.setOutput("Введите ингредиенты, которые у вас имеются");
         List<Product> productList = ProductService.getProducts(bot.requestInput());
-        HashSet<Product> products = new HashSet<>(productList);
-        Set<Dish> dishes = DishApi.getValidDishes(products);
+        Set<Product> products = new HashSet<>(productList);
+        Set<Dish> dishes = DishApi.getAvailableForUser(products);
 
         if (dishes.isEmpty())
             bot.setOutput("Сходи в магазин(");
