@@ -16,6 +16,8 @@ public class Help extends Command {
         bot.setOutput("Вот то, что я умею делать\n" +
                 "/dish_by_title - рецепт блюда по его названию\n" +
                 "/dishes_by_products - рецепт блюд, которые " +
+                "/save_dishes - сохранить блюда" +
+                "/load_dishes - загрузить блюда" +
                 "можно приготовить при имеющихся ингредиентах\n");
     }
 }

@@ -29,7 +29,7 @@ public class DishApiTests {
      */
     @BeforeEach
     void setUp() {
-        DishApi.initiateDefault();
+        DishApi.initiate();
     }
 
     @Test

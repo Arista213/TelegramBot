@@ -5,7 +5,8 @@ package constants;
  */
 public enum Configuration {
     BOT_NAME("Шеф-повар"),
-    BOT_TOKEN("#####################");
+    BOT_TOKEN("#####################"),
+    JSON_DISHES_PATH("target" + System.getProperty("file.separator") + "dishes.txt");
 
     private final String value;
 

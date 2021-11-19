@@ -2,6 +2,7 @@ package model;
 
 import api.DishApi;
 import commands.*;
+import constants.Configuration;
 import message.Message;
 import message.MessageProvider;
 
@@ -22,7 +23,8 @@ public class Bot {
     public Bot(MessageProvider messageProvider) {
         this.messageProvider = messageProvider;
         fillCommands();
-        DishApi.initiateDefault();
+        DishApi.initiate();
+        System.out.println(Configuration.JSON_DISHES_PATH.toStringValue());
     }
 
     /**
@@ -37,6 +39,8 @@ public class Bot {
         commands.put("/user_mode", new UserMode(this));
         commands.put("/add_dish", new AddDishByAdmin(this));
         commands.put("/remove_dish", new RemoveDishByAdmin(this));
+        commands.put("/save_dishes", new SaveDishes(this));
+        commands.put("/load_dishes", new LoadDishes(this));
     }
 
     /**

@@ -58,7 +58,7 @@ public abstract class DishApi {
     /**
      * Инициализация списка блюд.
      */
-    public static void initiateDefault() {
+    public static void initiate() {
         dishes = new ArrayList<>() {{
             add(new Dish("Яичница", new Recipe(List.of(new Product("яйца")))));
             add(new Dish("Блины", new Recipe(Arrays.asList(
@@ -67,6 +67,10 @@ public abstract class DishApi {
                     new Product("молоко")
             ))));
         }};
+    }
+
+    public static void initiate(List<Dish> dishes) {
+        DishApi.dishes = dishes;
     }
 
     /**
