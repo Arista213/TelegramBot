@@ -1,6 +1,7 @@
 package commands;
 
 import model.Bot;
+import model.User;
 
 /**
  * Вывести, что комманда боту неизвестна.
@@ -11,7 +12,7 @@ public class UnknownCommand extends Command {
     }
 
     @Override
-    public void process() {
+    public void process(User user) {
         bot.setOutput("Неизвестная комманда");
     }
 }

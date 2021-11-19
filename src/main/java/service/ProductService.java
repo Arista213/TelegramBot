@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 /**
  * Сервис для работы с продуктами.
  */
-public class ProductService {
+public abstract class ProductService {
     /**
      * @param productsStr введённые пользователем продукты в виде строки.
      * @return лист продуктов.

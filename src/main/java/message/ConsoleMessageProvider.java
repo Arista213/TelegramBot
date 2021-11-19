@@ -2,7 +2,9 @@ package message;
 
 import constants.Configuration;
 import model.Bot;
+import model.Mode;
 import model.User;
+import api.UserApi;
 
 import java.util.Scanner;
 
@@ -16,13 +18,15 @@ public class ConsoleMessageProvider extends MessageProvider {
      * Начинает работу пользователя с консолью.
      */
     public void start() {
-        var bot = new Bot(this, new User());
+        User consoleUser = new User(0);
+        Bot bot = new Bot(this);
+        UserApi.add(consoleUser, Mode.User);
         System.out.println("BOT_NAME: " + Configuration.BOT_NAME.toStringValue());
         System.out.println("TOKEN: " + Configuration.BOT_TOKEN.toStringValue());
 
-        for (; ; ) {
+        while (true) {
             String input = scanner.nextLine();
-            bot.runCommand(input);
+            bot.runCommand(input, consoleUser);
         }
     }
 

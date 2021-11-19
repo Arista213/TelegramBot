@@ -3,6 +3,8 @@ package commands;
 import api.DishApi;
 import model.Bot;
 import model.Dish;
+import model.User;
+import api.UserApi;
 
 /**
  * Удалить блюдо, если в режиме администратора.
@@ -13,8 +15,8 @@ public class RemoveDishByAdmin extends Command {
     }
 
     @Override
-    public void process() {
-        if (!bot.getUser().isAdmin()) {
+    public void process(User user) {
+        if (!UserApi.isAdmin(user)) {
             bot.setOutput("У вас недостаточно прав");
             return;
         }

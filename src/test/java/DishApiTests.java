@@ -13,7 +13,7 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Модульные тесты на класс Dishes - ответственный за все действия с блюдами.
+ * Тесты для класса DishApi, ответственного за работу с блюдами.
  */
 public class DishApiTests {
     private final Dish pancakes = new Dish("Блины", new Recipe(Arrays.asList(
@@ -29,7 +29,7 @@ public class DishApiTests {
      */
     @BeforeEach
     void setUp() {
-        DishApi.initiate();
+        DishApi.initiateDefault();
     }
 
     @Test
@@ -48,7 +48,7 @@ public class DishApiTests {
     }
 
     @Test
-    void recipeByproductsButProductsIsNotFitTest() {
+    void recipeByProductsButProductsIsNotFitTest() {
         Set<Product> products = new HashSet<>();
         products.add(new Product("Тест"));
         Set<Dish> result = DishApi.getAvailableForUser(products);
@@ -56,7 +56,7 @@ public class DishApiTests {
     }
 
     @Test
-    void recipeByproductsTest() {
+    void recipeByProductsTest() {
         Set<Product> products = new HashSet<>();
         products.add(new Product("мука"));
         products.add(new Product("яйца"));
@@ -68,5 +68,11 @@ public class DishApiTests {
         expectedDishes.add(friedEggs);
 
         assertTrue(expectedDishes.containsAll(validDishes));
+    }
+
+    @Test
+    void getAllDishesTest() {
+        assertTrue(DishApi.getAll().contains(friedEggs));
+        assertTrue(DishApi.getAll().contains(pancakes));
     }
 }

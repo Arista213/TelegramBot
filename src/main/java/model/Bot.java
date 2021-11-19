@@ -10,27 +10,19 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Класс бот.
+ * Бот.
  */
 public class Bot {
     private final MessageProvider messageProvider;
 
-    private final Map<String, Command> commands = new HashMap<>();
-
-    private final User user;
+    private final Map<String, ICommand> commands = new HashMap<>();
 
     private final ICommand UNKNOWN_COMMAND = new UnknownCommand(this);
 
-
-    public Bot(MessageProvider messageProvider, User user) {
+    public Bot(MessageProvider messageProvider) {
         this.messageProvider = messageProvider;
-        this.user = user;
         fillCommands();
-        DishApi.initiate();
-    }
-
-    public User getUser() {
-        return user;
+        DishApi.initiateDefault();
     }
 
     /**
@@ -64,11 +56,11 @@ public class Bot {
     /**
      * Запуск комманды.
      */
-    public void runCommand(String input) {
+    public void runCommand(String input, User user) {
         ICommand command = commands.containsKey(input)
                 ? commands.get(input.toLowerCase(Locale.ROOT))
                 : UNKNOWN_COMMAND;
 
-        command.process();
+        command.process(user);
     }
 }

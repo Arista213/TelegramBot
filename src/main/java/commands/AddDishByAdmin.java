@@ -1,10 +1,8 @@
 package commands;
 
 import api.DishApi;
-import model.Bot;
-import model.Dish;
-import model.Product;
-import model.Recipe;
+import model.*;
+import api.UserApi;
 import service.ProductService;
 
 import java.util.List;
@@ -18,8 +16,9 @@ public class AddDishByAdmin extends Command {
     }
 
     @Override
-    public void process() {
-        if (!bot.getUser().isAdmin()) {
+    public void process(User user) {
+
+        if (!UserApi.isAdmin(user)) {
             bot.setOutput("У вас недостаточно прав");
             return;
         }

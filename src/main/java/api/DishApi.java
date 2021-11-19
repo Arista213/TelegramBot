@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 /**
  * Класс для работы с блюдами.
  */
-public class DishApi {
+public abstract class DishApi {
     /**
      * Здесь хранятся все блюда, с которыми можно взаимодействовать.
      */
@@ -35,36 +35,30 @@ public class DishApi {
     }
 
     /**
-     * Удалить блюдо из "базы блюд".
+     * Удалить блюдо из базы блюд.
      */
     public static void remove(String dishTitle) {
-        for (int i = 0; i < dishes.size(); i++) {
-            Dish currentDish = dishes.get(i);
-            if (currentDish.title.equals(dishTitle)) {
-                dishes.remove(i);
-                break;
-            }
-        }
+        dishes.remove(dishes.stream().filter(dish -> dish.title.equalsIgnoreCase(dishTitle)).findFirst().orElse(null));
     }
 
     /**
-     * @param dish добавить блюдо в "базу данных".
+     * @param dish добавить блюдо в базу данных.
      */
     public static void add(Dish dish) {
         dishes.add(dish);
     }
 
     /**
-     * Проверка подходит ли список продуктов рецепту блюда.
+     * Список всех блюд.
      */
-    private static boolean isProductsFit(Dish dish, Set<Product> products) {
-        return products.containsAll(dish.getRecipe().getProducts());
+    public static List<Dish> getAll() {
+        return dishes;
     }
 
     /**
      * Инициализация списка блюд.
      */
-    public static void initiate() {
+    public static void initiateDefault() {
         dishes = new ArrayList<>() {{
             add(new Dish("Яичница", new Recipe(List.of(new Product("яйца")))));
             add(new Dish("Блины", new Recipe(Arrays.asList(
@@ -73,6 +67,13 @@ public class DishApi {
                     new Product("молоко")
             ))));
         }};
+    }
+
+    /**
+     * Проверка подходит ли список продуктов рецепту блюда.
+     */
+    private static boolean isProductsFit(Dish dish, Set<Product> products) {
+        return products.containsAll(dish.getRecipe().getProducts());
     }
 
 }

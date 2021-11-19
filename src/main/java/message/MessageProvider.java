@@ -4,10 +4,7 @@ package message;
  * Абстракция, ответственная за принятие сообщений пользователя и отправления ему ответов.
  */
 public abstract class MessageProvider {
-    public Message getMessage() {
-        return null;
-    }
+    public abstract Message getMessage();
 
-    public void sendMessage(Message message) {
-    }
+    public abstract void sendMessage(Message message);
 }

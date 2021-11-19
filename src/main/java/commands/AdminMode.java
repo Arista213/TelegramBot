@@ -1,6 +1,9 @@
 package commands;
 
 import model.Bot;
+import model.Mode;
+import model.User;
+import api.UserApi;
 
 /**
  * Переход в режим администратора.
@@ -11,10 +14,10 @@ public class AdminMode extends Command {
     }
 
     @Override
-    public void process() {
-        if (!bot.getUser().isAdmin()) {
-            bot.getUser().switchAdminStatus();
-            bot.setOutput("Теперь вы администратор этого сервера-сервиса dxdxdxd");
+    public void process(User user) {
+        if (!UserApi.isAdmin(user)) {
+            UserApi.update(user, Mode.Admin);
+            bot.setOutput("Теперь вы в режиме администратора");
         } else {
             bot.setOutput("Вы уже админ");
         }

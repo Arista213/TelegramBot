@@ -1,6 +1,6 @@
 # Maven
 log/
-target/
+target/*
 
 #Intellij idea
 # User-specific stuff

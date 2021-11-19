@@ -3,6 +3,7 @@ package commands;
 import api.DishApi;
 import model.Bot;
 import model.Dish;
+import model.User;
 
 /**
  * Бот выводит рецепт по названию блюда.
@@ -13,7 +14,7 @@ public class DishByTitle extends Command {
     }
 
     @Override
-    public void process() {
+    public void process(User user) {
         bot.setOutput("Введите название блюда, которое вы хотите приготовить");
         String dishName = bot.requestInput();
 

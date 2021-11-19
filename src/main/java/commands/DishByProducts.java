@@ -4,6 +4,7 @@ import api.DishApi;
 import model.Bot;
 import model.Dish;
 import model.Product;
+import model.User;
 import service.ProductService;
 
 import java.util.HashSet;
@@ -19,7 +20,7 @@ public class DishByProducts extends Command {
     }
 
     @Override
-    public void process() {
+    public void process(User user) {
         bot.setOutput("Введите ингредиенты, которые у вас имеются");
         List<Product> productList = ProductService.getProducts(bot.requestInput());
         Set<Product> products = new HashSet<>(productList);

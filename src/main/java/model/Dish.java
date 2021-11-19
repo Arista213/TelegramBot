@@ -6,14 +6,11 @@ import java.util.Objects;
  * Сущность блюда.
  */
 public class Dish {
-    public final String title;
-    public final Boolean isExist;
-    private final Recipe recipe;
+    public String title;
+    public boolean isExist;
+    private Recipe recipe;
 
     public Dish() {
-        title = null;
-        recipe = null;
-        isExist = false;
     }
 
     public Dish(String name, Recipe recipe) {
