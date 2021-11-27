@@ -1,6 +1,7 @@
 package commands;
 
 import api.DishApi;
+import message.Message;
 import model.*;
 import api.UserApi;
 import service.ProductService;
@@ -11,26 +12,32 @@ import java.util.List;
  * Если в режиме администратора, то мы принимаем название блюда и список инградиентов и кладем их в какой-то список.
  */
 public class AddDishByAdmin extends Command {
-    public AddDishByAdmin(Bot bot) {
+    private String dishTitle;
+
+    public AddDishByAdmin(ChiefBot bot) {
         super(bot);
     }
 
     @Override
     public void process(User user) {
-
-        if (!UserApi.isAdmin(user)) {
-            bot.setOutput("У вас недостаточно прав");
-            return;
+        boolean isAdmin = UserApi.isAdmin(user);
+        if (!isAdmin) bot.setOutput(user, "У вас недостаточно прав");
+        else {
+            bot.setOutput(user, "Введите название блюда, которое вы добавляете");
+            UserApi.addToMessageWaiter(user, this::identifyTitle);
         }
+    }
 
-        bot.setOutput("Введите название блюда, которое вы добавляете");
-        String dishName = bot.requestInput();
+    private void identifyTitle(User user, Message message) {
+        dishTitle = message.getText();
+        bot.setOutput(user, "Введите ингредиенты, из которых будет приготовлено блюдо");
+        UserApi.addToMessageWaiter(user, this::identifyProducts);
+    }
 
-        bot.setOutput("Введите ингредиенты, из которых будет приготовлено блюдо");
-        List<Product> products = ProductService.getProducts(bot.requestInput());
-
-        Dish dish = new Dish(dishName, new Recipe(products));
+    private void identifyProducts(User user, Message message) {
+        List<Product> products = ProductService.getProducts(message.getText());
+        Dish dish = new Dish(dishTitle, new Recipe(products));
         DishApi.add(dish);
-        bot.setOutput("Блюдо добавлено, надеюсь вы счастливы");
+        bot.setOutput(user, "Блюдо добавлено, надеюсь вы счастливы");
     }
 }

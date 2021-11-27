@@ -1,5 +1,7 @@
 package api;
 
+import message.IAction;
+import message.MessageWaiter;
 import model.Mode;
 import model.User;
 
@@ -10,13 +12,15 @@ import java.util.Map;
  * Апи для работы с режимами пользователей.
  */
 public abstract class UserApi {
-    private static Map<User, Mode> users = new HashMap<>();
+    private static final Map<User, Mode> users = new HashMap<>();
+    private static final Map<User, MessageWaiter> usersWaiters = new HashMap<>();
 
     /**
      * Добавить пользователя в базу данных.
      */
     public static void add(User user, Mode mode) {
         users.put(user, mode);
+        usersWaiters.put(user, new MessageWaiter());
     }
 
     /**
@@ -44,6 +48,21 @@ public abstract class UserApi {
      * Удалить всех пользователей из базы данных.
      */
     public static void dropUsers() {
-        users = new HashMap<>();
+        users.clear();
+    }
+
+    /**
+     * Проверяет находится ли пользователь в базе данных.
+     */
+    public static boolean isRegistered(User user) {
+        return users.containsKey(user);
+    }
+
+    public static void addToMessageWaiter(User user, IAction action) {
+        usersWaiters.get(user).add(action);
+    }
+
+    public static MessageWaiter getMessageWaiter(User user) {
+        return usersWaiters.get(user);
     }
 }

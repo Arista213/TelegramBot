@@ -21,7 +21,7 @@ public abstract class DishApi {
      * @return блюда, которые могут быть приготовлены.
      */
     public static Set<Dish> getAvailableForUser(Set<Product> products) {
-        return dishes.stream().filter(x -> isProductsFit(x, products)).collect(Collectors.toSet());
+        return dishes.stream().filter(dish -> isProductsFit(dish, products)).collect(Collectors.toSet());
     }
 
     /**
@@ -31,7 +31,7 @@ public abstract class DishApi {
      * @return блюдо.
      */
     public static Dish findDishByTitle(String title) {
-        return dishes.stream().filter(x -> Objects.equals(x.title, title)).findFirst().orElse(new Dish());
+        return dishes.stream().filter(dish -> Objects.equals(dish.title.toLowerCase(), title.toLowerCase())).findFirst().orElse(new Dish());
     }
 
     /**
@@ -79,5 +79,4 @@ public abstract class DishApi {
     private static boolean isProductsFit(Dish dish, Set<Product> products) {
         return products.containsAll(dish.getRecipe().getProducts());
     }
-
 }

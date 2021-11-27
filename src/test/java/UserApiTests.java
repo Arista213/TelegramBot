@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
  * Тесты для класса UserApi, отвественного за работу с пользователями.
  */
 public class UserApiTests {
-    User user = new User(0);
+    User user = new User(0L);
 
     @BeforeEach
     void initiateModeApi() {

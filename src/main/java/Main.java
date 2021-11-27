@@ -1,9 +1,9 @@
-import api.DishApi;
 import message.ConsoleMessageProvider;
-import service.JSONService;
+import message.TelegramMessageProvider;
 
 public class Main {
     public static void main(String[] args) {
-        new ConsoleMessageProvider().start();
+//        new ConsoleMessageProvider().start();
+        new TelegramMessageProvider().start();
     }
 }

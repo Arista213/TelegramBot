@@ -1,8 +1,8 @@
 package commands;
 
 import api.DishApi;
-import constants.Configuration;
-import model.Bot;
+import constants.Config;
+import model.ChiefBot;
 import model.User;
 import service.JSONService;
 
@@ -10,13 +10,12 @@ import service.JSONService;
  * Сохранить блюда в json.
  */
 public class SaveDishes extends Command {
-    public SaveDishes(Bot bot) {
+    public SaveDishes(ChiefBot bot) {
         super(bot);
     }
 
     @Override
     public void process(User user) {
-        System.out.println(DishApi.getAll());
-        JSONService.saveDishes(DishApi.getAll(), Configuration.JSON_DISHES_PATH.toStringValue());
+        JSONService.saveDishes(DishApi.getAll(), Config.JSON_DISHES_PATH.toStringValue());
     }
 }

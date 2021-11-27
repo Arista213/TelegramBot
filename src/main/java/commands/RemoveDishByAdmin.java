@@ -1,7 +1,8 @@
 package commands;
 
 import api.DishApi;
-import model.Bot;
+import message.Message;
+import model.ChiefBot;
 import model.Dish;
 import model.User;
 import api.UserApi;
@@ -10,24 +11,28 @@ import api.UserApi;
  * Удалить блюдо, если в режиме администратора.
  */
 public class RemoveDishByAdmin extends Command {
-    public RemoveDishByAdmin(Bot bot) {
+    public RemoveDishByAdmin(ChiefBot bot) {
         super(bot);
     }
 
     @Override
     public void process(User user) {
         if (!UserApi.isAdmin(user)) {
-            bot.setOutput("У вас недостаточно прав");
+            bot.setOutput(user, "У вас недостаточно прав");
             return;
         }
 
-        bot.setOutput("Введите название блюда, которое вы хотите удалить");
-        String dishName = bot.requestInput();
+        UserApi.addToMessageWaiter(user, this::removeDishByName);
+    }
+
+    private void removeDishByName(User user, Message message) {
+        bot.setOutput(user, "Введите название блюда, которое вы хотите удалить");
+        String dishName = message.getText();
         Dish dish = DishApi.findDishByTitle(dishName);
         if (dish.isExist) {
             DishApi.remove(dishName);
-            bot.setOutput("Блюдо удалено воуоуоу");
+            bot.setOutput(user, "Блюдо удалено воуоуоу");
         } else
-            bot.setOutput("Такого блюда в базе данных не нашлось");
+            bot.setOutput(user, "Такого блюда в базе данных не нашлось");
     }
 }
