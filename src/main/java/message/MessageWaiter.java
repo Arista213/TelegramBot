@@ -1,5 +1,7 @@
 package message;
 
+import message.model.IAction;
+import message.model.Message;
 import model.User;
 
 import java.util.LinkedList;

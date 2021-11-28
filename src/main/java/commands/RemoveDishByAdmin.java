@@ -1,11 +1,11 @@
 package commands;
 
 import api.DishApi;
-import message.Message;
+import api.UserApi;
+import message.model.Message;
 import model.ChiefBot;
 import model.Dish;
 import model.User;
-import api.UserApi;
 
 /**
  * Удалить блюдо, если в режиме администратора.

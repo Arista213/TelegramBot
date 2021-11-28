@@ -1,9 +1,9 @@
 package commands;
 
 import api.DishApi;
-import message.Message;
-import model.*;
 import api.UserApi;
+import message.model.Message;
+import model.*;
 import service.ProductService;
 
 import java.util.List;

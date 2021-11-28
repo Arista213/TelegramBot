@@ -1,6 +1,6 @@
 package api;
 
-import message.IAction;
+import message.model.IAction;
 import message.MessageWaiter;
 import model.Mode;
 import model.User;

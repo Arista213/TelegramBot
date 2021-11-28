@@ -1,9 +1,9 @@
 package commands;
 
+import api.UserApi;
 import model.ChiefBot;
 import model.Mode;
 import model.User;
-import api.UserApi;
 
 /**
  * Переход в режим пользователя.

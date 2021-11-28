@@ -15,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * Тесты на сервис для работы с json.
  */
 public class JSONServiceTests {
+    /**
+     * Тест проверяет JSONService на сохрание блюд и их загрузку.
+     */
     @Test
     public void jsonServiceSaveAndLoadTest() {
         String path = "target" + System.getProperty("file.separator") + "JsonSerialisationTest.txt";

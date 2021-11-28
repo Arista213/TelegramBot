@@ -1,5 +1,4 @@
-import message.ConsoleMessageProvider;
-import message.TelegramMessageProvider;
+import message.impl.TelegramMessageProvider;
 
 public class Main {
     public static void main(String[] args) {

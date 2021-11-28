@@ -1,17 +1,19 @@
-package message;
+package message.impl;
 
+import api.UserApi;
 import constants.Config;
+import message.model.IMessageProvider;
+import message.model.Message;
 import model.ChiefBot;
 import model.Mode;
 import model.User;
-import api.UserApi;
 
 import java.util.Scanner;
 
 /**
  * Реализация абстракции MessageProvider предназначенный для работы с консолью.
  */
-public class ConsoleMessageProvider implements IOProvider {
+public class ConsoleMessageProvider implements IMessageProvider {
     private final Scanner scanner = new Scanner(System.in);
 
     /**

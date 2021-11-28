@@ -2,7 +2,7 @@ package commands;
 
 import api.DishApi;
 import api.UserApi;
-import message.Message;
+import message.model.Message;
 import model.ChiefBot;
 import model.Dish;
 import model.User;

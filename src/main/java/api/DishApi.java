@@ -77,6 +77,6 @@ public abstract class DishApi {
      * Проверка подходит ли список продуктов рецепту блюда.
      */
     private static boolean isProductsFit(Dish dish, Set<Product> products) {
-        return products.containsAll(dish.getRecipe().getProducts());
+        return dish.getRecipe().getProducts().containsAll(products);
     }
 }

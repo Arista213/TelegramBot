@@ -3,9 +3,8 @@ package model;
 import api.DishApi;
 import api.UserApi;
 import commands.*;
-import constants.Config;
-import message.IOProvider;
-import message.Message;
+import message.model.IMessageProvider;
+import message.model.Message;
 import message.MessageWaiter;
 
 import java.util.HashMap;
@@ -15,14 +14,14 @@ import java.util.Map;
 /**
  * Шеф Бот.
  */
-public final class ChiefBot {
-    private final IOProvider provider;
+public final class ChiefBot implements IBot {
+    private final IMessageProvider provider;
 
     private final Map<String, ICommand> commands = new HashMap<>();
 
     private final ICommand UNKNOWN_COMMAND = new UnknownCommand(this);
 
-    public ChiefBot(IOProvider provider) {
+    public ChiefBot(IMessageProvider provider) {
         this.provider = provider;
         fillCommands();
         DishApi.initiate();
@@ -54,6 +53,7 @@ public final class ChiefBot {
     /**
      * Запуск комманды.
      */
+    @Override
     public void handleMessage(User user, Message message) {
         MessageWaiter mw = UserApi.getMessageWaiter(user);
         if (mw.isWaiting()) {
