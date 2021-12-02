@@ -42,21 +42,16 @@ public class JSONServiceTests {
     public void getDishesTest() throws IOException {
         String path = "target" + System.getProperty("file.separator") + "JsonGetDishesTest.txt";
         Dish dish1 = new Dish("African Chicken Peanut Stew", new Recipe(List.of(
-                new Product("sweet potato"), new Product("seasoning"), new Product("salt"),
-                new Product("garlic"), new Product("pepper"), new Product("salt and pepper"),
-                new Product("peanut butter"), new Product("onion"), new Product("tomato"),
-                new Product("sauce"), new Product("water"), new Product("thyme"),
-                new Product("parsley"), new Product("bell pepper"), new Product("potato"),
-                new Product("ginger"), new Product("cooking oil"), new Product("whole chicken"),
-                new Product("stock"), new Product("curry powder"), new Product("white rice")
+                new Product("bell peppers"), new Product("chicken"), new Product("cooking oil"),
+                new Product("curry paste"), new Product("garlic cloves"), new Product("ginger"),
+                new Product("groundnut"), new Product("onions"), new Product("bell pepper"),
+                new Product("salt"), new Product("seasoning"), new Product("sweet potato"),
+                new Product("thyme"), new Product("tomato"), new Product("tomato")
                 )));
-        Dish dish2 = new Dish("Red Lentil Soup with Chicken and Turnips", new Recipe(List.of(
-                new Product("seasoning"),  new Product("garlic"),  new Product("soup"),
-                new Product("salt and pepper"),  new Product("vegetable stock"),  new Product("onion"),
-                new Product("tomato"),  new Product("fresh parsley"),  new Product("lentils"),
-                new Product("chicken breast"),  new Product("celery"),  new Product("red lentils"),
-                new Product("parsley"),  new Product("olive oil"),  new Product("turnip"),
-                new Product("carrot")
+        Dish dish2 = new Dish("Roasted red peppers and tomatoes salad", new Recipe(List.of(
+                new Product("red bell pepper"),  new Product("tomato"),  new Product("red onion"),
+                new Product("capers"),  new Product("olive oil"),  new Product("coarse salt"),
+                new Product("pepper"),  new Product("fresh thyme")
         )));
         List<Dish> expectedDishes = List.of(dish1, dish2);
         File file = new File(path);

@@ -22,7 +22,7 @@ public class APIService {
     public static Dish getDishByTitle(String title) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=69c64921b39747cb935f82cf5c8de154&query=" + title + "&number=1&addRecipeInformation=true")
+                .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=e8fd59971fac4238b0591aac77bfcee1&number=1&addRecipeInformation=true&fillIngredients=true&query=" + title)
                 .get()
                 .build();
         try {
@@ -52,7 +52,7 @@ public class APIService {
         }
         String joinedIngredients = String.join(",", ingredientsNames);
         Request request = new Request.Builder()
-                .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=69c64921b39747cb935f82cf5c8de154&includeIngredients=" + joinedIngredients + "&number=5&addRecipeInformation=true")
+                .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=e8fd59971fac4238b0591aac77bfcee1&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=" + joinedIngredients)
                 .get()
                 .build();
         try {

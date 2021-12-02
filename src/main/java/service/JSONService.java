@@ -1,9 +1,6 @@
 package service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import model.Dish;
 import model.Product;
@@ -65,50 +62,52 @@ public class JSONService {
     }
 
     /**
-     * Ищет блюдо в строке json
-     * @param json json в виде строки
+     * Ищет блюдо в отсортированном json
+     *
+     * @param json отсортированный json по увеличению недостоющих ингредиентов
      * @return возвращает найденное блюдо
      */
-    public static List<Dish> GetDishes(String json, int dishesCount) {
+    public static List<Dish> GetDishes(String json, int dishesAmount) {
         List<Dish> dishes = new ArrayList<>();
+        List<Product> products;
         @Deprecated
         JsonElement root = new JsonParser().parse(json);
-        var object = root.getAsJsonObject();
-        try {
-            for (int i = 0; i < dishesCount; i++) {
-                var results = object.get("results").getAsJsonArray().get(i).getAsJsonObject();
-                var dishTitle = results.get("title").toString();
+        JsonObject object = root.getAsJsonObject();
+        JsonArray results = object.get("results").getAsJsonArray();
+        if (results.size() > 0) {
+            for (int i = 0; i < dishesAmount; i++) {
+                JsonObject dishInformation = results.get(i).getAsJsonObject();
+                String dishTitle = dishInformation.get("title").toString();
                 dishTitle = dishTitle.substring(1, dishTitle.length() - 1); // избавляемся от кавычек
-                var steps = results.get("analyzedInstructions")
-                        .getAsJsonArray().get(0).getAsJsonObject().get("steps").getAsJsonArray();
-                Set<Product> products = new HashSet<>();
-                getDishFromSteps(steps, products);
-                Recipe recipe = new Recipe(new ArrayList<>(products));
-                dishes.add(new Dish(dishTitle, recipe));
+                if (dishInformation.get("usedIngredientCount").getAsInt() != 0) { // заходим сюда, если блюдо ищем по ингредиентоам
+                    if (dishInformation.get("missedIngredients").getAsJsonArray().size() == 0) {
+                        products = getRecipe(dishInformation);
+                    } else { // выходим из метода, т.к. json отсортирован, т.е. дальше не будет подходящих блюд
+                        break;
+                    }
+                } else { // заходим сюда, если ищем блюдо по названию
+                    products = getRecipe(dishInformation);
+                }
+                Dish dish = new Dish(dishTitle, new Recipe(products));
+                dishes.add(dish);
             }
-            return dishes;
         }
-
-        catch (NullPointerException | IndexOutOfBoundsException exception) {
-            if (dishes.size() == 0)
-                return null;
-            return dishes;
-        }
+        if (dishes.size() == 0)
+            return null;
+        return dishes;
     }
 
     /**
-     * Возвращает ингредиенты с каждого шага готовки
+     * Возвращает рецепт по информации о блюде
      */
-    private static void getDishFromSteps(JsonArray steps, Set<Product> products) {
-        for (JsonElement step : steps) {
-            var ingredients = step.getAsJsonObject().get("ingredients").getAsJsonArray();
-            for (JsonElement ingredient : ingredients) {
-                var name = ingredient.getAsJsonObject().get("name").toString();
-                name = name.substring(1, name.length() - 1); // избавляемся от кавычек
-                products.add(new Product(name));
-            }
+    private static List<Product> getRecipe(JsonObject dishInformation) {
+        List<Product> recipe = new ArrayList<>();
+        JsonArray productsInformation = dishInformation.get("extendedIngredients").getAsJsonArray();
+        for (int i = 0; i < productsInformation.size(); i++) {
+            JsonObject currentProductInformation = productsInformation.get(i).getAsJsonObject();
+            Product product = new Product(currentProductInformation.get("name").getAsString());
+            recipe.add(product);
         }
+        return recipe;
     }
-
-
 }

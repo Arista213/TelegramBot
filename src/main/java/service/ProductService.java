@@ -15,7 +15,7 @@ public abstract class ProductService {
      * @return лист продуктов.
      */
     public static List<Product> getProducts(String productsStr) {
-        String[] products = productsStr.split(" ");
+        String[] products = productsStr.split(",");
         return Arrays.stream(products).map(Product::new).collect(Collectors.toList());
     }
 }
