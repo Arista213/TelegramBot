@@ -34,7 +34,7 @@ public final class ChiefBot implements IBot {
         commands.put("/start", new Start(this));
         commands.put("/help", new Help(this));
         commands.put("/dish_by_title", new DishByTitle(this));
-        commands.put("/dishes_by_products", new DishByProducts(this));
+        commands.put("/dishes_by_products", new DishesByProducts(this));
         commands.put("/admin_mode", new AdminMode(this));
         commands.put("/user_mode", new UserMode(this));
         commands.put("/add_dish", new AddDishByAdmin(this));

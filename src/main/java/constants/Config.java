@@ -17,4 +17,4 @@ public enum Config {
     public String toStringValue() {
         return value;
     }
-    }
+}

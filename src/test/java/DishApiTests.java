@@ -5,12 +5,12 @@ import model.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * Тесты для класса DishApi, ответственного за работу с блюдами.
@@ -32,47 +32,53 @@ public class DishApiTests {
         DishApi.initiate();
     }
 
+    /**
+     * Поиск по названию блюда должен вернуть блюдо.
+     */
     @Test
-    void recipeByNameTest() {
+    void findDishByTitleTest() {
         String dishName = "Блины";
         Dish dish = DishApi.findDishByTitle(dishName);
 
         assertEquals(pancakes, dish);
     }
 
+    /**
+     * Поиск блюда по названию должен вернуть null.
+     */
     @Test
-    void recipeByNameButNameDidNotFindTest() {
+    void findDishByTitleButNameDidNotFindTest() {
         String dishName = "Тест";
         Dish dish = DishApi.findDishByTitle(dishName);
         assertNull(dish);
     }
 
+    /**
+     * Поиск блюда по продуктам должен вернуть пустой лист.
+     */
     @Test
-    void recipeByProductsButProductsIsNotFitTest() {
-        Set<Product> products = new HashSet<>();
+    void findDishesByProductsButProductsIsNotFitTest() {
+        List<Product> products = new ArrayList<>();
         products.add(new Product("Тест"));
-        Set<Dish> result = DishApi.getAvailableForUser(products);
-        assertEquals(new HashSet<Dish>(), result);
+        List<Dish> result = DishApi.findDishesByProducts(products);
+        assertEquals(new ArrayList<>(), result);
     }
 
+    /**
+     * Поиск по заданным продуктам должен вернуть 2 блюда.
+     */
     @Test
-    void recipeByProductsTest() {
-        Set<Product> products = new HashSet<>();
+    void findDishesByProductsTest() {
+        List<Product> products = new ArrayList<>();
         products.add(new Product("мука"));
         products.add(new Product("яйца"));
         products.add(new Product("молоко"));
 
-        Set<Dish> validDishes = DishApi.getAvailableForUser(products);
-        Set<Dish> expectedDishes = new HashSet<>();
+        List<Dish> validDishes = DishApi.findDishesByProducts(products);
+        List<Dish> expectedDishes = new ArrayList<>();
         expectedDishes.add(pancakes);
         expectedDishes.add(friedEggs);
 
-        assertTrue(expectedDishes.containsAll(validDishes));
-    }
-
-    @Test
-    void getAllDishesTest() {
-        assertTrue(DishApi.getAll().contains(friedEggs));
-        assertTrue(DishApi.getAll().contains(pancakes));
+        assertEquals(validDishes, expectedDishes);
     }
 }

@@ -1,7 +1,7 @@
 package api;
 
-import message.model.IAction;
 import message.MessageWaiter;
+import message.model.IAction;
 import model.Mode;
 import model.User;
 
@@ -58,6 +58,9 @@ public abstract class UserApi {
         return users.containsKey(user);
     }
 
+    /**
+     * Добавляет метод в очередь для пользователя.
+     */
     public static void addToMessageWaiter(User user, IAction action) {
         usersWaiters.get(user).add(action);
     }

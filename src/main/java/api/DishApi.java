@@ -1,10 +1,14 @@
 package api;
 
+import constants.Commands;
 import model.Dish;
 import model.Product;
 import model.Recipe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -20,8 +24,8 @@ public abstract class DishApi {
      * @param products имеющиеся у пользователя.
      * @return блюда, которые могут быть приготовлены.
      */
-    public static Set<Dish> getAvailableForUser(Set<Product> products) {
-        return dishes.stream().filter(dish -> isProductsFit(dish, products)).collect(Collectors.toSet());
+    public static List<Dish> findDishesByProducts(List<Product> products) {
+        return dishes.stream().filter(dish -> isProductsFit(dish, products)).collect(Collectors.toList());
     }
 
     /**
@@ -56,6 +60,16 @@ public abstract class DishApi {
     }
 
     /**
+     * Получить вывод из блюд.
+     */
+    public static String getStringFromDishes(List<Dish> dishes) {
+        StringBuilder result = new StringBuilder();
+        result.append(Commands.CAN_BE_COOKED.toStringValue());
+        dishes.forEach(e -> result.append(e).append("\n\n"));
+        return result.toString();
+    }
+
+    /**
      * Инициализация списка блюд.
      */
     public static void initiate() {
@@ -76,7 +90,7 @@ public abstract class DishApi {
     /**
      * Проверка подходит ли список продуктов рецепту блюда.
      */
-    private static boolean isProductsFit(Dish dish, Set<Product> products) {
+    private static boolean isProductsFit(Dish dish, List<Product> products) {
         return products.containsAll(dish.getRecipe().getProducts());
     }
 }
