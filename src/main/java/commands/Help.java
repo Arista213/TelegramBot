@@ -1,5 +1,6 @@
 package commands;
 
+import constants.Commands;
 import model.ChiefBot;
 import model.User;
 
@@ -13,10 +14,6 @@ public class Help extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, "Вот то, что я умею делать\n" +
-                "/dish_by_title - рецепт блюда по его названию\n" +
-                "/dishes_by_products - рецепт блюд, которые можно приготовить при имеющихся ингредиентах\n" +
-                "/save_dishes - сохранить блюда\n" +
-                "/load_dishes - загрузить блюда\n");
+        bot.setOutput(user, Commands.HELP.toStringValue());
     }
 }

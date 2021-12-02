@@ -31,7 +31,7 @@ public abstract class DishApi {
      * @return блюдо.
      */
     public static Dish findDishByTitle(String title) {
-        return dishes.stream().filter(dish -> Objects.equals(dish.title.toLowerCase(), title.toLowerCase())).findFirst().orElse(new Dish());
+        return dishes.stream().filter(dish -> Objects.equals(dish.title.toLowerCase(), title.toLowerCase())).findFirst().orElse(null);
     }
 
     /**

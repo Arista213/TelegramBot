@@ -2,6 +2,7 @@ package commands;
 
 import api.DishApi;
 import api.UserApi;
+import constants.Commands;
 import message.model.Message;
 import model.ChiefBot;
 import model.Dish;
@@ -18,7 +19,7 @@ public class DishByTitle extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, "Введите название блюда, которое вы хотите приготовить");
+        bot.setOutput(user, Commands.DISH_TITLE.toStringValue());
         UserApi.addToMessageWaiter(user, this::getDishByTitle);
     }
 
@@ -35,8 +36,8 @@ public class DishByTitle extends Command {
 
         dish = DishApi.findDishByTitle(dishTitle);
 
-        bot.setOutput(user, dish.isExist
-                ? DishApi.findDishByTitle(dishTitle).getRecipe().toString()
-                : "К сожалению блюдо не найдено(");
+        bot.setOutput(user, dish != null
+                ? dish.toString()
+                : Commands.DISH_IS_NOT_FOUND.toStringValue());
     }
 }

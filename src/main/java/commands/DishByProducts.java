@@ -2,6 +2,7 @@ package commands;
 
 import api.DishApi;
 import api.UserApi;
+import constants.Commands;
 import message.model.Message;
 import model.ChiefBot;
 import model.Dish;
@@ -10,7 +11,9 @@ import model.User;
 import service.APIService;
 import service.ProductService;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Бот выводит рецепты по ингредиентам.
@@ -22,7 +25,7 @@ public class DishByProducts extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, "Введите ингредиенты, которые у вас имеются");
+        bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
         UserApi.addToMessageWaiter(user, this::getDishByProducts);
     }
 
@@ -35,7 +38,7 @@ public class DishByProducts extends Command {
             if (dishesList != null) {
                 dishes = new HashSet<>(dishesList);
                 StringBuilder result = new StringBuilder();
-                result.append("Можно приготовить:\n");
+                result.append(Commands.CAN_BE_COOKED.toStringValue());
                 dishes.forEach(e -> result.append(e).append("\n\n"));
                 bot.setOutput(user, result.toString());
                 return;
@@ -44,10 +47,10 @@ public class DishByProducts extends Command {
         dishes = DishApi.getAvailableForUser(products);
 
         if (dishes.isEmpty())
-            bot.setOutput(user, "Сходи в магазин(");
+            bot.setOutput(user, Commands.NOT_ENOUGH_INGREDIENTS.toStringValue());
         else {
             StringBuilder result = new StringBuilder();
-            result.append("Можно приготовить:\n");
+            result.append(Commands.CAN_BE_COOKED.toStringValue());
             dishes.forEach(e -> result.append(e).append("\n\n"));
             bot.setOutput(user, result.toString());
         }

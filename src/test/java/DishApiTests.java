@@ -44,7 +44,7 @@ public class DishApiTests {
     void recipeByNameButNameDidNotFindTest() {
         String dishName = "Тест";
         Dish dish = DishApi.findDishByTitle(dishName);
-        assertFalse(dish.isExist);
+        assertNull(dish);
     }
 
     @Test

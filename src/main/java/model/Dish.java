@@ -6,17 +6,12 @@ import java.util.Objects;
  * Сущность блюда.
  */
 public class Dish {
-    public String title;
-    public boolean isExist;
-    private Recipe recipe;
-
-    public Dish() {
-    }
+    public final String title;
+    private final Recipe recipe;
 
     public Dish(String name, Recipe recipe) {
         this.title = name;
         this.recipe = recipe;
-        isExist = true;
     }
 
     public Recipe getRecipe() {
@@ -28,12 +23,12 @@ public class Dish {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Dish dish = (Dish) o;
-        return Objects.equals(title, dish.title) && Objects.equals(isExist, dish.isExist) && Objects.equals(recipe, dish.recipe);
+        return Objects.equals(title, dish.title) && Objects.equals(recipe, dish.recipe);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, isExist, recipe);
+        return Objects.hash(title, recipe);
     }
 
     @Override

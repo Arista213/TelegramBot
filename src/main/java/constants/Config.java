@@ -5,7 +5,7 @@ package constants;
  */
 public enum Config {
     BOT_NAME("Шеф-повар"),
-    BOT_TOKEN("1881683881:AAFpOdIJPVsY0jvIYE7QkjEHc2jq0AL3rA8"),
+    BOT_TOKEN(System.getenv("TOKEN")),
     JSON_DISHES_PATH("target" + System.getProperty("file.separator") + "dishes.json");
 
     private final String value;
@@ -17,4 +17,4 @@ public enum Config {
     public String toStringValue() {
         return value;
     }
-}
+    }

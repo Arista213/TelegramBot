@@ -2,6 +2,7 @@ package commands;
 
 import api.DishApi;
 import api.UserApi;
+import constants.Commands;
 import message.model.Message;
 import model.*;
 import service.ProductService;
@@ -21,16 +22,16 @@ public class AddDishByAdmin extends Command {
     @Override
     public void process(User user) {
         boolean isAdmin = UserApi.isAdmin(user);
-        if (!isAdmin) bot.setOutput(user, "У вас недостаточно прав");
+        if (!isAdmin) bot.setOutput(user, Commands.NOT_ENOUGH_RIGHTS.toStringValue());
         else {
-            bot.setOutput(user, "Введите название блюда, которое вы добавляете");
+            bot.setOutput(user, Commands.DISH_TITLE_TO_ADD.toStringValue());
             UserApi.addToMessageWaiter(user, this::identifyTitle);
         }
     }
 
     private void identifyTitle(User user, Message message) {
         dishTitle = message.getText();
-        bot.setOutput(user, "Введите ингредиенты, из которых будет приготовлено блюдо");
+        bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
         UserApi.addToMessageWaiter(user, this::identifyProducts);
     }
 
@@ -38,6 +39,6 @@ public class AddDishByAdmin extends Command {
         List<Product> products = ProductService.getProducts(message.getText());
         Dish dish = new Dish(dishTitle, new Recipe(products));
         DishApi.add(dish);
-        bot.setOutput(user, "Блюдо добавлено, надеюсь вы счастливы");
+        bot.setOutput(user, Commands.DISH_ADDED.toStringValue());
     }
 }

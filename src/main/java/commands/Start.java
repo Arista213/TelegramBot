@@ -1,5 +1,6 @@
 package commands;
 
+import constants.Commands;
 import model.ChiefBot;
 import model.User;
 
@@ -13,7 +14,6 @@ public class Start extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, "Шеф-повар здесь!\n" +
-                "Напиши мне /help и я расскажу, что умею\n");
+        bot.setOutput(user, Commands.START.toStringValue());
     }
 }

@@ -1,5 +1,6 @@
 package commands;
 
+import constants.Commands;
 import model.ChiefBot;
 import model.User;
 
@@ -13,6 +14,6 @@ public class UnknownCommand extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, "Неизвестная комманда");
+        bot.setOutput(user, Commands.UNKNOWN_COMMAND.toStringValue());
     }
 }
