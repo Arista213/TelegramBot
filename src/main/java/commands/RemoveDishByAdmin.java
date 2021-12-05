@@ -23,11 +23,14 @@ public class RemoveDishByAdmin extends Command {
             return;
         }
 
+        bot.setOutput(user, Commands.DISH_TITLE_TO_REMOVE.toStringValue());
         UserApi.addToMessageWaiter(user, this::removeDishByName);
     }
 
+    /**
+     * По полученному названию блюда удалить его из базы данных.
+     */
     private void removeDishByName(User user, Message message) {
-        bot.setOutput(user, Commands.DISH_TITLE_TO_REMOVE.toStringValue());
         String dishName = message.getText();
         Dish dish = DishApi.findDishByTitle(dishName);
         if (dish != null) {

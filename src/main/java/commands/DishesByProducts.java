@@ -26,16 +26,16 @@ public class DishesByProducts extends Command {
     @Override
     public void process(User user) {
         bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
-        UserApi.addToMessageWaiter(user, this::findDishesByProducts);
+        UserApi.addToMessageWaiter(user, this::outputDishesByProducts);
     }
 
     /**
-     * По полученным продуктам от пользователя найти блюдо.
+     * По полученным продуктам от пользователя выводит блюда и их рецепты.
      */
-    private void findDishesByProducts(User user, Message message) {
-        if (!isValidString(message.getText())) {
+    private void outputDishesByProducts(User user, Message message) {
+        if (!ProductService.isValidString(message.getText())) {
             bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
-            UserApi.addToMessageWaiter(user, this::findDishesByProducts);
+            UserApi.addToMessageWaiter(user, this::outputDishesByProducts);
             return;
         }
 
@@ -56,19 +56,6 @@ public class DishesByProducts extends Command {
             String output = DishApi.getStringFromDishes(dishes);
             bot.setOutput(user, output);
         }
-    }
-
-    /**
-     * Проверка строки на валидность.
-     */
-    private boolean isValidString(String products) {
-        return !(products.contains("!") || products.contains("@")
-                || products.contains("#") || products.contains("$")
-                || products.contains("%") || products.contains("^")
-                || products.contains("&") || products.contains("*")
-                || products.contains("(") || products.contains(")")
-                || products.contains(".") || products.contains("/")
-                || products.contains("\\") || products.contains("|"));
     }
 
     /**

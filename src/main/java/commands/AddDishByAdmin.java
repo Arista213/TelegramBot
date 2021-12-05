@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class AddDishByAdmin extends Command {
     private String dishTitle;
+    private List<Product> products;
 
     public AddDishByAdmin(ChiefBot bot) {
         super(bot);
@@ -29,14 +30,32 @@ public class AddDishByAdmin extends Command {
         }
     }
 
+    /**
+     * Сохранить введенное пользователем название блюда.
+     */
     private void identifyTitle(User user, Message message) {
         dishTitle = message.getText();
         bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
         UserApi.addToMessageWaiter(user, this::identifyProducts);
     }
 
+    /**
+     * Сохранить продукты введенные пользователем.
+     */
     private void identifyProducts(User user, Message message) {
-        List<Product> products = ProductService.getProducts(message.getText());
+        if (!ProductService.isValidString(message.getText())) {
+            bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
+            UserApi.addToMessageWaiter(user, this::identifyProducts);
+            return;
+        }
+
+        products = ProductService.getProducts(message.getText());
+    }
+
+    /**
+     * Добавить блюдо в базу данных и вывести результат.
+     */
+    private void outputAddedDish(User user) {
         Dish dish = new Dish(dishTitle, new Recipe(products));
         DishApi.add(dish);
         bot.setOutput(user, Commands.DISH_ADDED.toStringValue());

@@ -18,4 +18,17 @@ public abstract class ProductService {
         String[] products = productsStr.split(",");
         return Arrays.stream(products).map(Product::new).collect(Collectors.toList());
     }
+
+    /**
+     * Проверка строки на валидность.
+     */
+    public static boolean isValidString(String products) {
+        return !(products.contains("!") || products.contains("@")
+                || products.contains("#") || products.contains("$")
+                || products.contains("%") || products.contains("^")
+                || products.contains("&") || products.contains("*")
+                || products.contains("(") || products.contains(")")
+                || products.contains(".") || products.contains("/")
+                || products.contains("\\") || products.contains("|"));
+    }
 }

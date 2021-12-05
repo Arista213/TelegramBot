@@ -3,6 +3,7 @@ package commands;
 import api.DishApi;
 import api.UserApi;
 import constants.Commands;
+import constants.Numbers;
 import message.model.Message;
 import model.ChiefBot;
 import model.Dish;
@@ -22,13 +23,16 @@ public class DishByTitle extends Command {
     @Override
     public void process(User user) {
         bot.setOutput(user, Commands.DISH_TITLE.toStringValue());
-        UserApi.addToMessageWaiter(user, this::getDishByTitle);
+        UserApi.addToMessageWaiter(user, this::dishByTitle);
     }
 
-    private void getDishByTitle(User user, Message message) {
+    /**
+     * Выводит пользователю блюдо и его рецепт.
+     */
+    private void dishByTitle(User user, Message message) {
         String dishTitle = message.getText();
         Dish dish;
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++) {
             dish = APIService.getDishByTitle(dishTitle);
             if (dish != null) {
                 String output = DishApi.getStringFromDishes(List.of(dish));
