@@ -16,7 +16,7 @@ public class ProductServiceTests {
      */
     @Test
     void getProductsTest() {
-        List<Product> productList = ProductService.getProducts("ЯйцА МолокО МукА");
+        List<Product> productList = ProductService.getProducts("ЯйцА,МолокО,МукА");
         List<Product> expectedList = Arrays.asList(
                 new Product("яйца"),
                 new Product("молоко"),

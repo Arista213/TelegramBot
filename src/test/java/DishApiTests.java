@@ -5,9 +5,7 @@ import model.Recipe;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -74,8 +72,8 @@ public class DishApiTests {
         products.add(new Product("яйца"));
         products.add(new Product("молоко"));
 
-        List<Dish> validDishes = DishApi.findDishesByProducts(products);
-        List<Dish> expectedDishes = new ArrayList<>();
+        Set<Dish> validDishes = new HashSet<>(DishApi.findDishesByProducts(products));
+        Set<Dish> expectedDishes = new HashSet<>();
         expectedDishes.add(pancakes);
         expectedDishes.add(friedEggs);
 

@@ -9,6 +9,8 @@ import model.Dish;
 import model.User;
 import service.APIService;
 
+import java.util.List;
+
 /**
  * Бот выводит рецепт по названию блюда.
  */
@@ -29,7 +31,8 @@ public class DishByTitle extends Command {
         for (int i = 0; i < 5; i++) {
             dish = APIService.getDishByTitle(dishTitle);
             if (dish != null) {
-                bot.setOutput(user, dish.getRecipe().toString());
+                String output = DishApi.getStringFromDishes(List.of(dish));
+                bot.setOutput(user, output);
                 return;
             }
         }

@@ -34,7 +34,7 @@ public class Recipe {
     public String toString() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < products.size(); i++) {
-            if (i != products.size() - 1) result.append(products.get(i).toString()).append(" ");
+            if (i != products.size() - 1) result.append(products.get(i).toString()).append(",");
             else result.append(products.get(i).toString());
         }
         return result.toString();
