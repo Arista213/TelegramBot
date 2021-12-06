@@ -1,5 +1,6 @@
 package service;
 
+import constants.Config;
 import model.Dish;
 import model.Product;
 import okhttp3.OkHttpClient;
@@ -23,7 +24,9 @@ public class APIService {
     public static Dish getDishByTitle(String title) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=e8fd59971fac4238b0591aac77bfcee1&number=1&addRecipeInformation=true&fillIngredients=true&query=" + title)
+                .url(String.format
+                        ("https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&number=1&addRecipeInformation=true&fillIngredients=true&query=%s"
+                                , Config.API_KEY.toStringValue(), title))
                 .get()
                 .build();
         try {
@@ -53,7 +56,9 @@ public class APIService {
         }
         String joinedIngredients = String.join(",", ingredientsNames);
         Request request = new Request.Builder()
-                .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=e8fd59971fac4238b0591aac77bfcee1&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=" + joinedIngredients)
+                .url(String.format(
+                        "https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=%s"
+                        , Config.API_KEY.toStringValue(), joinedIngredients))
                 .get()
                 .build();
         try {
