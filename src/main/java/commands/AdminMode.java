@@ -1,6 +1,5 @@
 package commands;
 
-import api.UserApi;
 import constants.Commands;
 import model.ChiefBot;
 import model.Mode;
@@ -16,8 +15,8 @@ public class AdminMode extends Command {
 
     @Override
     public void process(User user) {
-        if (!UserApi.isAdmin(user)) {
-            UserApi.update(user, Mode.Admin);
+        if (user.getMode() == Mode.User) {
+            user.setMode(Mode.Admin);
             bot.setOutput(user, Commands.ADMIN_MODE.toStringValue());
         } else {
             bot.setOutput(user, Commands.ALREADY_ADMIN.toStringValue());

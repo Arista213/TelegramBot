@@ -1,12 +1,15 @@
 package message.impl;
 
-import api.UserApi;
 import constants.Config;
+import dao.DishDao;
+import dao.UserDao;
+import dao.impl.SimpleDishDao;
+import dao.impl.SimpleUserDao;
 import message.model.IMessageProvider;
 import message.model.Message;
 import model.ChiefBot;
-import model.Mode;
 import model.User;
+import service.DishService;
 
 import java.util.Scanner;
 
@@ -21,8 +24,12 @@ public class ConsoleMessageProvider implements IMessageProvider {
      */
     public void start() {
         User consoleUser = new User(0L);
-        ChiefBot bot = new ChiefBot(this);
-        UserApi.add(consoleUser, Mode.User);
+        DishDao dishDao = new SimpleDishDao();
+        UserDao userDao = new SimpleUserDao();
+        DishService dishService = new DishService(dishDao);
+
+        ChiefBot bot = new ChiefBot(this, dishDao, dishService);
+        userDao.save(consoleUser);
         System.out.println("BOT_NAME: " + Config.BOT_NAME.toStringValue());
         System.out.println("TOKEN: " + Config.BOT_TOKEN.toStringValue());
 

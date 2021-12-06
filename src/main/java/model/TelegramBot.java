@@ -1,7 +1,8 @@
 package model;
 
-import api.UserApi;
 import constants.Config;
+import dao.UserDao;
+import dao.impl.SimpleUserDao;
 import message.model.Message;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -14,6 +15,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
  */
 public final class TelegramBot extends TelegramLongPollingBot {
     private final IBot bot;
+    private final UserDao userDao;
 
     public TelegramBot(IBot bot) {
         this.bot = bot;
@@ -24,6 +26,7 @@ public final class TelegramBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+        userDao = new SimpleUserDao();
     }
 
     @Override
@@ -39,13 +42,22 @@ public final class TelegramBot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         if (update.hasMessage()) {
-            String userName = update.getMessage().getChatId().toString();
-            System.out.println(userName + ":\t" + update.getMessage().getText());
-            var user = new User(update.getMessage().getChatId());
             var message = new Message(update.getMessage().getText());
-
-            if (!UserApi.isRegistered(user)) UserApi.add(user, Mode.User);
-            bot.handleMessage(user, message);
+            System.out.println(update.getMessage().getChatId().toString() + ": " + message.getText());
+            if (message.getText().equalsIgnoreCase("/start")) {
+                long userId = update.getMessage().getChatId();
+                Start(userId);
+            } else {
+                var user = userDao.get(update.getMessage().getChatId());
+                bot.handleMessage(user, message);
+            }
         }
+    }
+
+    private void Start(long userId) {
+        User user = new User(userId);
+        userDao.save(user);
+        bot.handleMessage(user, new Message("/start"));
+        //TODO
     }
 }

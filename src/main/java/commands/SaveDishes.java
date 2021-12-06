@@ -1,6 +1,5 @@
 package commands;
 
-import api.DishApi;
 import constants.Config;
 import model.ChiefBot;
 import model.User;
@@ -16,6 +15,6 @@ public class SaveDishes extends Command {
 
     @Override
     public void process(User user) {
-        JSONService.saveDishes(DishApi.getAll(), Config.JSON_DISHES_PATH.toStringValue());
+        JSONService.saveDishes(bot.getDishDao().getAll(), Config.JSON_DISHES_PATH.toStringValue());
     }
 }

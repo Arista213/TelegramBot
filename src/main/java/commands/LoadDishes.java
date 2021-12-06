@@ -1,6 +1,5 @@
 package commands;
 
-import api.DishApi;
 import constants.Config;
 import model.ChiefBot;
 import model.Dish;
@@ -20,6 +19,6 @@ public class LoadDishes extends Command {
     @Override
     public void process(User user) {
         List<Dish> dishes = JSONService.loadDishes(Config.JSON_DISHES_PATH.toStringValue());
-        DishApi.initiate(dishes);
+        dishes.forEach(dish -> bot.getDishDao().save(dish));
     }
 }

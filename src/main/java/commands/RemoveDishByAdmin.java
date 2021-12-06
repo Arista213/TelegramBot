@@ -1,11 +1,10 @@
 package commands;
 
-import api.DishApi;
-import api.UserApi;
 import constants.Commands;
 import message.model.Message;
 import model.ChiefBot;
 import model.Dish;
+import model.Mode;
 import model.User;
 
 /**
@@ -18,23 +17,22 @@ public class RemoveDishByAdmin extends Command {
 
     @Override
     public void process(User user) {
-        if (!UserApi.isAdmin(user)) {
+        if (user.getMode() == Mode.User) {
             bot.setOutput(user, Commands.NOT_ENOUGH_RIGHTS.toStringValue());
             return;
         }
 
         bot.setOutput(user, Commands.DISH_TITLE_TO_REMOVE.toStringValue());
-        UserApi.addToMessageWaiter(user, this::removeDishByName);
+        user.addMessageWait(this::removeDishByName);
     }
 
     /**
      * По полученному названию блюда удалить его из базы данных.
      */
     private void removeDishByName(User user, Message message) {
-        String dishName = message.getText();
-        Dish dish = DishApi.findDishByTitle(dishName);
+        Dish dish = bot.getDishService().findDishByTitle(message.getText());
         if (dish != null) {
-            DishApi.remove(dishName);
+            bot.getDishDao().delete(dish.title);
             bot.setOutput(user, Commands.DISH_REMOVED.toStringValue());
         } else
             bot.setOutput(user, Commands.DISH_IS_NOT_FOUND.toStringValue());

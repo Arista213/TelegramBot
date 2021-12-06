@@ -1,7 +1,5 @@
 package commands;
 
-import api.DishApi;
-import api.UserApi;
 import constants.Commands;
 import constants.Numbers;
 import message.model.Message;
@@ -23,7 +21,7 @@ public class DishByTitle extends Command {
     @Override
     public void process(User user) {
         bot.setOutput(user, Commands.DISH_TITLE.toStringValue());
-        UserApi.addToMessageWaiter(user, this::dishByTitle);
+        user.addMessageWait(this::dishByTitle);
     }
 
     /**
@@ -35,13 +33,13 @@ public class DishByTitle extends Command {
         for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++) {
             dish = APIService.getDishByTitle(dishTitle);
             if (dish != null) {
-                String output = DishApi.getStringFromDishes(List.of(dish));
+                String output = bot.getDishService().getStringFromDishes(List.of(dish));
                 bot.setOutput(user, output);
                 return;
             }
         }
 
-        dish = DishApi.findDishByTitle(dishTitle);
+        dish = bot.getDishService().findDishByTitle(dishTitle);
 
         bot.setOutput(user, dish != null
                 ? dish.toString()

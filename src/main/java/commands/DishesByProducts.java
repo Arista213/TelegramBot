@@ -1,7 +1,5 @@
 package commands;
 
-import api.DishApi;
-import api.UserApi;
 import constants.Commands;
 import constants.Numbers;
 import message.model.Message;
@@ -26,7 +24,7 @@ public class DishesByProducts extends Command {
     @Override
     public void process(User user) {
         bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
-        UserApi.addToMessageWaiter(user, this::outputDishesByProducts);
+        user.addMessageWait(this::outputDishesByProducts);
     }
 
     /**
@@ -35,7 +33,7 @@ public class DishesByProducts extends Command {
     private void outputDishesByProducts(User user, Message message) {
         if (!ProductService.isValidString(message.getText())) {
             bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
-            UserApi.addToMessageWaiter(user, this::outputDishesByProducts);
+            user.addMessageWait(this::outputDishesByProducts);
             return;
         }
 
@@ -43,17 +41,16 @@ public class DishesByProducts extends Command {
         List<Dish> dishes = findDishesFromAPI(products);
 
         if (!dishes.isEmpty()) {
-            String output = DishApi.getStringFromDishes(dishes);
+            String output = bot.getDishService().getStringFromDishes(dishes);
             bot.setOutput(user, output);
             return;
         }
 
-        dishes = DishApi.findDishesByProducts(products);
+        dishes = bot.getDishService().findDishesByProducts(products);
         if (dishes.isEmpty()) {
             bot.setOutput(user, Commands.NOT_ENOUGH_INGREDIENTS.toStringValue());
         } else {
-            System.out.println(dishes);
-            String output = DishApi.getStringFromDishes(dishes);
+            String output = bot.getDishService().getStringFromDishes(dishes);
             bot.setOutput(user, output);
         }
     }

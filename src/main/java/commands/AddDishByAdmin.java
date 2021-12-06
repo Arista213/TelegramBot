@@ -1,7 +1,5 @@
 package commands;
 
-import api.DishApi;
-import api.UserApi;
 import constants.Commands;
 import message.model.Message;
 import model.*;
@@ -22,11 +20,11 @@ public class AddDishByAdmin extends Command {
 
     @Override
     public void process(User user) {
-        boolean isAdmin = UserApi.isAdmin(user);
+        boolean isAdmin = user.getMode() == Mode.Admin;
         if (!isAdmin) bot.setOutput(user, Commands.NOT_ENOUGH_RIGHTS.toStringValue());
         else {
             bot.setOutput(user, Commands.DISH_TITLE_TO_ADD.toStringValue());
-            UserApi.addToMessageWaiter(user, this::identifyTitle);
+            user.addMessageWait(this::identifyTitle);
         }
     }
 
@@ -36,7 +34,7 @@ public class AddDishByAdmin extends Command {
     private void identifyTitle(User user, Message message) {
         dishTitle = message.getText();
         bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
-        UserApi.addToMessageWaiter(user, this::identifyProducts);
+        user.addMessageWait(this::identifyProducts);
     }
 
     /**
@@ -45,11 +43,12 @@ public class AddDishByAdmin extends Command {
     private void identifyProducts(User user, Message message) {
         if (!ProductService.isValidString(message.getText())) {
             bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
-            UserApi.addToMessageWaiter(user, this::identifyProducts);
+            user.addMessageWait(this::identifyProducts);
             return;
         }
 
         products = ProductService.getProducts(message.getText());
+        outputAddedDish(user);
     }
 
     /**
@@ -57,7 +56,7 @@ public class AddDishByAdmin extends Command {
      */
     private void outputAddedDish(User user) {
         Dish dish = new Dish(dishTitle, new Recipe(products));
-        DishApi.add(dish);
+        bot.getDishDao().save(dish);
         bot.setOutput(user, Commands.DISH_ADDED.toStringValue());
     }
 }

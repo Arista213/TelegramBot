@@ -1,11 +1,11 @@
 package model;
 
-import api.DishApi;
-import api.UserApi;
 import commands.*;
+import dao.DishDao;
+import message.MessageWaiter;
 import message.model.IMessageProvider;
 import message.model.Message;
-import message.MessageWaiter;
+import service.DishService;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -21,10 +21,15 @@ public final class ChiefBot implements IBot {
 
     private final ICommand UNKNOWN_COMMAND = new UnknownCommand(this);
 
-    public ChiefBot(IMessageProvider provider) {
+    private final DishService dishService;
+
+    private final DishDao dishDao;
+
+    public ChiefBot(IMessageProvider provider, DishDao dishDao, DishService dishService) {
         this.provider = provider;
+        this.dishService = dishService;
+        this.dishDao = dishDao;
         fillCommands();
-        DishApi.initiate();
     }
 
     /**
@@ -55,7 +60,7 @@ public final class ChiefBot implements IBot {
      */
     @Override
     public void handleMessage(User user, Message message) {
-        MessageWaiter mw = UserApi.getMessageWaiter(user);
+        MessageWaiter mw = user.getMessageWaiter();
         if (mw.isWaiting()) {
             mw.execute(user, message);
         } else {
@@ -66,5 +71,13 @@ public final class ChiefBot implements IBot {
 
             command.process(user);
         }
+    }
+
+    public DishService getDishService() {
+        return dishService;
+    }
+
+    public DishDao getDishDao() {
+        return dishDao;
     }
 }
