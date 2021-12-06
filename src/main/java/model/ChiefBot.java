@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import static constants.Commands.*;
+
 /**
  * Шеф Бот.
  */
@@ -36,16 +38,16 @@ public final class ChiefBot implements IBot {
      * Заполняет словарь комманд.
      */
     private void fillCommands() {
-        commands.put("/start", new Start(this));
-        commands.put("/help", new Help(this));
-        commands.put("/dish_by_title", new DishByTitle(this));
-        commands.put("/dishes_by_products", new DishesByProducts(this));
-        commands.put("/admin_mode", new AdminMode(this));
-        commands.put("/user_mode", new UserMode(this));
-        commands.put("/add_dish", new AddDishByAdmin(this));
-        commands.put("/remove_dish", new RemoveDishByAdmin(this));
-        commands.put("/save_dishes", new SaveDishes(this));
-        commands.put("/load_dishes", new LoadDishes(this));
+        commands.put(START.toStringValue(), new Start(this));
+        commands.put(HELP.toStringValue(), new Help(this));
+        commands.put(DISH_BY_TITLE.toStringValue(), new DishByTitle(this));
+        commands.put(DISHES_BY_PRODUCTS.toStringValue(), new DishesByProducts(this));
+        commands.put(ADMIN_MODE.toStringValue(), new AdminMode(this));
+        commands.put(USER_MODE.toStringValue(), new UserMode(this));
+        commands.put(ADD_DISH.toStringValue(), new AddDishByAdmin(this));
+        commands.put(REMOVE_DISH.toStringValue(), new RemoveDishByAdmin(this));
+        commands.put(SAVE_DISHES.toStringValue(), new SaveDishes(this));
+        commands.put(LOAD_DISHES.toStringValue(), new LoadDishes(this));
     }
 
     /**
@@ -64,7 +66,7 @@ public final class ChiefBot implements IBot {
         if (mw.isWaiting()) {
             mw.execute(user, message);
         } else {
-            String input = message.getText();
+            String input = message.getText().toLowerCase();
             ICommand command = commands.containsKey(input)
                     ? commands.get(input.toLowerCase(Locale.ROOT))
                     : UNKNOWN_COMMAND;

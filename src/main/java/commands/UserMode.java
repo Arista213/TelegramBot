@@ -1,6 +1,6 @@
 package commands;
 
-import constants.Commands;
+import constants.CommandsOutput;
 import model.ChiefBot;
 import model.Mode;
 import model.User;
@@ -17,9 +17,9 @@ public class UserMode extends Command {
     public void process(User user) {
         if (user.getMode() == Mode.Admin) {
             user.setMode(Mode.User);
-            bot.setOutput(user, Commands.USER_MODE.toStringValue());
+            bot.setOutput(user, CommandsOutput.USER_MODE.toStringValue());
         } else {
-            bot.setOutput(user, Commands.ALREADY_USER.toStringValue());
+            bot.setOutput(user, CommandsOutput.ALREADY_USER.toStringValue());
         }
     }
 }

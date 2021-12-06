@@ -1,6 +1,6 @@
 package service;
 
-import constants.Commands;
+import constants.CommandsOutput;
 import dao.DishDao;
 import model.Dish;
 import model.Product;
@@ -39,7 +39,7 @@ public class DishService {
      */
     public String getStringFromDishes(List<Dish> dishes) {
         StringBuilder result = new StringBuilder();
-        result.append(Commands.CAN_BE_COOKED.toStringValue());
+        result.append(CommandsOutput.CAN_BE_COOKED.toStringValue());
         dishes.forEach(e -> result.append(e).append("\n\n"));
         return result.toString();
     }

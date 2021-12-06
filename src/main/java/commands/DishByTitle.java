@@ -1,6 +1,6 @@
 package commands;
 
-import constants.Commands;
+import constants.CommandsOutput;
 import constants.Numbers;
 import message.model.Message;
 import model.ChiefBot;
@@ -20,7 +20,7 @@ public class DishByTitle extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, Commands.DISH_TITLE.toStringValue());
+        bot.setOutput(user, CommandsOutput.DISH_TITLE.toStringValue());
         user.addMessageWait(this::dishByTitle);
     }
 
@@ -43,6 +43,6 @@ public class DishByTitle extends Command {
 
         bot.setOutput(user, dish != null
                 ? dish.toString()
-                : Commands.DISH_IS_NOT_FOUND.toStringValue());
+                : CommandsOutput.DISH_IS_NOT_FOUND.toStringValue());
     }
 }

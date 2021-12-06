@@ -1,6 +1,6 @@
 package commands;
 
-import constants.Commands;
+import constants.CommandsOutput;
 import constants.Numbers;
 import message.model.Message;
 import model.ChiefBot;
@@ -23,7 +23,7 @@ public class DishesByProducts extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
+        bot.setOutput(user, CommandsOutput.INGREDIENTS.toStringValue());
         user.addMessageWait(this::outputDishesByProducts);
     }
 
@@ -32,7 +32,7 @@ public class DishesByProducts extends Command {
      */
     private void outputDishesByProducts(User user, Message message) {
         if (!ProductService.isValidString(message.getText())) {
-            bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
+            bot.setOutput(user, CommandsOutput.INGREDIENTS.toStringValue());
             user.addMessageWait(this::outputDishesByProducts);
             return;
         }
@@ -48,7 +48,7 @@ public class DishesByProducts extends Command {
 
         dishes = bot.getDishService().findDishesByProducts(products);
         if (dishes.isEmpty()) {
-            bot.setOutput(user, Commands.NOT_ENOUGH_INGREDIENTS.toStringValue());
+            bot.setOutput(user, CommandsOutput.NOT_ENOUGH_INGREDIENTS.toStringValue());
         } else {
             String output = bot.getDishService().getStringFromDishes(dishes);
             bot.setOutput(user, output);
