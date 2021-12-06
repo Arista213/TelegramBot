@@ -1,6 +1,6 @@
 package api;
 
-import constants.Commands;
+import constants.CommandsOutput;
 import model.Dish;
 import model.Product;
 import model.Recipe;
@@ -64,7 +64,7 @@ public abstract class DishApi {
      */
     public static String getStringFromDishes(List<Dish> dishes) {
         StringBuilder result = new StringBuilder();
-        result.append(Commands.CAN_BE_COOKED.toStringValue());
+        result.append(CommandsOutput.CAN_BE_COOKED.toStringValue());
         dishes.forEach(e -> result.append(e).append("\n\n"));
         return result.toString();
     }

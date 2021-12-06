@@ -2,7 +2,7 @@ package commands;
 
 import api.DishApi;
 import api.UserApi;
-import constants.Commands;
+import constants.CommandsOutput;
 import message.model.Message;
 import model.ChiefBot;
 import model.Dish;
@@ -19,11 +19,11 @@ public class RemoveDishByAdmin extends Command {
     @Override
     public void process(User user) {
         if (!UserApi.isAdmin(user)) {
-            bot.setOutput(user, Commands.NOT_ENOUGH_RIGHTS.toStringValue());
+            bot.setOutput(user, CommandsOutput.NOT_ENOUGH_RIGHTS.toStringValue());
             return;
         }
 
-        bot.setOutput(user, Commands.DISH_TITLE_TO_REMOVE.toStringValue());
+        bot.setOutput(user, CommandsOutput.DISH_TITLE_TO_REMOVE.toStringValue());
         UserApi.addToMessageWaiter(user, this::removeDishByName);
     }
 
@@ -35,8 +35,8 @@ public class RemoveDishByAdmin extends Command {
         Dish dish = DishApi.findDishByTitle(dishName);
         if (dish != null) {
             DishApi.remove(dishName);
-            bot.setOutput(user, Commands.DISH_REMOVED.toStringValue());
+            bot.setOutput(user, CommandsOutput.DISH_REMOVED.toStringValue());
         } else
-            bot.setOutput(user, Commands.DISH_IS_NOT_FOUND.toStringValue());
+            bot.setOutput(user, CommandsOutput.DISH_IS_NOT_FOUND.toStringValue());
     }
 }

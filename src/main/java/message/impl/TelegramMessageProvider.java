@@ -2,9 +2,9 @@ package message.impl;
 
 import message.model.IMessageProvider;
 import message.model.Message;
-import model.TelegramBot;
 import model.ChiefBot;
 import model.IBot;
+import model.TelegramBot;
 import model.User;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;

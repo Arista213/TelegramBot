@@ -1,6 +1,6 @@
 package commands;
 
-import constants.Commands;
+import constants.CommandsOutput;
 import model.ChiefBot;
 import model.User;
 
@@ -14,6 +14,6 @@ public class Start extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, Commands.START.toStringValue());
+        bot.setOutput(user, CommandsOutput.START.toStringValue());
     }
 }
