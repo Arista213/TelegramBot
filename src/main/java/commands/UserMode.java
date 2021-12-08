@@ -1,22 +1,26 @@
 package commands;
 
-import model.Bot;
+import api.UserApi;
+import constants.Commands;
+import model.ChiefBot;
+import model.Mode;
+import model.User;
 
 /**
  * Переход в режим пользователя.
  */
 public class UserMode extends Command {
-    public UserMode(Bot bot) {
+    public UserMode(ChiefBot bot) {
         super(bot);
     }
 
     @Override
-    public void process() {
-        if (bot.getUser().isAdmin()) {
-            bot.getUser().switchAdminStatus();
-            bot.setOutput("Админом больше, админом меньше, какая разница.... ;DDDDDDDD");
+    public void process(User user) {
+        if (UserApi.isAdmin(user)) {
+            UserApi.update(user, Mode.User);
+            bot.setOutput(user, Commands.USER_MODE.toStringValue());
         } else {
-            bot.setOutput("Да вы и так не админ, успокойтесь блин :)");
+            bot.setOutput(user, Commands.ALREADY_USER.toStringValue());
         }
     }
 }

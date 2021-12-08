@@ -3,13 +3,15 @@ package constants;
 /**
  * Константы в программе.
  */
-public enum Configuration {
+public enum Config {
     BOT_NAME("Шеф-повар"),
-    BOT_TOKEN("#####################");
+    BOT_TOKEN(System.getenv("TOKEN")),
+    JSON_DISHES_PATH("target" + System.getProperty("file.separator") + "dishes.json"),
+    API_KEY(System.getenv("KEY"));
 
     private final String value;
 
-    Configuration(String value) {
+    Config(String value) {
         this.value = value;
     }
 

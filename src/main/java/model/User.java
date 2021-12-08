@@ -1,22 +1,31 @@
 package model;
 
+import java.util.Objects;
+
 /**
- * Сущность пользователя.
+ * Пользователь.
  */
 public class User {
-    private boolean m_isAdmin;
+    private final Long id;
 
-    public User() {
+    public User(Long id) {
+        this.id = id;
     }
 
-    /**
-     * Переключени режима администратора.
-     */
-    public void switchAdminStatus() {
-        m_isAdmin = !m_isAdmin;
+    public Long getId() {
+        return id;
     }
 
-    public boolean isAdmin() {
-        return m_isAdmin;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

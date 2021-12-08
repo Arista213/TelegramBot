@@ -1,14 +1,14 @@
 package commands;
 
-import model.Bot;
+import model.ChiefBot;
 
 /**
  * Абстракция команды.
  */
 public abstract class Command implements ICommand {
-    protected final Bot bot;
+    protected final ChiefBot bot;
 
-    public Command(Bot bot) {
+    public Command(ChiefBot bot) {
         this.bot = bot;
     }
 }

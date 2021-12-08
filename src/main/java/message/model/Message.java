@@ -1,4 +1,4 @@
-package message;
+package message.model;
 
 /**
  * Сущность сообщения для взаимодействия с пользователем.

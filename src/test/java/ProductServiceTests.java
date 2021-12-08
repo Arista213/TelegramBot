@@ -11,9 +11,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * Тесты для сервиса, ответственного за работу с продуктами.
  */
 public class ProductServiceTests {
+    /**
+     * Тест проверяет создание продуктов из строки.
+     */
     @Test
     void getProductsTest() {
-        List<Product> productList = ProductService.getProducts("яйца молоко мука");
+        List<Product> productList = ProductService.getProducts("ЯйцА,МолокО,МукА");
         List<Product> expectedList = Arrays.asList(
                 new Product("яйца"),
                 new Product("молоко"),

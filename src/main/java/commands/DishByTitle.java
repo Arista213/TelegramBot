@@ -1,26 +1,50 @@
 package commands;
 
 import api.DishApi;
-import model.Bot;
+import api.UserApi;
+import constants.Commands;
+import constants.Numbers;
+import message.model.Message;
+import model.ChiefBot;
 import model.Dish;
+import model.User;
+import service.APIService;
+
+import java.util.List;
 
 /**
  * Бот выводит рецепт по названию блюда.
  */
 public class DishByTitle extends Command {
-    public DishByTitle(Bot bot) {
+    public DishByTitle(ChiefBot bot) {
         super(bot);
     }
 
     @Override
-    public void process() {
-        bot.setOutput("Введите название блюда, которое вы хотите приготовить");
-        String dishName = bot.requestInput();
+    public void process(User user) {
+        bot.setOutput(user, Commands.DISH_TITLE.toStringValue());
+        UserApi.addToMessageWaiter(user, this::dishByTitle);
+    }
 
-        Dish dish = DishApi.findDishByTitle(dishName);
+    /**
+     * Выводит пользователю блюдо и его рецепт.
+     */
+    private void dishByTitle(User user, Message message) {
+        String dishTitle = message.getText();
+        Dish dish;
+        for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++) {
+            dish = APIService.getDishByTitle(dishTitle);
+            if (dish != null) {
+                String output = DishApi.getStringFromDishes(List.of(dish));
+                bot.setOutput(user, output);
+                return;
+            }
+        }
 
-        bot.setOutput(dish.isExist
-                ? DishApi.findDishByTitle(dishName).getRecipe().toString()
-                : "К сожалению блюдо не найдено(");
+        dish = DishApi.findDishByTitle(dishTitle);
+
+        bot.setOutput(user, dish != null
+                ? dish.toString()
+                : Commands.DISH_IS_NOT_FOUND.toStringValue());
     }
 }

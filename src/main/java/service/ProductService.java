@@ -9,13 +9,26 @@ import java.util.stream.Collectors;
 /**
  * Сервис для работы с продуктами.
  */
-public class ProductService {
+public abstract class ProductService {
     /**
      * @param productsStr введённые пользователем продукты в виде строки.
      * @return лист продуктов.
      */
     public static List<Product> getProducts(String productsStr) {
-        String[] products = productsStr.split(" ");
+        String[] products = productsStr.split(",");
         return Arrays.stream(products).map(Product::new).collect(Collectors.toList());
+    }
+
+    /**
+     * Проверка строки на валидность.
+     */
+    public static boolean isValidString(String products) {
+        return !(products.contains("!") || products.contains("@")
+                || products.contains("#") || products.contains("$")
+                || products.contains("%") || products.contains("^")
+                || products.contains("&") || products.contains("*")
+                || products.contains("(") || products.contains(")")
+                || products.contains(".") || products.contains("/")
+                || products.contains("\\") || products.contains("|"));
     }
 }

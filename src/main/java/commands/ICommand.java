@@ -1,8 +1,10 @@
 package commands;
 
+import model.User;
+
 /**
  * Для реализации комманд для взаимодействия с ботом.
  */
 public interface ICommand {
-    void process();
+    void process(User user);
 }

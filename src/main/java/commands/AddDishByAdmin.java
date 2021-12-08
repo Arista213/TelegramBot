@@ -1,10 +1,10 @@
 package commands;
 
 import api.DishApi;
-import model.Bot;
-import model.Dish;
-import model.Product;
-import model.Recipe;
+import api.UserApi;
+import constants.Commands;
+import message.model.Message;
+import model.*;
 import service.ProductService;
 
 import java.util.List;
@@ -13,25 +13,51 @@ import java.util.List;
  * Если в режиме администратора, то мы принимаем название блюда и список инградиентов и кладем их в какой-то список.
  */
 public class AddDishByAdmin extends Command {
-    public AddDishByAdmin(Bot bot) {
+    private String dishTitle;
+    private List<Product> products;
+
+    public AddDishByAdmin(ChiefBot bot) {
         super(bot);
     }
 
     @Override
-    public void process() {
-        if (!bot.getUser().isAdmin()) {
-            bot.setOutput("У вас недостаточно прав");
+    public void process(User user) {
+        boolean isAdmin = UserApi.isAdmin(user);
+        if (!isAdmin) bot.setOutput(user, Commands.NOT_ENOUGH_RIGHTS.toStringValue());
+        else {
+            bot.setOutput(user, Commands.DISH_TITLE_TO_ADD.toStringValue());
+            UserApi.addToMessageWaiter(user, this::identifyTitle);
+        }
+    }
+
+    /**
+     * Сохранить введенное пользователем название блюда.
+     */
+    private void identifyTitle(User user, Message message) {
+        dishTitle = message.getText();
+        bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
+        UserApi.addToMessageWaiter(user, this::identifyProducts);
+    }
+
+    /**
+     * Сохранить продукты введенные пользователем.
+     */
+    private void identifyProducts(User user, Message message) {
+        if (!ProductService.isValidString(message.getText())) {
+            bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
+            UserApi.addToMessageWaiter(user, this::identifyProducts);
             return;
         }
 
-        bot.setOutput("Введите название блюда, которое вы добавляете");
-        String dishName = bot.requestInput();
+        products = ProductService.getProducts(message.getText());
+    }
 
-        bot.setOutput("Введите ингредиенты, из которых будет приготовлено блюдо");
-        List<Product> products = ProductService.getProducts(bot.requestInput());
-
-        Dish dish = new Dish(dishName, new Recipe(products));
+    /**
+     * Добавить блюдо в базу данных и вывести результат.
+     */
+    private void outputAddedDish(User user) {
+        Dish dish = new Dish(dishTitle, new Recipe(products));
         DishApi.add(dish);
-        bot.setOutput("Блюдо добавлено, надеюсь вы счастливы");
+        bot.setOutput(user, Commands.DISH_ADDED.toStringValue());
     }
 }

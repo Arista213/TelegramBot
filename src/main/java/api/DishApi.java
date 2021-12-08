@@ -1,16 +1,20 @@
 package api;
 
+import constants.Commands;
 import model.Dish;
 import model.Product;
 import model.Recipe;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
  * Класс для работы с блюдами.
  */
-public class DishApi {
+public abstract class DishApi {
     /**
      * Здесь хранятся все блюда, с которыми можно взаимодействовать.
      */
@@ -20,8 +24,8 @@ public class DishApi {
      * @param products имеющиеся у пользователя.
      * @return блюда, которые могут быть приготовлены.
      */
-    public static Set<Dish> getAvailableForUser(Set<Product> products) {
-        return dishes.stream().filter(x -> isProductsFit(x, products)).collect(Collectors.toSet());
+    public static List<Dish> findDishesByProducts(List<Product> products) {
+        return dishes.stream().filter(dish -> isProductsFit(dish, products)).collect(Collectors.toList());
     }
 
     /**
@@ -31,34 +35,38 @@ public class DishApi {
      * @return блюдо.
      */
     public static Dish findDishByTitle(String title) {
-        return dishes.stream().filter(x -> Objects.equals(x.title, title)).findFirst().orElse(new Dish());
+        return dishes.stream().filter(dish -> Objects.equals(dish.title.toLowerCase(), title.toLowerCase())).findFirst().orElse(null);
     }
 
     /**
-     * Удалить блюдо из "базы блюд".
+     * Удалить блюдо из базы блюд.
      */
     public static void remove(String dishTitle) {
-        for (int i = 0; i < dishes.size(); i++) {
-            Dish currentDish = dishes.get(i);
-            if (currentDish.title.equals(dishTitle)) {
-                dishes.remove(i);
-                break;
-            }
-        }
+        dishes.remove(dishes.stream().filter(dish -> dish.title.equalsIgnoreCase(dishTitle)).findFirst().orElse(null));
     }
 
     /**
-     * @param dish добавить блюдо в "базу данных".
+     * @param dish добавить блюдо в базу данных.
      */
     public static void add(Dish dish) {
         dishes.add(dish);
     }
 
     /**
-     * Проверка подходит ли список продуктов рецепту блюда.
+     * Список всех блюд.
      */
-    private static boolean isProductsFit(Dish dish, Set<Product> products) {
-        return products.containsAll(dish.getRecipe().getProducts());
+    public static List<Dish> getAll() {
+        return dishes;
+    }
+
+    /**
+     * Получить вывод из блюд.
+     */
+    public static String getStringFromDishes(List<Dish> dishes) {
+        StringBuilder result = new StringBuilder();
+        result.append(Commands.CAN_BE_COOKED.toStringValue());
+        dishes.forEach(e -> result.append(e).append("\n\n"));
+        return result.toString();
     }
 
     /**
@@ -75,4 +83,14 @@ public class DishApi {
         }};
     }
 
+    public static void initiate(List<Dish> dishes) {
+        DishApi.dishes = dishes;
+    }
+
+    /**
+     * Проверка подходит ли список продуктов рецепту блюда.
+     */
+    private static boolean isProductsFit(Dish dish, List<Product> products) {
+        return products.containsAll(dish.getRecipe().getProducts());
+    }
 }
