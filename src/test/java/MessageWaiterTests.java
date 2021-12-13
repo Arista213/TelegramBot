@@ -10,16 +10,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 /**
  * Тесты для MessageWaiter
  */
-public class MessageWaiterTests {
+public class MessageWaiterTests
+{
     String output;
 
     /**
      * Тест на то, что после добавления действия в MessageWaiter, он будет ждать сообщение.
      */
     @Test
-    void messageWaitingTest() {
+    void messageWaitingTest()
+    {
         MessageWaiter messageWaiter = new MessageWaiter();
-        IAction testAction = (user, message) -> {
+        IAction testAction = (user, message) ->
+        {
         };
         messageWaiter.add(testAction);
         assertTrue(messageWaiter.isWaiting());
@@ -29,7 +32,8 @@ public class MessageWaiterTests {
      * Тест на выполнение действия после получения сообщения.
      */
     @Test
-    void messageWaiterExecuteTest() {
+    void messageWaiterExecuteTest()
+    {
         MessageWaiter messageWaiter = new MessageWaiter();
         IAction testAction = (user, message) -> output = message.getText();
         messageWaiter.add(testAction);

@@ -8,31 +8,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class SimpleUserDao extends UserDao {
+public class SimpleUserDao extends UserDao
+{
     private final Map<Long, User> users = new HashMap<>();
 
     @Override
-    public User get(long id) {
+    public User get(long id)
+    {
         return users.get(id);
     }
 
     @Override
-    public List<User> getAll() {
+    public List<User> getAll()
+    {
         return new ArrayList<>(users.values());
     }
 
     @Override
-    public void save(User user) {
+    public void save(User user)
+    {
         users.put(user.getId(), user);
     }
 
     @Override
-    public void update(long id, User user) {
+    public void update(long id, User user)
+    {
         users.put(id, user);
     }
 
     @Override
-    public void delete(User user) {
+    public void delete(User user)
+    {
         users.remove(user.getId());
     }
 }

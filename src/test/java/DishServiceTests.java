@@ -1,5 +1,6 @@
 import dao.impl.SimpleDishDao;
 import model.Dish;
+import model.Ingredient;
 import model.Product;
 import model.Recipe;
 import org.junit.jupiter.api.Test;
@@ -13,20 +14,24 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 /**
  * Тесты для класса DishApi, ответственного за работу с блюдами.
  */
-public class DishServiceTests {
+public class DishServiceTests
+{
     private final Dish pancakes = new Dish("Блины", new Recipe(Arrays.asList(
-            new Product("яйца"),
-            new Product("мука"),
-            new Product("молоко")
-    )));
+            new Product(new Ingredient("яйца"), "3 яйца"),
+            new Product(new Ingredient("мука"), "1 стакан муки"),
+            new Product(new Ingredient("молоко"), "2 стакана молока")),
+            null), null, null);
 
-    private final Dish friedEggs = new Dish("Яичница", new Recipe(List.of(new Product("яйца"))));
+    private final Dish friedEggs = new Dish("Яичница", new Recipe(List.of(
+            new Product(new Ingredient("яйца"), "2 яица")), null),
+            null, null);
 
     /**
      * Поиск по названию блюда должен вернуть блюдо.
      */
     @Test
-    void findDishByTitleTest() {
+    void findDishByTitleTest()
+    {
         DishService dishService = new DishService(new SimpleDishDao());
         String dishName = "Блины";
         Dish dish = dishService.findDishByTitle(dishName);
@@ -37,7 +42,8 @@ public class DishServiceTests {
      * Поиск блюда по названию должен вернуть null.
      */
     @Test
-    void findDishByTitleButNameDidNotFindTest() {
+    void findDishByTitleButNameDidNotFindTest()
+    {
         DishService dishService = new DishService(new SimpleDishDao());
         String dishName = "Тест";
         Dish dish = dishService.findDishByTitle(dishName);
@@ -48,11 +54,12 @@ public class DishServiceTests {
      * Поиск блюда по продуктам должен вернуть пустой лист.
      */
     @Test
-    void findDishesByProductsButProductsIsNotFitTest() {
+    void findDishesByProductsButProductsIsNotFitTest()
+    {
         DishService dishService = new DishService(new SimpleDishDao());
-        List<Product> products = new ArrayList<>();
-        products.add(new Product("Тест"));
-        List<Dish> result = dishService.findDishesByProducts(products);
+        List<Ingredient> products = new ArrayList<>();
+        products.add(new Ingredient("Тест"));
+        List<Dish> result = dishService.findDishesByIngredients(products);
         assertEquals(new ArrayList<>(), result);
     }
 
@@ -60,18 +67,19 @@ public class DishServiceTests {
      * Поиск по заданным продуктам должен вернуть 2 блюда.
      */
     @Test
-    void findDishesByProductsTest() {
+    void findDishesByProductsTest()
+    {
         DishService dishService = new DishService(new SimpleDishDao());
-        List<Product> products = new ArrayList<>();
-        products.add(new Product("мука"));
-        products.add(new Product("яйца"));
-        products.add(new Product("молоко"));
+        List<Ingredient> products = new ArrayList<>();
+        products.add(new Ingredient("мука"));
+        products.add(new Ingredient("яйца"));
+        products.add(new Ingredient("молоко"));
 
-        Set<Dish> validDishes = new HashSet<>(dishService.findDishesByProducts(products));
+        Set<Dish> validDishes = new HashSet<>(dishService.findDishesByIngredients(products));
         Set<Dish> expectedDishes = new HashSet<>();
         expectedDishes.add(pancakes);
         expectedDishes.add(friedEggs);
 
-        assertEquals(validDishes, expectedDishes);
+        assertEquals(expectedDishes, validDishes);
     }
 }

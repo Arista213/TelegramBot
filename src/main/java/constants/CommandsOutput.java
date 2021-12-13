@@ -3,7 +3,8 @@ package constants;
 /**
  * Вывод комманд.
  */
-public enum CommandsOutput {
+public enum CommandsOutput
+{
     DISH_TITLE("Введите название блюда, которое вы хотите приготовить"),
 
     DISH_TITLE_TO_ADD("Введите название блюда, которое вы добавляете"),
@@ -50,11 +51,13 @@ public enum CommandsOutput {
 
     private final String value;
 
-    CommandsOutput(String value) {
+    CommandsOutput(String value)
+    {
         this.value = value;
     }
 
-    public String toStringValue() {
+    public String toStringValue()
+    {
         return value;
     }
 }

@@ -1,9 +1,8 @@
 package service;
 
-import constants.CommandsOutput;
 import dao.DishDao;
 import model.Dish;
-import model.Product;
+import model.Ingredient;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,42 +11,45 @@ import java.util.stream.Collectors;
 /**
  * Класс для работы с блюдами.
  */
-public class DishService {
+public class DishService
+{
     private final DishDao dishDao;
 
-    public DishService(DishDao dishDao) {
+    public DishService(DishDao dishDao)
+    {
         this.dishDao = dishDao;
     }
 
     /**
      * Найти блюдо по продуктам.
      */
-    public List<Dish> findDishesByProducts(List<Product> products) {
-        return dishDao.getAll().stream().filter(dish -> isProductsFit(dish, products)).collect(Collectors.toList());
+    public List<Dish> findDishesByIngredients(List<Ingredient> ingredients)
+    {
+        return dishDao.getAll().stream().filter(dish -> isProductsFit(dish, ingredients)).collect(Collectors.toList());
     }
 
     /**
      * Найти блюдо по его названию.
      */
-    public Dish findDishByTitle(String title) {
+    public Dish findDishByTitle(String title)
+    {
 
-        return dishDao.getAll().stream().filter(dish -> Objects.equals(dish.title.toLowerCase(), title.toLowerCase())).findFirst().orElse(null);
+        return dishDao.getAll().stream().filter(dish -> Objects.equals(dish.getTitle().toLowerCase(), title.toLowerCase())).findFirst().orElse(null);
     }
 
     /**
      * Получить вывод из блюд.
      */
-    public String getStringFromDishes(List<Dish> dishes) {
-        StringBuilder result = new StringBuilder();
-        result.append(CommandsOutput.CAN_BE_COOKED.toStringValue());
-        dishes.forEach(e -> result.append(e).append("\n\n"));
-        return result.toString();
+    public String getStringFromDish(Dish dish)
+    {
+        return dish.getTitle() + "\n\n" + dish.getSummary();
     }
 
     /**
      * Проверка подходит ли список продуктов рецепту блюда.
      */
-    private boolean isProductsFit(Dish dish, List<Product> products) {
-        return products.containsAll(dish.getRecipe().getProducts());
+    private boolean isProductsFit(Dish dish, List<Ingredient> ingredients)
+    {
+        return ingredients.containsAll(dish.getRecipe().getIngredients());
     }
 }

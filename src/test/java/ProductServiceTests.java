@@ -1,28 +1,30 @@
-import model.Product;
+import model.Ingredient;
 import org.junit.jupiter.api.Test;
-import service.ProductService;
+import service.IngredientService;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Тесты для сервиса, ответственного за работу с продуктами.
  */
-public class ProductServiceTests {
+public class ProductServiceTests
+{
     /**
      * Тест проверяет создание продуктов из строки.
      */
     @Test
-    void getProductsTest() {
-        List<Product> productList = ProductService.getProducts("ЯйцА,МолокО,МукА");
-        List<Product> expectedList = Arrays.asList(
-                new Product("яйца"),
-                new Product("молоко"),
-                new Product("мука")
+    void getIngredientsTest()
+    {
+        List<Ingredient> productList = IngredientService.getIngredients("ЯйцА,МолокО,МукА");
+        List<Ingredient> expectedList = Arrays.asList(
+                new Ingredient("яйца"),
+                new Ingredient("молоко"),
+                new Ingredient("мука")
         );
 
-        assertTrue(productList.containsAll(expectedList));
+        assertEquals(productList, expectedList);
     }
 }

@@ -3,7 +3,8 @@ package constants;
 /**
  * Пользовательские команды.
  */
-public enum Commands {
+public enum Commands
+{
     START("/start"),
     HELP("help"),
     DISH_BY_TITLE("dish by title"),
@@ -15,14 +16,15 @@ public enum Commands {
     ADD_DISH("add dish"),
     REMOVE_DISH("remove dish");
 
-
     private final String value;
 
-    Commands(String value) {
+    Commands(String value)
+    {
         this.value = value;
     }
 
-    public String toStringValue() {
+    public String toStringValue()
+    {
         return value;
     }
 }

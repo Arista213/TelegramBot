@@ -5,6 +5,7 @@ import message.model.Message;
 /**
  * Функционал бота.
  */
-public interface IBot {
+public interface IBot
+{
     void handleMessage(User user, Message message);
 }
