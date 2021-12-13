@@ -5,10 +5,7 @@ import api.UserApi;
 import constants.Commands;
 import constants.Numbers;
 import message.model.Message;
-import model.ChiefBot;
-import model.Dish;
-import model.Product;
-import model.User;
+import model.*;
 import service.APIService;
 import service.ProductService;
 
@@ -25,7 +22,7 @@ public class DishesByProducts extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
+        bot.setOutput(user, new Message(Commands.INGREDIENTS.toStringValue()));
         UserApi.addToMessageWaiter(user, this::outputDishesByProducts);
     }
 
@@ -34,26 +31,26 @@ public class DishesByProducts extends Command {
      */
     private void outputDishesByProducts(User user, Message message) {
         if (!ProductService.isValidString(message.getText())) {
-            bot.setOutput(user, Commands.INGREDIENTS.toStringValue());
+            bot.setOutput(user, new Message(Commands.INGREDIENTS.toStringValue()));
             UserApi.addToMessageWaiter(user, this::outputDishesByProducts);
             return;
         }
 
-        List<Product> products = ProductService.getProducts(message.getText());
-        List<Dish> dishes = findDishesFromAPI(products);
+        List<Ingredient> ingredients = ProductService.getIngredients(message.getText());
+        List<Dish> dishes = findDishesFromAPI(ingredients);
 
         if (!dishes.isEmpty()) {
-            String output = DishApi.getStringFromDishes(dishes);
+            Message output = new Message(DishApi.getStringFromDishes(dishes));
             bot.setOutput(user, output);
             return;
         }
 
-        dishes = DishApi.findDishesByProducts(products);
+        dishes = DishApi.findDishesByIngredients(ingredients);
         if (dishes.isEmpty()) {
-            bot.setOutput(user, Commands.NOT_ENOUGH_INGREDIENTS.toStringValue());
+            bot.setOutput(user, new Message(Commands.NOT_ENOUGH_INGREDIENTS.toStringValue()));
         } else {
             System.out.println(dishes);
-            String output = DishApi.getStringFromDishes(dishes);
+            Message output = new Message(DishApi.getStringFromDishes(dishes));
             bot.setOutput(user, output);
         }
     }
@@ -61,9 +58,9 @@ public class DishesByProducts extends Command {
     /**
      * Попытаться с 5 попыток достать блюдо из апи.
      */
-    private List<Dish> findDishesFromAPI(List<Product> productList) {
+    private List<Dish> findDishesFromAPI(List<Ingredient> ingredientList) {
         for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++) {
-            List<Dish> dishesList = APIService.getDishesByIngredients(productList);
+            List<Dish> dishesList = APIService.getDishesByIngredients(ingredientList);
             if (dishesList != null) return dishesList;
         }
 

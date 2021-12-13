@@ -1,5 +1,6 @@
 package model;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -8,13 +9,27 @@ import java.util.Objects;
  */
 public class Recipe {
     private final List<Product> products;
+    private final List<CookPhase> phases;
+    private final HashSet<Ingredient> ingredients;
 
-    public Recipe(List<Product> products) {
+    public Recipe(List<Product> products, List<CookPhase> phases) {
         this.products = products;
+        this.phases = phases;
+        this.ingredients = new HashSet<>();
+        fillIngredients();
+
     }
 
     public List<Product> getProducts() {
         return products;
+    }
+
+    public List<CookPhase> getPhases() {
+        return phases;
+    }
+
+    public HashSet<Ingredient> getIngredients() {
+        return ingredients;
     }
 
     @Override
@@ -38,5 +53,13 @@ public class Recipe {
             else result.append(products.get(i).toString());
         }
         return result.toString();
+    }
+
+    private void fillIngredients() {
+        if (products.size() == 0)
+            return;
+        for (Product product : products) {
+            ingredients.add(product.getIngredient());
+        }
     }
 }

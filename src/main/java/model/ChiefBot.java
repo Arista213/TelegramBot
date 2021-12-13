@@ -46,8 +46,8 @@ public final class ChiefBot implements IBot {
     /**
      * Отправить сообщению классу реализующего абстракцию MessageProvider чтобы отправить данные пользователю.
      */
-    public void setOutput(User user, String output) {
-        provider.sendMessage(user, new Message(output));
+    public void setOutput(User user, Message output) {
+        provider.sendMessage(user, output);
     }
 
     /**

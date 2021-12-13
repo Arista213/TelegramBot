@@ -1,6 +1,7 @@
 package service;
 
 import model.Dish;
+import model.Ingredient;
 import model.Product;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -44,13 +45,13 @@ public class APIService {
      * @param ingredients ингредиенты блюда, которое ищется
      * @return найденное блюдо
      */
-    public static List<Dish> getDishesByIngredients(List<Product> ingredients) {
+    public static List<Dish> getDishesByIngredients(List<Ingredient> ingredients) {
         OkHttpClient client = new OkHttpClient();
-        List<String> ingredientsNames = new ArrayList<>();
-        for (Product ingredient: ingredients) {
-            ingredientsNames.add(ingredient.toString());
+        List<String> ingredientsTitles = new ArrayList<>();
+        for (Ingredient ingredient: ingredients) {
+            ingredientsTitles.add(ingredient.getTitle());
         }
-        String joinedIngredients = String.join(",", ingredientsNames);
+        String joinedIngredients = String.join(",", ingredientsTitles);
         Request request = new Request.Builder()
                 .url("https://api.spoonacular.com/recipes/complexSearch?apiKey=e8fd59971fac4238b0591aac77bfcee1&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=" + joinedIngredients)
                 .get()

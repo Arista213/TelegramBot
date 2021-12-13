@@ -6,10 +6,20 @@ import java.util.Objects;
  * Сущность для продуктов, используемых в рецептах.
  */
 public class Product {
-    private final String title;
+    private final Ingredient ingredient;
+    private final String outputAmount;
 
-    public Product(String title) {
-        this.title = title;
+    public Product(Ingredient ingredient, String amount) {
+        this.ingredient = ingredient;
+        this.outputAmount = amount;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public String getOutputAmount() {
+        return outputAmount;
     }
 
     @Override
@@ -17,16 +27,19 @@ public class Product {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Product product = (Product) o;
-        return Objects.equals(title.toLowerCase(), product.title.toLowerCase());
+        return Objects.equals(ingredient, product.ingredient) && Objects.equals(outputAmount, product.outputAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title.toLowerCase());
+        return Objects.hash(ingredient, outputAmount);
     }
 
     @Override
     public String toString() {
-        return title;
+        return "Product{" +
+                "ingredient=" + ingredient +
+                ", outputAmount='" + outputAmount + '\'' +
+                '}';
     }
 }

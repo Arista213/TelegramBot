@@ -22,7 +22,7 @@ public class DishByTitle extends Command {
 
     @Override
     public void process(User user) {
-        bot.setOutput(user, Commands.DISH_TITLE.toStringValue());
+        bot.setOutput(user, new Message(Commands.DISH_TITLE.toStringValue()));
         UserApi.addToMessageWaiter(user, this::dishByTitle);
     }
 
@@ -35,7 +35,8 @@ public class DishByTitle extends Command {
         for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++) {
             dish = APIService.getDishByTitle(dishTitle);
             if (dish != null) {
-                String output = DishApi.getStringFromDishes(List.of(dish));
+                Message output = new Message(DishApi.getStringFromDishes(List.of(dish)));
+                output.setImageURL(dish.getImageUrl());
                 bot.setOutput(user, output);
                 return;
             }
@@ -44,7 +45,7 @@ public class DishByTitle extends Command {
         dish = DishApi.findDishByTitle(dishTitle);
 
         bot.setOutput(user, dish != null
-                ? dish.toString()
-                : Commands.DISH_IS_NOT_FOUND.toStringValue());
+                ? new Message(dish.toString())
+                : new Message(Commands.DISH_IS_NOT_FOUND.toStringValue()));
     }
 }

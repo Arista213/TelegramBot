@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class AddDishByAdmin extends Command {
     private String dishTitle;
-    private List<Product> products;
+    private List<Ingredient> ingredients;
 
     public AddDishByAdmin(ChiefBot bot) {
         super(bot);
@@ -23,9 +23,9 @@ public class AddDishByAdmin extends Command {
     @Override
     public void process(User user) {
         boolean isAdmin = UserApi.isAdmin(user);
-        if (!isAdmin) bot.setOutput(user, Commands.NOT_ENOUGH_RIGHTS.toStringValue());
+        if (!isAdmin) bot.setOutput(user, new Message(Commands.NOT_ENOUGH_RIGHTS.toStringValue()));
         else {
-            bot.setOutput(user, Commands.DISH_TITLE_TO_ADD.toStringValue());
+            bot.setOutput(user, new Message(Commands.DISH_TITLE_TO_ADD.toStringValue()));
             UserApi.addToMessageWaiter(user, this::identifyTitle);
         }
     }
@@ -35,7 +35,7 @@ public class AddDishByAdmin extends Command {
      */
     private void identifyTitle(User user, Message message) {
         dishTitle = message.getText();
-        bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
+        bot.setOutput(user, new Message(Commands.INGREDIENTS_TO_ADD.toStringValue()));
         UserApi.addToMessageWaiter(user, this::identifyProducts);
     }
 
@@ -44,20 +44,20 @@ public class AddDishByAdmin extends Command {
      */
     private void identifyProducts(User user, Message message) {
         if (!ProductService.isValidString(message.getText())) {
-            bot.setOutput(user, Commands.INGREDIENTS_TO_ADD.toStringValue());
+            bot.setOutput(user, new Message(Commands.INGREDIENTS_TO_ADD.toStringValue()));
             UserApi.addToMessageWaiter(user, this::identifyProducts);
             return;
         }
 
-        products = ProductService.getProducts(message.getText());
+        ingredients = ProductService.getIngredients(message.getText());
     }
 
-    /**
-     * Добавить блюдо в базу данных и вывести результат.
-     */
-    private void outputAddedDish(User user) {
-        Dish dish = new Dish(dishTitle, new Recipe(products));
-        DishApi.add(dish);
-        bot.setOutput(user, Commands.DISH_ADDED.toStringValue());
-    }
+//    /**
+//     * Добавить блюдо в базу данных и вывести результат.
+//     */
+//    private void outputAddedDish(User user) {
+//        Dish dish = new Dish(dishTitle, new Recipe(ingredients));
+//        DishApi.add(dish);
+//        bot.setOutput(user, new Message(Commands.DISH_ADDED.toStringValue()));
+//    }
 }

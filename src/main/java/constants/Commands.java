@@ -40,9 +40,7 @@ public enum Commands {
 
     START("Шеф-повар здесь!\nНапиши мне /help и я расскажу, что умею\n"),
 
-    UNKNOWN_COMMAND("Неизвестная комманда"),
-
-    CAN_BE_COOKED("Можно приготовить:\n");
+    UNKNOWN_COMMAND("Неизвестная комманда");
 
     private final String value;
 

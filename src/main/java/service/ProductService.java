@@ -1,5 +1,6 @@
 package service;
 
+import model.Ingredient;
 import model.Product;
 
 import java.util.Arrays;
@@ -14,21 +15,21 @@ public abstract class ProductService {
      * @param productsStr введённые пользователем продукты в виде строки.
      * @return лист продуктов.
      */
-    public static List<Product> getProducts(String productsStr) {
+    public static List<Ingredient> getIngredients(String productsStr) {
         String[] products = productsStr.split(",");
-        return Arrays.stream(products).map(Product::new).collect(Collectors.toList());
+        return Arrays.stream(products).map(Ingredient::new).collect(Collectors.toList());
     }
 
     /**
      * Проверка строки на валидность.
      */
-    public static boolean isValidString(String products) {
-        return !(products.contains("!") || products.contains("@")
-                || products.contains("#") || products.contains("$")
-                || products.contains("%") || products.contains("^")
-                || products.contains("&") || products.contains("*")
-                || products.contains("(") || products.contains(")")
-                || products.contains(".") || products.contains("/")
-                || products.contains("\\") || products.contains("|"));
+    public static boolean isValidString(String ingredients) {
+        return !(ingredients.contains("!") || ingredients.contains("@")
+                || ingredients.contains("#") || ingredients.contains("$")
+                || ingredients.contains("%") || ingredients.contains("^")
+                || ingredients.contains("&") || ingredients.contains("*")
+                || ingredients.contains("(") || ingredients.contains(")")
+                || ingredients.contains(".") || ingredients.contains("/")
+                || ingredients.contains("\\") || ingredients.contains("|"));
     }
 }
