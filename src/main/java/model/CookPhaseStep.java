@@ -3,6 +3,9 @@ package model;
 import java.util.HashSet;
 import java.util.Objects;
 
+/**
+ * Шаг готовки, включающий в себя описание и ингредиенты, используемые на данном шаге.
+ */
 public class CookPhaseStep
 {
     private final String description;

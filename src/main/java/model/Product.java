@@ -3,11 +3,14 @@ package model;
 import java.util.Objects;
 
 /**
- * Сущность для продуктов, используемых в рецептах.
+ * Продукт, содержит как ингредиент, так и его количество.
  */
 public class Product
 {
     private final Ingredient ingredient;
+    /**
+     * Форма вывода ингредиента вместе с его количеством. Например 1 стакан молока.
+     */
     private final String outputAmount;
 
     public Product(Ingredient ingredient, String amount)

@@ -3,6 +3,9 @@ package model;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Этап готовки, включающий в себя описание и шаги данного этапа готовки.
+ */
 public class CookPhase
 {
     private final String summery;

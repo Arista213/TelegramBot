@@ -1,5 +1,8 @@
 package constants;
 
+/**
+ * Количественные константы.
+ */
 public enum Numbers
 {
     API_ATTEMPTS_TO_GET_REQUEST(5);

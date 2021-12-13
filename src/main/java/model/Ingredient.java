@@ -2,6 +2,9 @@ package model;
 
 import java.util.Objects;
 
+/**
+ * Ингредиент в блюдах.
+ */
 public class Ingredient
 {
     private final String title;

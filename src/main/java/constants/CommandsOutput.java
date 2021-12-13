@@ -5,49 +5,46 @@ package constants;
  */
 public enum CommandsOutput
 {
-    DISH_TITLE("Введите название блюда, которое вы хотите приготовить"),
+    DISH_TITLE("Enter the name of the dish"),
 
-    DISH_TITLE_TO_ADD("Введите название блюда, которое вы добавляете"),
+    DISH_TITLE_TO_ADD("Enter the name of the dish you are adding"),
 
-    DISH_TITLE_TO_REMOVE("Введите название блюда, которое вы хотите удалить"),
+    DISH_TITLE_TO_REMOVE("Enter the name of the dish you want to remove"),
 
-    DISH_REMOVED("Блюдо удалено"),
+    DISH_REMOVED("The dish has been removed, congratulations"),
 
-    NOT_ENOUGH_RIGHTS("У вас недостаточно прав"),
+    NOT_ENOUGH_RIGHTS("You don't have enough rights"),
 
-    INGREDIENTS("Введите ингредиенты, которые у вас имеются через запятую без пробела"),
+    INGREDIENTS("Enter ingredients you have with a comma-separated list without spaces"),
 
-    INGREDIENTS_TO_ADD("Введите ингредиенты, из которых будет приготовлено блюдо через запятую без пробела"),
+    INGREDIENTS_TO_ADD("Enter ingredients from which the dish will be cooked with a comma-separated list without spaces"),
 
-    DISH_ADDED("Блюдо добавлено, надеюсь вы счастливы"),
+    DISH_ADDED("The dish has been added, I hope you're happy"),
 
-    NOT_ENOUGH_INGREDIENTS("Сходи в магазин("),
+    NOT_ENOUGH_INGREDIENTS("There are not enough ingredients :( "),
 
-    ADMIN_MODE("Теперь вы в режиме администратора"),
+    ADMIN_MODE("Welcome to the admin zone"),
 
-    USER_MODE("Вы больше не в режиме администратора"),
+    USER_MODE("You're no longer in admin mode"),
 
-    ALREADY_ADMIN("Вы уже админ"),
+    ALREADY_ADMIN("You're already admin"),
 
-    ALREADY_USER("Вы уже в пользовательском режиме"),
+    ALREADY_USER("You're already in user mode"),
 
-    DISH_IS_NOT_FOUND("К сожалению блюдо не найдено("),
+    DISH_IS_NOT_FOUND("Unfortunately, the dish hasn't be found :("),
 
-    HELP("Вот то, что я умею делать\n" +
-            Commands.DISH_BY_TITLE.toStringValue() + " - рецепт блюда по его названию\n" +
-            Commands.DISHES_BY_PRODUCTS.toStringValue() + " - рецепт блюд, которые можно приготовить при имеющихся ингредиентах\n" +
-            Commands.SAVE_DISHES.toStringValue() + " - сохранить блюда\n" +
-            Commands.LOAD_DISHES.toStringValue() + " - загрузить блюда\n" +
-            Commands.USER_MODE.toStringValue() + " - переключиться в режим пользователя\n" +
-            Commands.ADMIN_MODE.toStringValue() + " - переключиться в режим администратора\n" +
-            Commands.ADD_DISH.toStringValue() + " - добавить блюло\n" +
-            Commands.REMOVE_DISH.toStringValue() + " - удалить блюдо\n"),
+    HELP("That's what i can do\n" + Commands.DISH_BY_TITLE.toStringValue() + " - find the dish by title\n" +
+            Commands.DISHES_BY_PRODUCTS.toStringValue() + " - dishes you can cook with ingredients you have\n" +
+            Commands.SAVE_DISHES.toStringValue() + " - save dishes\n" +
+            Commands.LOAD_DISHES.toStringValue() + " - load dishes\n" +
+            Commands.USER_MODE.toStringValue() + " - switch to user mode\n" +
+            Commands.ADMIN_MODE.toStringValue() + " - switch to admin mode\n" +
+            Commands.ADD_DISH.toStringValue() + " - add dish\n" +
+            Commands.REMOVE_DISH.toStringValue() + " - remove dish\n"),
 
-    START("Шеф-повар здесь!\nНапиши мне " + Commands.HELP.toStringValue() + " и я расскажу, что умею\n"),
+    START("The chef is here!\nText me help and a will tell you what i can do\n"),
 
-    UNKNOWN_COMMAND("Неизвестная комманда"),
-
-    CAN_BE_COOKED("Можно приготовить:\n");
+    UNKNOWN_COMMAND("This is unknown command");
 
     private final String value;
 

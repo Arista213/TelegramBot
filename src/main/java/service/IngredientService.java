@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 public abstract class IngredientService
 {
     /**
-     * @param productsStr введённые пользователем продукты в виде строки.
+     * @param ingredientStr введённые пользователем продукты в виде строки.
      * @return лист продуктов.
      */
-    public static List<Ingredient> getIngredients(String productsStr)
+    public static List<Ingredient> getIngredients(String ingredientStr)
     {
-        String[] products = productsStr.split(",");
+        String[] products = ingredientStr.split(",");
         return Arrays.stream(products).map(Ingredient::new).collect(Collectors.toList());
     }
 
