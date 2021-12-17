@@ -1,5 +1,5 @@
-import message.impl.ConsoleMessageProvider;
-import message.impl.TelegramMessageProvider;
+import IO.provider.ConsoleMessageProvider;
+import IO.provider.TelegramMessageProvider;
 
 public class Main
 {
@@ -7,9 +7,7 @@ public class Main
     {
         String botMode = args[0];
         if (botMode.equalsIgnoreCase("Console"))
-        {
             new ConsoleMessageProvider().start();
-        }
         else
             new TelegramMessageProvider().start();
     }

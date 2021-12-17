@@ -2,7 +2,7 @@ package commands;
 
 import constants.CommandsOutput;
 import constants.Numbers;
-import message.model.Message;
+import model.Message;
 import model.ChiefBot;
 import model.Dish;
 import model.Ingredient;

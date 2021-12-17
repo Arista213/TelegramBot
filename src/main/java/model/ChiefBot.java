@@ -1,10 +1,9 @@
 package model;
 
+import IO.provider.IMessageProvider;
+import IO.waiter.MessageWaiter;
 import commands.*;
 import dao.DishDao;
-import message.MessageWaiter;
-import message.model.IMessageProvider;
-import message.model.Message;
 import service.DishService;
 
 import java.util.HashMap;
@@ -41,16 +40,16 @@ public final class ChiefBot implements IBot
      */
     private void fillCommands()
     {
-        commands.put(START.toStringValue(), new Start(this));
-        commands.put(HELP.toStringValue(), new Help(this));
-        commands.put(DISH_BY_TITLE.toStringValue(), new DishByTitle(this));
-        commands.put(DISHES_BY_PRODUCTS.toStringValue(), new DishesByProducts(this));
-        commands.put(ADMIN_MODE.toStringValue(), new AdminMode(this));
-        commands.put(USER_MODE.toStringValue(), new UserMode(this));
-        commands.put(ADD_DISH.toStringValue(), new AddDishByAdmin(this));
-        commands.put(REMOVE_DISH.toStringValue(), new RemoveDishByAdmin(this));
-        commands.put(SAVE_DISHES.toStringValue(), new SaveDishes(this));
-        commands.put(LOAD_DISHES.toStringValue(), new LoadDishes(this));
+        commands.put(START.toLowerCaseValue(), new Start(this));
+        commands.put(HELP.toLowerCaseValue(), new Help(this));
+        commands.put(DISH_BY_TITLE.toLowerCaseValue(), new DishByTitle(this));
+        commands.put(DISHES_BY_PRODUCTS.toLowerCaseValue(), new DishesByProducts(this));
+        commands.put(ADMIN_MODE.toLowerCaseValue(), new AdminMode(this));
+        commands.put(USER_MODE.toLowerCaseValue(), new UserMode(this));
+        commands.put(ADD_DISH.toLowerCaseValue(), new AddDishByAdmin(this));
+        commands.put(REMOVE_DISH.toLowerCaseValue(), new RemoveDishByAdmin(this));
+        commands.put(SAVE_DISHES.toLowerCaseValue(), new SaveDishes(this));
+        commands.put(LOAD_DISHES.toLowerCaseValue(), new LoadDishes(this));
     }
 
     /**
@@ -70,7 +69,7 @@ public final class ChiefBot implements IBot
         MessageWaiter mw = user.getMessageWaiter();
         if (mw.isWaiting())
         {
-            mw.execute(user, message);
+            mw.execute(message);
         }
         else
         {

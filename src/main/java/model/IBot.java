@@ -1,7 +1,5 @@
 package model;
 
-import message.model.Message;
-
 /**
  * Функционал бота.
  */
