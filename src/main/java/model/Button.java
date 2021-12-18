@@ -1,4 +1,4 @@
-package model.telegram;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,12 +9,19 @@ import java.util.Map;
  */
 public class Button
 {
-    private final String title;
+    /**
+     * Текст на кнопке.
+     */
+    private final String text;
+
+    /**
+     * Функция, которая будет выполнена, когда пользователь нажмет на эту кнопку.
+     */
     private final ICallback callback;
 
-    public Button(String title, ICallback action)
+    public Button(String text, ICallback action)
     {
-        this.title = title;
+        this.text = text;
         this.callback = action;
     }
 
@@ -34,8 +41,8 @@ public class Button
         return callback;
     }
 
-    public String getTitle()
+    public String getText()
     {
-        return title;
+        return text;
     }
 }

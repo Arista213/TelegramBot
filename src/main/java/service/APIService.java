@@ -8,6 +8,7 @@ import okhttp3.Request;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -54,7 +55,7 @@ public class APIService
      * @param ingredients ингредиенты блюда, которое ищется
      * @return найденное блюдо
      */
-    public static List<Dish> getDishesByIngredients(List<Ingredient> ingredients)
+    public static List<Dish> getDishesByIngredients(Collection<Ingredient> ingredients)
     {
         OkHttpClient client = new OkHttpClient();
         List<String> ingredientsTitles = new ArrayList<>();

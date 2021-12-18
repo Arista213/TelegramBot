@@ -1,8 +1,8 @@
 package commands;
 
 import constants.CommandsOutput;
-import model.Message;
 import model.ChiefBot;
+import model.Message;
 import model.Mode;
 import model.User;
 

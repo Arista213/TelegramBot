@@ -1,12 +1,14 @@
 package IO.provider;
 
+import IO.waiter.CallbackWaiter;
 import dao.DishDao;
 import dao.impl.SimpleDishDao;
-import model.Message;
-import IO.waiter.CallbackWaiter;
 import model.ChiefBot;
 import model.IBot;
+import model.Message;
 import model.User;
+import model.Button;
+import model.TelegramBot;
 import org.apache.commons.io.FileUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -14,8 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import service.DishService;
-import model.telegram.Button;
-import model.telegram.TelegramBot;
 
 import java.io.File;
 import java.net.URL;
@@ -88,7 +88,7 @@ public final class TelegramMessageProvider implements IMessageProvider
 
             List<InlineKeyboardButton> row = new ArrayList<>();
             InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText(button.getTitle());
+            inlineKeyboardButton.setText(button.getText());
             inlineKeyboardButton.setCallbackData(id.toString());
 
             row.add(inlineKeyboardButton);

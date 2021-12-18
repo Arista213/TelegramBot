@@ -2,7 +2,6 @@ package model;
 
 import IO.waiter.CallbackWaiter;
 import IO.waiter.MessageWaiter;
-import model.telegram.IAction;
 
 import java.util.Objects;
 

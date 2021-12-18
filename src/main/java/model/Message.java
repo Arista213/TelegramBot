@@ -1,7 +1,5 @@
 package model;
 
-import model.telegram.Button;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -31,7 +29,7 @@ public class Message
         return image;
     }
 
-    public void setImageURL(String url)
+    public Message setImageURL(String url)
     {
         try
         {
@@ -41,6 +39,7 @@ public class Message
         {
             e.printStackTrace();
         }
+        return this;
     }
 
     public List<Button> getButtons()
@@ -48,8 +47,9 @@ public class Message
         return buttons;
     }
 
-    public void setButtons(List<Button> buttons)
+    public Message setButtons(List<Button> buttons)
     {
         this.buttons = buttons;
+        return this;
     }
 }

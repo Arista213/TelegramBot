@@ -2,12 +2,7 @@ package commands;
 
 import constants.CommandsOutput;
 import constants.Numbers;
-import model.telegram.Button;
-import model.Message;
-import model.ChiefBot;
-import model.Dish;
-import model.Recipe;
-import model.User;
+import model.*;
 import service.APIService;
 
 import java.util.List;
@@ -35,24 +30,34 @@ public class DishByTitle extends Command
     private void dishByTitle(User user, Message message)
     {
         String dishTitle = message.getText();
+        Dish dishFromApi = findDishFromApi(dishTitle);
+        if (dishFromApi != null)
+        {
+            Message output = new Message(bot.getDishService().getStringFromDish(dishFromApi))
+                    .setImageURL(dishFromApi.getImageUrl())
+                    .setButtons(List.of(new Button("Show products", u -> showProducts(u, dishFromApi))));
+            bot.setOutput(user, output);
+        }
+        else
+        {
+            Dish dishFromDao = bot.getDishService().findDishByTitle(dishTitle);
+            bot.setOutput(user, dishFromDao != null
+                    ? new Message(dishFromDao.toString())
+                    : new Message(CommandsOutput.DISH_IS_NOT_FOUND.toStringValue()));
+        }
+    }
+
+    /**
+     * Попытаться с 5 попыток достать блюдо из апи.
+     */
+    private Dish findDishFromApi(String dishTitle)
+    {
         for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++)
         {
             Dish dish = APIService.getDishByTitle(dishTitle);
-            if (dish != null)
-            {
-                Message output = new Message(bot.getDishService().getStringFromDish(dish));
-                output.setImageURL(dish.getImageUrl());
-                output.setButtons(List.of(new Button("Show products", u -> showProducts(u, dish))));
-                bot.setOutput(user, output);
-                return;
-            }
+            if (dish != null) return dish;
         }
-
-        Dish dish = bot.getDishService().findDishByTitle(dishTitle);
-
-        bot.setOutput(user, dish != null
-                ? new Message(dish.toString())
-                : new Message(CommandsOutput.DISH_IS_NOT_FOUND.toStringValue()));
+        return null;
     }
 
     private void showProducts(User user, Dish dish)

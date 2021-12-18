@@ -1,7 +1,7 @@
 import IO.waiter.MessageWaiter;
-import model.telegram.IAction;
 import model.Message;
 import model.User;
+import model.IAction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

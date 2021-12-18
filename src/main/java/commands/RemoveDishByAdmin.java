@@ -1,11 +1,7 @@
 package commands;
 
 import constants.CommandsOutput;
-import model.Message;
-import model.ChiefBot;
-import model.Dish;
-import model.Mode;
-import model.User;
+import model.*;
 
 /**
  * Удалить блюдо, если в режиме администратора.

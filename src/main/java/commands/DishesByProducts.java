@@ -2,15 +2,10 @@ package commands;
 
 import constants.CommandsOutput;
 import constants.Numbers;
-import model.Message;
-import model.ChiefBot;
-import model.Dish;
-import model.Ingredient;
-import model.User;
+import model.*;
 import service.APIService;
 import service.IngredientService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,25 +30,28 @@ public class DishesByProducts extends Command
      */
     private void outputDishesByProducts(User user, Message message)
     {
-        if (!IngredientService.isValidString(message.getText()))
+        String userText = message.getText();
+        if (IngredientService.isValidString(userText))
         {
             bot.setOutput(user, new Message(CommandsOutput.INGREDIENTS.toStringValue()));
             user.addMessageWait(this::outputDishesByProducts);
             return;
         }
 
-        List<Ingredient> ingredients = IngredientService.getIngredients(message.getText());
-        List<Dish> dishes = findDishesFromAPI(ingredients);
-
-        if (!dishes.isEmpty())
+        List<Ingredient> ingredients = IngredientService.getIngredients(userText);
+        List<Dish> dishesFromAPI = findDishesFromAPI(ingredients);
+        if (dishesFromAPI != null)
         {
-            sendDishes(user, dishes);
-            return;
+            sendDishes(user, dishesFromAPI);
         }
-
-        dishes = bot.getDishService().findDishesByIngredients(ingredients);
-        if (dishes.isEmpty()) bot.setOutput(user, new Message(CommandsOutput.NOT_ENOUGH_INGREDIENTS.toStringValue()));
-        else sendDishes(user, dishes);
+        else
+        {
+            List<Dish> dishesFromDao = bot.getDishService().findDishesByIngredients(ingredients);
+            if (dishesFromDao.isEmpty())
+                bot.setOutput(user, new Message(CommandsOutput.NOT_ENOUGH_INGREDIENTS.toStringValue()));
+            else
+                sendDishes(user, dishesFromDao);
+        }
     }
 
     /**
@@ -67,7 +65,7 @@ public class DishesByProducts extends Command
             if (dishesList != null) return dishesList;
         }
 
-        return new ArrayList<>();
+        return null;
     }
 
     /**

@@ -1,17 +1,19 @@
-import constants.Commands;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Test
 {
-    public static void main(String[] args) throws TelegramApiException
+    public static void main(String[] args)
     {
-        Object[] enums = Commands.START.getDeclaringClass().getEnumConstants();
-        for (int i = 0; i < enums.length; i++)
+        List<Number> numbers = new ArrayList<>(List.of(1, 2));
+        var iterator = numbers.iterator();
+        Number result = null;
+        if (iterator.hasNext())
         {
-            Commands commands = (Commands)enums[i];
-            System.out.println(commands.toStringValue());
+            result = iterator.next();
+            if (iterator.hasNext()) result = null;
         }
-//        var tba = new TelegramBotsApi(DefaultBotSession.class);
-//        tba.registerBot(new TestHandler());
+
+        System.out.println(result);
     }
 }

@@ -5,8 +5,8 @@ import dao.DishDao;
 import dao.UserDao;
 import dao.impl.SimpleDishDao;
 import dao.impl.SimpleUserDao;
-import model.Message;
 import model.ChiefBot;
+import model.Message;
 import model.User;
 import service.DishService;
 

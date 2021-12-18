@@ -4,6 +4,7 @@ import dao.DishDao;
 import model.Dish;
 import model.Ingredient;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class DishService
     /**
      * Найти блюдо по продуктам.
      */
-    public List<Dish> findDishesByIngredients(List<Ingredient> ingredients)
+    public List<Dish> findDishesByIngredients(Collection<Ingredient> ingredients)
     {
         return dishDao.getAll().stream().filter(dish -> isProductsFit(dish, ingredients)).collect(Collectors.toList());
     }
@@ -48,7 +49,7 @@ public class DishService
     /**
      * Проверка подходит ли список продуктов рецепту блюда.
      */
-    private boolean isProductsFit(Dish dish, List<Ingredient> ingredients)
+    private boolean isProductsFit(Dish dish, Collection<Ingredient> ingredients)
     {
         return ingredients.containsAll(dish.getRecipe().getIngredients());
     }

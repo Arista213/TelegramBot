@@ -1,17 +1,26 @@
 package IO.waiter;
 
-import model.telegram.ICallback;
+import model.ICallback;
 import model.User;
 
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Класс, преналдежит только одному пользователю.
+ * Отвечает за нажатие пользователем кнопки.
+ */
 public class CallbackWaiter
 {
+    /**
+     * Map с ключом - идентификатором(id) кнопки и значением - ICallback,
+     * который будут использован, когда пользователь нажмёт на кнопку.
+     */
     private final Map<String, ICallback> callbacks = new HashMap<>();
     private final User user;
+
     /**
-     * Для каждой кнопки устанавливать свой идентификатор.
+     * Для каждой кнопки устанавливается уникальный идентификатор.
      */
     private Integer id = 0;
 
@@ -20,6 +29,10 @@ public class CallbackWaiter
         this.user = user;
     }
 
+    /**
+     * @param callback, добавляется в
+     * @return id кнопки, к который добавили ICallback.
+     */
     public Integer add(ICallback callback)
     {
         id++;
@@ -27,6 +40,10 @@ public class CallbackWaiter
         return id;
     }
 
+    /**
+     * Выполнит ICallback из Map по id.
+     * @param callData - id кнопки
+     */
     public void execute(String callData)
     {
         callbacks.get(callData).execute(user);

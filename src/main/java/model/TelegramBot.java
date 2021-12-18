@@ -1,13 +1,10 @@
-package model.telegram;
+package model;
 
 import constants.Commands;
 import constants.CommandsOutput;
 import constants.Config;
 import dao.UserDao;
 import dao.impl.SimpleUserDao;
-import model.Message;
-import model.IBot;
-import model.User;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;

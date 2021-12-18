@@ -26,12 +26,12 @@ public abstract class IngredientService
      */
     public static boolean isValidString(String ingredients)
     {
-        return !(ingredients.contains("!") || ingredients.contains("@")
+        return ingredients.contains("!") || ingredients.contains("@")
                 || ingredients.contains("#") || ingredients.contains("$")
                 || ingredients.contains("%") || ingredients.contains("^")
                 || ingredients.contains("&") || ingredients.contains("*")
                 || ingredients.contains("(") || ingredients.contains(")")
                 || ingredients.contains(".") || ingredients.contains("/")
-                || ingredients.contains("\\") || ingredients.contains("|"));
+                || ingredients.contains("\\") || ingredients.contains("|");
     }
 }

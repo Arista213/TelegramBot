@@ -1,7 +1,6 @@
 package commands;
 
 import constants.CommandsOutput;
-import model.Message;
 import model.*;
 import service.IngredientService;
 
@@ -45,7 +44,7 @@ public class AddDishByAdmin extends Command
      */
     private void identifyProducts(User user, Message message, String dishTitle)
     {
-        if (!IngredientService.isValidString(message.getText()))
+        if (IngredientService.isValidString(message.getText()))
         {
             bot.setOutput(user, new Message(CommandsOutput.INGREDIENTS_TO_ADD.toStringValue()));
             user.addMessageWait((u, m) -> identifyProducts(u, m, dishTitle));
