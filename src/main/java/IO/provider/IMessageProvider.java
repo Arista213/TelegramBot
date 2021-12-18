@@ -1,5 +1,6 @@
-package message.model;
+package IO.provider;
 
+import model.Message;
 import model.User;
 
 /**

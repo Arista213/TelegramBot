@@ -1,5 +1,6 @@
-package message.model;
+package model.telegram;
 
+import model.Message;
 import model.User;
 
 /**

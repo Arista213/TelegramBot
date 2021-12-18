@@ -1,11 +1,13 @@
-package model;
+package model.telegram;
 
 import constants.Commands;
 import constants.CommandsOutput;
 import constants.Config;
 import dao.UserDao;
 import dao.impl.SimpleUserDao;
-import message.model.Message;
+import model.Message;
+import model.IBot;
+import model.User;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -73,6 +75,13 @@ public final class TelegramBot extends TelegramLongPollingBot
                 bot.handleMessage(user, message);
             }
         }
+
+        if (update.hasCallbackQuery())
+        {
+            String callData = update.getCallbackQuery().getData();
+            User user = userDao.get(update.getCallbackQuery().getMessage().getChatId());
+            user.getCallbackWaiter().execute(callData);
+        }
     }
 
     /**
@@ -92,11 +101,15 @@ public final class TelegramBot extends TelegramLongPollingBot
     {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboardRow = new ArrayList<>();
-        KeyboardRow row = new KeyboardRow();
-        row.add(Commands.HELP.toStringValue());
-        row.add(Commands.DISH_BY_TITLE.toStringValue());
-        row.add(Commands.DISHES_BY_PRODUCTS.toStringValue());
-        keyboardRow.add(row);
+        KeyboardRow row1 = new KeyboardRow();
+        KeyboardRow row2 = new KeyboardRow();
+        KeyboardRow row3 = new KeyboardRow();
+        row1.add(Commands.HELP.toStringValue());
+        row2.add(Commands.DISH_BY_TITLE.toStringValue());
+        row3.add(Commands.DISHES_BY_PRODUCTS.toStringValue());
+        keyboardRow.add(row1);
+        keyboardRow.add(row2);
+        keyboardRow.add(row3);
         replyKeyboardMarkup.setKeyboard(keyboardRow);
 
         SendMessage sm = new SendMessage();

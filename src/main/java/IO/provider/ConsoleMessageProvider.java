@@ -1,12 +1,11 @@
-package message.impl;
+package IO.provider;
 
 import constants.Config;
 import dao.DishDao;
 import dao.UserDao;
 import dao.impl.SimpleDishDao;
 import dao.impl.SimpleUserDao;
-import message.model.IMessageProvider;
-import message.model.Message;
+import model.Message;
 import model.ChiefBot;
 import model.User;
 import service.DishService;

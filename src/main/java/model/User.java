@@ -1,7 +1,8 @@
 package model;
 
-import message.MessageWaiter;
-import message.model.IAction;
+import IO.waiter.CallbackWaiter;
+import IO.waiter.MessageWaiter;
+import model.telegram.IAction;
 
 import java.util.Objects;
 
@@ -11,13 +12,13 @@ import java.util.Objects;
 public class User
 {
     private final Long id;
-    private final MessageWaiter messageWaiter;
+    private final MessageWaiter messageWaiter = new MessageWaiter(this);
+    private final CallbackWaiter callbackWaiter = new CallbackWaiter(this);
     private Mode mode;
 
     public User(Long id)
     {
         this.id = id;
-        this.messageWaiter = new MessageWaiter();
         this.mode = Mode.User;
     }
 
@@ -63,5 +64,10 @@ public class User
     public MessageWaiter getMessageWaiter()
     {
         return messageWaiter;
+    }
+
+    public CallbackWaiter getCallbackWaiter()
+    {
+        return callbackWaiter;
     }
 }

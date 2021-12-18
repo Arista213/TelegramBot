@@ -1,7 +1,7 @@
 package commands;
 
 import constants.CommandsOutput;
-import message.model.Message;
+import model.Message;
 import model.ChiefBot;
 import model.Mode;
 import model.User;
