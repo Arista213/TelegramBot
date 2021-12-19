@@ -2,13 +2,10 @@ package IO.provider;
 
 import IO.waiter.CallbackWaiter;
 import dao.DishDao;
+import dao.UserDao;
 import dao.impl.SimpleDishDao;
-import model.ChiefBot;
-import model.IBot;
-import model.Message;
-import model.User;
-import model.Button;
-import model.TelegramBot;
+import dao.impl.UserDaoImpl;
+import model.*;
 import org.apache.commons.io.FileUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
@@ -16,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import service.DishService;
+import service.UserService;
 
 import java.io.File;
 import java.net.URL;
@@ -30,15 +28,17 @@ public final class TelegramMessageProvider implements IMessageProvider
     private SendMessage messageSender;
     private SendPhoto photoSender;
     private TelegramBot telegramBot;
+    private final DishDao dishDao = new SimpleDishDao();
+    private final UserDao userDao = new UserDaoImpl();
+    private final UserService userService = new UserService();
+    private final DishService dishService = new DishService(dishDao);
 
     /**
      * Запускает бота.
      */
     public void start()
     {
-        DishDao dishDao = new SimpleDishDao();
-        DishService dishService = new DishService(dishDao);
-        IBot bot = new ChiefBot(this, dishDao, dishService);
+        IBot bot = new ChiefBot(this, dishDao, userDao, dishService, userService);
         messageSender = new SendMessage();
         photoSender = new SendPhoto();
         telegramBot = new TelegramBot(bot);
@@ -78,7 +78,7 @@ public final class TelegramMessageProvider implements IMessageProvider
 
     private InlineKeyboardMarkup getMarkupInLine(User user, List<Button> buttons)
     {
-        CallbackWaiter callbackWaiter = user.getCallbackWaiter();
+        CallbackWaiter callbackWaiter = userService.getCallbackWaiter(user);
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 

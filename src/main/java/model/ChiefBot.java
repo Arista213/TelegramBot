@@ -4,7 +4,9 @@ import IO.provider.IMessageProvider;
 import IO.waiter.MessageWaiter;
 import commands.*;
 import dao.DishDao;
+import dao.UserDao;
 import service.DishService;
+import service.UserService;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -25,13 +27,19 @@ public final class ChiefBot implements IBot
 
     private final DishService dishService;
 
+    private final UserService userService;
+
     private final DishDao dishDao;
 
-    public ChiefBot(IMessageProvider provider, DishDao dishDao, DishService dishService)
+    private final UserDao userDao;
+
+    public ChiefBot(IMessageProvider provider, DishDao dishDao, UserDao userDao, DishService dishService, UserService userService)
     {
         this.provider = provider;
-        this.dishService = dishService;
         this.dishDao = dishDao;
+        this.userDao = userDao;
+        this.dishService = dishService;
+        this.userService = userService;
         fillCommands();
     }
 
@@ -66,7 +74,7 @@ public final class ChiefBot implements IBot
     @Override
     public void handleMessage(User user, Message message)
     {
-        MessageWaiter mw = user.getMessageWaiter();
+        MessageWaiter mw = userService.getMessageWaiter(user);
         if (mw.isWaiting())
         {
             mw.execute(message);
@@ -82,13 +90,27 @@ public final class ChiefBot implements IBot
         }
     }
 
+    @Override
     public DishService getDishService()
     {
         return dishService;
     }
 
+    @Override
     public DishDao getDishDao()
     {
         return dishDao;
+    }
+
+    @Override
+    public UserService getUserService()
+    {
+        return userService;
+    }
+
+    @Override
+    public UserDao getUserDao()
+    {
+        return userDao;
     }
 }

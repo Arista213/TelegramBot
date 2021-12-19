@@ -1,8 +1,8 @@
 package IO.waiter;
 
+import model.IAction;
 import model.Message;
 import model.User;
-import model.IAction;
 
 import java.util.LinkedList;
 import java.util.Objects;
@@ -35,6 +35,7 @@ public class MessageWaiter
 
     /**
      * Выполнит IAction из очереди и передаст аргументом ввод пользователя.
+     *
      * @param message ввод пользователя.
      */
     public void execute(Message message)

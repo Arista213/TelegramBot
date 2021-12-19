@@ -18,6 +18,6 @@ public class SaveDishes extends Command
     @Override
     public void process(User user)
     {
-        JSONService.saveDishes(bot.getDishDao().getAll(), Config.JSON_DISHES_PATH.toStringValue());
+        JSONService.saveDishes(dishDao.getAll(), Config.JSON_DISHES_PATH.toStringValue());
     }
 }

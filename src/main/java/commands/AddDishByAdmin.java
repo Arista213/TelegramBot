@@ -20,12 +20,12 @@ public class AddDishByAdmin extends Command
     @Override
     public void process(User user)
     {
-        boolean isAdmin = user.getMode() == Mode.Admin;
+        boolean isAdmin = userService.getMode(user) == Mode.Admin;
         if (!isAdmin) bot.setOutput(user, new Message(CommandsOutput.NOT_ENOUGH_RIGHTS.toStringValue()));
         else
         {
             bot.setOutput(user, new Message(CommandsOutput.DISH_TITLE_TO_ADD.toStringValue()));
-            user.addMessageWait(this::identifyTitle);
+            userService.addMessageWait(user, this::identifyTitle);
         }
     }
 
@@ -36,7 +36,7 @@ public class AddDishByAdmin extends Command
     {
         String dishTitle = message.getText();
         bot.setOutput(user, new Message(CommandsOutput.INGREDIENTS_TO_ADD.toStringValue()));
-        user.addMessageWait((u, m) -> identifyProducts(u, m, dishTitle));
+        userService.addMessageWait(user, (u, m) -> identifyProducts(u, m, dishTitle));
     }
 
     /**
@@ -47,7 +47,7 @@ public class AddDishByAdmin extends Command
         if (IngredientService.isValidString(message.getText()))
         {
             bot.setOutput(user, new Message(CommandsOutput.INGREDIENTS_TO_ADD.toStringValue()));
-            user.addMessageWait((u, m) -> identifyProducts(u, m, dishTitle));
+            userService.addMessageWait(user, (u, m) -> identifyProducts(u, m, dishTitle));
             return;
         }
 
@@ -62,7 +62,7 @@ public class AddDishByAdmin extends Command
     {
         List<Product> products = ingredients.stream().map(ingredient -> new Product(ingredient, null)).collect(Collectors.toList());
         Dish dish = new Dish(dishTitle, new Recipe(products, null), null, null);
-        bot.getDishDao().save(dish);
+        dishDao.save(dish);
         bot.setOutput(user, new Message(CommandsOutput.DISH_ADDED.toStringValue()));
     }
 }

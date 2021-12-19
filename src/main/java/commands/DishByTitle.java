@@ -21,7 +21,7 @@ public class DishByTitle extends Command
     public void process(User user)
     {
         bot.setOutput(user, new Message(CommandsOutput.DISH_TITLE.toStringValue()));
-        user.addMessageWait(this::dishByTitle);
+        userService.addMessageWait(user, this::dishByTitle);
     }
 
     /**
@@ -33,7 +33,7 @@ public class DishByTitle extends Command
         Dish dishFromApi = findDishFromApi(dishTitle);
         if (dishFromApi != null)
         {
-            Message output = new Message(bot.getDishService().getStringFromDish(dishFromApi))
+            Message output = new Message(dishService.getStringFromDish(dishFromApi))
                     .setImageURL(dishFromApi.getImageUrl())
                     .setButtons(List.of(new Button("Show products", u -> showProducts(u, dishFromApi))));
             bot.setOutput(user, output);

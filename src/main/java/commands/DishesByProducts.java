@@ -22,7 +22,7 @@ public class DishesByProducts extends Command
     public void process(User user)
     {
         bot.setOutput(user, new Message(CommandsOutput.INGREDIENTS.toStringValue()));
-        user.addMessageWait(this::outputDishesByProducts);
+        userService.addMessageWait(user, this::outputDishesByProducts);
     }
 
     /**
@@ -34,7 +34,7 @@ public class DishesByProducts extends Command
         if (IngredientService.isValidString(userText))
         {
             bot.setOutput(user, new Message(CommandsOutput.INGREDIENTS.toStringValue()));
-            user.addMessageWait(this::outputDishesByProducts);
+            userService.addMessageWait(user, this::outputDishesByProducts);
             return;
         }
 
@@ -46,7 +46,7 @@ public class DishesByProducts extends Command
         }
         else
         {
-            List<Dish> dishesFromDao = bot.getDishService().findDishesByIngredients(ingredients);
+            List<Dish> dishesFromDao = dishService.findDishesByIngredients(ingredients);
             if (dishesFromDao.isEmpty())
                 bot.setOutput(user, new Message(CommandsOutput.NOT_ENOUGH_INGREDIENTS.toStringValue()));
             else
@@ -75,7 +75,7 @@ public class DishesByProducts extends Command
     {
         for (Dish dish : dishes)
         {
-            Message output = new Message(bot.getDishService().getStringFromDish(dish));
+            Message output = new Message(dishService.getStringFromDish(dish));
             output.setImageURL(dish.getImageUrl());
             bot.setOutput(user, output);
         }

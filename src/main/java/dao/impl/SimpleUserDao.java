@@ -31,9 +31,9 @@ public class SimpleUserDao extends UserDao
     }
 
     @Override
-    public void update(long id, User user)
+    public void update(User user)
     {
-        users.put(id, user);
+        users.put(user.getId(), user);
     }
 
     @Override

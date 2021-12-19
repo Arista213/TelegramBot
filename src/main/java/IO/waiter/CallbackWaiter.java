@@ -42,6 +42,7 @@ public class CallbackWaiter
 
     /**
      * Выполнит ICallback из Map по id.
+     *
      * @param callData - id кнопки
      */
     public void execute(String callData)

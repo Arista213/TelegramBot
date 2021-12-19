@@ -16,14 +16,14 @@ public class RemoveDishByAdmin extends Command
     @Override
     public void process(User user)
     {
-        if (user.getMode() == Mode.User)
+        if (userService.getMode(user) == Mode.User)
         {
             bot.setOutput(user, new Message(CommandsOutput.NOT_ENOUGH_RIGHTS.toStringValue()));
             return;
         }
 
         bot.setOutput(user, new Message(CommandsOutput.DISH_TITLE_TO_REMOVE.toStringValue()));
-        user.addMessageWait(this::removeDishByName);
+        userService.addMessageWait(user, this::removeDishByName);
     }
 
     /**
@@ -31,10 +31,10 @@ public class RemoveDishByAdmin extends Command
      */
     private void removeDishByName(User user, Message message)
     {
-        Dish dish = bot.getDishService().findDishByTitle(message.getText());
+        Dish dish = dishService.findDishByTitle(message.getText());
         if (dish != null)
         {
-            bot.getDishDao().delete(dish.getTitle());
+            dishDao.delete(dish.getTitle());
             bot.setOutput(user, new Message(CommandsOutput.DISH_REMOVED.toStringValue()));
         }
         else

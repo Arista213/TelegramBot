@@ -9,6 +9,7 @@ import model.ChiefBot;
 import model.Message;
 import model.User;
 import service.DishService;
+import service.UserService;
 
 import java.util.Scanner;
 
@@ -27,9 +28,10 @@ public class ConsoleMessageProvider implements IMessageProvider
         User consoleUser = new User(0L);
         DishDao dishDao = new SimpleDishDao();
         UserDao userDao = new SimpleUserDao();
+        UserService userService = new UserService();
         DishService dishService = new DishService(dishDao);
 
-        ChiefBot bot = new ChiefBot(this, dishDao, dishService);
+        ChiefBot bot = new ChiefBot(this, dishDao, userDao, dishService, userService);
         userDao.save(consoleUser);
         System.out.println("BOT_NAME: " + Config.BOT_NAME.toStringValue());
         System.out.println("TOKEN: " + Config.BOT_TOKEN.toStringValue());

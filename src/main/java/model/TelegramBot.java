@@ -4,7 +4,6 @@ import constants.Commands;
 import constants.CommandsOutput;
 import constants.Config;
 import dao.UserDao;
-import dao.impl.SimpleUserDao;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,6 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+import service.UserService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +24,13 @@ public final class TelegramBot extends TelegramLongPollingBot
 {
     private final IBot bot;
     private final UserDao userDao;
+    private final UserService userService;
 
     public TelegramBot(IBot bot)
     {
         this.bot = bot;
+        this.userService = bot.getUserService();
+        this.userDao = bot.getUserDao();
 
         try
         {
@@ -38,7 +41,6 @@ public final class TelegramBot extends TelegramLongPollingBot
         {
             e.printStackTrace();
         }
-        userDao = new SimpleUserDao();
     }
 
     @Override
@@ -77,7 +79,7 @@ public final class TelegramBot extends TelegramLongPollingBot
         {
             String callData = update.getCallbackQuery().getData();
             User user = userDao.get(update.getCallbackQuery().getMessage().getChatId());
-            user.getCallbackWaiter().execute(callData);
+            userService.getCallbackWaiter(user).execute(callData);
         }
     }
 

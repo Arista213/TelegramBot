@@ -1,8 +1,5 @@
 package model;
 
-import model.Message;
-import model.User;
-
 /**
  * Интерфейс для работы с MessageWaiter.
  */

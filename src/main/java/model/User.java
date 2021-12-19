@@ -1,48 +1,32 @@
 package model;
 
-import IO.waiter.CallbackWaiter;
-import IO.waiter.MessageWaiter;
-
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Objects;
 
 /**
  * Пользователь.
  */
+@Entity
+@Table(name = "users")
 public class User
 {
-    private final Long id;
-    private final MessageWaiter messageWaiter = new MessageWaiter(this);
-    private final CallbackWaiter callbackWaiter = new CallbackWaiter(this);
-    private Mode mode;
+    @Id
+    private long id;
+
+    protected User()
+    {
+    }
 
     public User(Long id)
     {
         this.id = id;
-        this.mode = Mode.User;
     }
-
 
     public Long getId()
     {
         return id;
-    }
-
-    public Mode getMode()
-    {
-        return mode;
-    }
-
-    public void setMode(Mode mode)
-    {
-        this.mode = mode;
-    }
-
-    /**
-     * Добавляет метод в очередь для пользователя.
-     */
-    public void addMessageWait(IAction action)
-    {
-        messageWaiter.add(action);
     }
 
     @Override
@@ -51,22 +35,12 @@ public class User
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id);
+        return id == user.id;
     }
 
     @Override
     public int hashCode()
     {
         return Objects.hash(id);
-    }
-
-    public MessageWaiter getMessageWaiter()
-    {
-        return messageWaiter;
-    }
-
-    public CallbackWaiter getCallbackWaiter()
-    {
-        return callbackWaiter;
     }
 }

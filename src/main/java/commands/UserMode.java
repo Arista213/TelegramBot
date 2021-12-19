@@ -19,9 +19,9 @@ public class UserMode extends Command
     @Override
     public void process(User user)
     {
-        if (user.getMode() == Mode.Admin)
+        if (userService.getMode(user) == Mode.Admin)
         {
-            user.setMode(Mode.User);
+            userService.setMode(user, Mode.User);
             bot.setOutput(user, new Message(CommandsOutput.USER_MODE.toStringValue()));
         }
         else

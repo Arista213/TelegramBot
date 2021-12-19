@@ -22,6 +22,6 @@ public class LoadDishes extends Command
     public void process(User user)
     {
         List<Dish> dishes = JSONService.loadDishes(Config.JSON_DISHES_PATH.toStringValue());
-        dishes.forEach(dish -> bot.getDishDao().save(dish));
+        dishes.forEach(dishDao::save);
     }
 }
