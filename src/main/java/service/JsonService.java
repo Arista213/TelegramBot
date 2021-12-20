@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Сервис для сериализации блюд.
  */
-public class JSONService
+public class JsonService
 {
     private static final Gson gson = new Gson();
     private static FileWriter fileWriter;
@@ -122,6 +122,26 @@ public class JSONService
         if (dishes.size() == 0)
             return null;
         return dishes;
+    }
+
+    /**
+     * @param dish, которое будет конвертировано в jsonString.
+     * @return jsonString.
+     */
+    public static String getStringFromDish(Dish dish)
+    {
+        Type dishType = new TypeToken<Dish>()
+        {
+        }.getType();
+        return gson.toJson(dish, dishType);
+    }
+
+    public static Dish getDishFromJsonString(String jsonString)
+    {
+        Type dishType = new TypeToken<Dish>()
+        {
+        }.getType();
+        return gson.fromJson(jsonString, dishType);
     }
 
     /**

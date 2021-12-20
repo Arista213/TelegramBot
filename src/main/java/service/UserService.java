@@ -18,6 +18,8 @@ public class UserService
     private final Map<User, Mode> userModeMap = new HashMap<>();
     private final Map<User, CallbackWaiter> callbackWaiterMap = new HashMap<>();
     private final Map<User, MessageWaiter> messageWaiterMap = new HashMap<>();
+    private final Map<User, HashSet<String>> intolerancesMap = new HashMap<>();
+    private final Map<User, String> dietMap = new HashMap<>();
 
     public void addUser(User user)
     {
@@ -25,6 +27,8 @@ public class UserService
         userModeMap.put(user, Mode.User);
         callbackWaiterMap.put(user, new CallbackWaiter(user));
         messageWaiterMap.put(user, new MessageWaiter(user));
+        intolerancesMap.put(user, new HashSet<>());
+        dietMap.put(user, "");
     }
 
     public void setMode(User user, Mode mode)
@@ -65,5 +69,49 @@ public class UserService
     {
         if (!users.contains(user)) addUser(user);
         return userModeMap.get(user);
+    }
+
+    public String getDiet(User user)
+    {
+        if (!users.contains(user)) addUser(user);
+        return dietMap.get(user);
+    }
+
+    public void setDiet(User user, String diet)
+    {
+        if (!users.contains(user)) addUser(user);
+        dietMap.put(user, diet);
+    }
+
+    public void addIntolerance(User user, String intolerance)
+    {
+        if (!users.contains(user)) addUser(user);
+        intolerancesMap.get(user).add(intolerance);
+    }
+
+    public void removeIntolerances(User user)
+    {
+        if (!users.contains(user)) addUser(user);
+        intolerancesMap.get(user).clear();
+    }
+
+    public String getIntolerancesString(User user)
+    {
+        if (!users.contains(user)) addUser(user);
+        HashSet<String> intolerances = intolerancesMap.get(user);
+        return String.join(",", intolerances);
+    }
+
+
+    /**
+     * Получаем страницу пользователя
+     * т.е. какую диету пользователь использует
+     * и какую еду пользователь не переносит
+     */
+    public String getUserPage(User user)
+    {
+        if (!users.contains(user)) addUser(user);
+        String diet = dietMap.get(user);
+        return "Diet: " + diet + "\n" + "Intolerances: " + getIntolerancesString(user);
     }
 }

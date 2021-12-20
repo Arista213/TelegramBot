@@ -34,7 +34,7 @@ public class RemoveDishByAdmin extends Command
         Dish dish = dishService.findDishByTitle(message.getText());
         if (dish != null)
         {
-            dishDao.delete(dish.getTitle());
+            dishDao.delete(dish);
             bot.setOutput(user, new Message(CommandsOutput.DISH_REMOVED.toStringValue()));
         }
         else

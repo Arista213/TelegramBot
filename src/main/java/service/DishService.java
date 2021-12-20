@@ -39,7 +39,7 @@ public class DishService
     }
 
     /**
-     * Получить вывод из блюд.
+     * Получить строку из блюда.
      */
     public String getStringFromDish(Dish dish)
     {

@@ -26,6 +26,7 @@ public class UserDaoImpl extends UserDao
     public void save(User user)
     {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+        if (HibernateSessionFactoryUtil.getSessionFactory().openSession().get(User.class, user.getId()) != null) return;
         Transaction tx1 = session.beginTransaction();
         session.save(user);
         tx1.commit();

@@ -4,7 +4,7 @@ import constants.Config;
 import model.ChiefBot;
 import model.Dish;
 import model.User;
-import service.JSONService;
+import service.JsonService;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class LoadDishes extends Command
     @Override
     public void process(User user)
     {
-        List<Dish> dishes = JSONService.loadDishes(Config.JSON_DISHES_PATH.toStringValue());
+        List<Dish> dishes = JsonService.loadDishes(Config.JSON_DISHES_PATH.toStringValue());
         dishes.forEach(dishDao::save);
     }
 }

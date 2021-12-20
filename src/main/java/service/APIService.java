@@ -3,6 +3,7 @@ package service;
 import constants.Config;
 import model.Dish;
 import model.Ingredient;
+import model.User;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -17,25 +18,32 @@ import java.util.Objects;
  */
 public class APIService
 {
+    private final UserService userService;
+
+    public APIService(UserService userService)
+    {
+        this.userService = userService;
+    }
+
     /**
      * Метод ищет блюдо по его названию в API Spoonacular
      *
      * @param title название искаемого блюда
      * @return найденное блюдо
      */
-    public static Dish getDishByTitle(String title)
+    public Dish getDishByTitle(String title, User user)
     {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(String.format
-                        ("https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&number=1&addRecipeInformation=true&fillIngredients=true&query=%s"
-                                , Config.API_KEY.toStringValue(), title))
+                        ("https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&number=1&addRecipeInformation=true&fillIngredients=true&query=%s&diet=%s&intolerances=%s",
+                                Config.API_KEY.toStringValue(), title, userService.getDiet(user), userService.getIntolerancesString(user)))
                 .get()
                 .build();
         try
         {
             String json = Objects.requireNonNull(client.newCall(request).execute().body()).string();
-            List<Dish> dishes = JSONService.GetDishes(json, 1);
+            List<Dish> dishes = JsonService.GetDishes(json, 1);
             if (dishes == null)
             {
                 return null;
@@ -55,7 +63,7 @@ public class APIService
      * @param ingredients ингредиенты блюда, которое ищется
      * @return найденное блюдо
      */
-    public static List<Dish> getDishesByIngredients(Collection<Ingredient> ingredients)
+    public List<Dish> getDishesByIngredients(Collection<Ingredient> ingredients, User user)
     {
         OkHttpClient client = new OkHttpClient();
         List<String> ingredientsTitles = new ArrayList<>();
@@ -66,14 +74,14 @@ public class APIService
         String joinedIngredients = String.join(",", ingredientsTitles);
         Request request = new Request.Builder()
                 .url(String.format(
-                        "https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=%s"
-                        , Config.API_KEY.toStringValue(), joinedIngredients))
+                        "https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=%s&diet=%s&intolerances=%s"
+                        , Config.API_KEY.toStringValue(), joinedIngredients, userService.getDiet(user), userService.getIntolerancesString(user)))
                 .get()
                 .build();
         try
         {
             String json = Objects.requireNonNull(client.newCall(request).execute().body()).string();
-            return JSONService.GetDishes(json, 5);
+            return JsonService.GetDishes(json, 5);
         }
         catch (IOException e)
         {

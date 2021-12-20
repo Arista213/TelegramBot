@@ -8,6 +8,7 @@ import dao.impl.SimpleUserDao;
 import model.ChiefBot;
 import model.Message;
 import model.User;
+import service.APIService;
 import service.DishService;
 import service.UserService;
 
@@ -30,8 +31,9 @@ public class ConsoleMessageProvider implements IMessageProvider
         UserDao userDao = new SimpleUserDao();
         UserService userService = new UserService();
         DishService dishService = new DishService(dishDao);
+        APIService apiService = new APIService(userService);
 
-        ChiefBot bot = new ChiefBot(this, dishDao, userDao, dishService, userService);
+        ChiefBot bot = new ChiefBot(this, dishDao, userDao, dishService, userService, apiService);
         userDao.save(consoleUser);
         System.out.println("BOT_NAME: " + Config.BOT_NAME.toStringValue());
         System.out.println("TOKEN: " + Config.BOT_TOKEN.toStringValue());

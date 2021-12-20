@@ -5,6 +5,7 @@ import IO.waiter.MessageWaiter;
 import commands.*;
 import dao.DishDao;
 import dao.UserDao;
+import service.APIService;
 import service.DishService;
 import service.UserService;
 
@@ -33,13 +34,16 @@ public final class ChiefBot implements IBot
 
     private final UserDao userDao;
 
-    public ChiefBot(IMessageProvider provider, DishDao dishDao, UserDao userDao, DishService dishService, UserService userService)
+    private final APIService apiService;
+
+    public ChiefBot(IMessageProvider provider, DishDao dishDao, UserDao userDao, DishService dishService, UserService userService, APIService apiService)
     {
         this.provider = provider;
         this.dishDao = dishDao;
         this.userDao = userDao;
         this.dishService = dishService;
         this.userService = userService;
+        this.apiService = apiService;
         fillCommands();
     }
 
@@ -58,6 +62,7 @@ public final class ChiefBot implements IBot
         commands.put(REMOVE_DISH.toLowerCaseValue(), new RemoveDishByAdmin(this));
         commands.put(SAVE_DISHES.toLowerCaseValue(), new SaveDishes(this));
         commands.put(LOAD_DISHES.toLowerCaseValue(), new LoadDishes(this));
+        commands.put(USER_PAGE.toLowerCaseValue(), new UserPage(this));
     }
 
     /**
@@ -112,5 +117,10 @@ public final class ChiefBot implements IBot
     public UserDao getUserDao()
     {
         return userDao;
+    }
+
+    public APIService getApiService()
+    {
+        return apiService;
     }
 }

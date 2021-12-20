@@ -13,6 +13,7 @@ public enum Commands
     LOAD_DISHES("Load dishes"),
     USER_MODE("User mode"),
     ADMIN_MODE("Admin mode"),
+    USER_PAGE("User page"),
     ADD_DISH("Add dish"),
     REMOVE_DISH("Remove dish");
 
