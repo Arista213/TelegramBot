@@ -27,6 +27,18 @@ public class CookPhaseStep
         return ingredients;
     }
 
+    public String getIngredientsOutput()
+    {
+        return String.join(", ", getIngredientsTitles());
+    }
+
+    private HashSet<String> getIngredientsTitles()
+    {
+        HashSet<String> ingredientsTitles = new HashSet<>();
+        ingredients.forEach(i -> ingredientsTitles.add(i.getTitle()));
+        return ingredientsTitles;
+    }
+
     @Override
     public boolean equals(Object o)
     {

@@ -1,5 +1,6 @@
 package model;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -64,6 +65,27 @@ public class Dish
         return title;
     }
 
+    /**
+     * Выводит пользователю подробный рецепт, разбитый на фазы и шаги готовки.
+     */
+    public String getRecipeOutput()
+    {
+        StringBuilder output = new StringBuilder();
+        List<CookPhase> cookPhases = recipe.getPhases();
+        for (int i = 0; i < cookPhases.size(); i++)
+        {
+            output.append(String.format("%d phase. %s\n", i + 1,cookPhases.get(i).getSummery()));
+            List<CookPhaseStep> cookSteps = cookPhases.get(i).getSteps();
+            for (int k = 0; k < cookSteps.size(); k++)
+            {
+                CookPhaseStep step = cookSteps.get(k);
+                output.append(String.format("Step %d.\nIngredients on this step: %s\nDescription: %s\n",
+                        k + 1, step.getIngredientsOutput(), step.getDescription()));
+            }
+        }
+
+        return output.toString();
+    }
 
     @Override
     public boolean equals(Object o)

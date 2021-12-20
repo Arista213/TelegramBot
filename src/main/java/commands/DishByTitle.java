@@ -34,7 +34,9 @@ public class DishByTitle extends Command
         {
             Message output = new Message(dishService.getStringFromDish(dishFromApi))
                     .setImageURL(dishFromApi.getImageUrl())
-                    .setButtons(List.of(List.of(new Button("Show products", u -> sendProducts(u, dishFromApi)))));
+                    .setButtons(List.of(List.of(
+                            new Button("Show products", u -> sendProducts(u, dishFromApi)),
+                            new Button("Show recipe", u -> sendRecipe(u, dishFromApi)))));
             bot.setOutput(user, output);
         }
         else
@@ -43,7 +45,9 @@ public class DishByTitle extends Command
             bot.setOutput(user, dishFromDao != null
                     ? new Message(dishService.getStringFromDish(dishFromDao))
                     .setImageURL(dishFromDao.getImageUrl())
-                    .setButtons(List.of(List.of(new Button("Show products", u -> sendProducts(u, dishFromDao)))))
+                    .setButtons(List.of(List.of(
+                            new Button("Show products", u -> sendProducts(u, dishFromDao)),
+                            new Button("Show recipe", u -> sendRecipe(u, dishFromDao)))))
                     : new Message(CommandsOutput.DISH_IS_NOT_FOUND.toStringValue()));
         }
     }
@@ -59,6 +63,14 @@ public class DishByTitle extends Command
             if (dish != null) return dish;
         }
         return null;
+    }
+
+    /**
+     * Отправить пользователю рецепт.
+     */
+    private void sendRecipe(User user, Dish dish)
+    {
+        bot.setOutput(user, new Message(dish.getRecipeOutput()));
     }
 
     /**
