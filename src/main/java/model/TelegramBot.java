@@ -103,12 +103,15 @@ public final class TelegramBot extends TelegramLongPollingBot
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
         KeyboardRow row3 = new KeyboardRow();
+        KeyboardRow row4 = new KeyboardRow();
         row1.add(Commands.HELP.toStringValue());
         row2.add(Commands.DISH_BY_TITLE.toStringValue());
         row3.add(Commands.DISHES_BY_PRODUCTS.toStringValue());
+        row4.add(Commands.USER_PAGE.toStringValue());
         keyboardRow.add(row1);
         keyboardRow.add(row2);
         keyboardRow.add(row3);
+        keyboardRow.add(row4);
         replyKeyboardMarkup.setKeyboard(keyboardRow);
 
         SendMessage sm = new SendMessage();

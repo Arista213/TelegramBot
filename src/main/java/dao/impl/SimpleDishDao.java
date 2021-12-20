@@ -42,9 +42,9 @@ public class SimpleDishDao extends DishDao
     }
 
     @Override
-    public void delete(String title)
+    public void delete(Dish dish)
     {
-        dishes.remove(title.toLowerCase());
+        dishes.remove(dish.getTitle().toLowerCase());
     }
 
     /**

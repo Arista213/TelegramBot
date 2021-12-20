@@ -3,7 +3,7 @@ package commands;
 import constants.Config;
 import model.ChiefBot;
 import model.User;
-import service.JSONService;
+import service.JsonService;
 
 /**
  * Сохранить блюда в json.
@@ -18,6 +18,6 @@ public class SaveDishes extends Command
     @Override
     public void process(User user)
     {
-        JSONService.saveDishes(dishDao.getAll(), Config.JSON_DISHES_PATH.toStringValue());
+        JsonService.saveDishes(dishDao.getAll(), Config.JSON_DISHES_PATH.toStringValue());
     }
 }

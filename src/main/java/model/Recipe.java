@@ -31,9 +31,14 @@ public class Recipe
         return phases;
     }
 
-    public HashSet<Ingredient> getIngredients()
+    public HashSet<Ingredient> getIngredients() { return ingredients; }
+
+    public String getProductsOutput()
     {
-        return ingredients;
+        StringBuilder output = new StringBuilder();
+        products.forEach(product -> output.append(product.getOutputAmount()).append("\n"));
+        output.deleteCharAt(output.length() - 1);
+        return output.toString();
     }
 
     @Override

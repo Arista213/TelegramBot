@@ -3,7 +3,7 @@ package IO.provider;
 import IO.waiter.CallbackWaiter;
 import dao.DishDao;
 import dao.UserDao;
-import dao.impl.SimpleDishDao;
+import dao.impl.DishDaoImpl;
 import dao.impl.UserDaoImpl;
 import model.*;
 import org.apache.commons.io.FileUtils;
@@ -12,6 +12,7 @@ import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
+import service.APIService;
 import service.DishService;
 import service.UserService;
 
@@ -28,17 +29,18 @@ public final class TelegramMessageProvider implements IMessageProvider
     private SendMessage messageSender;
     private SendPhoto photoSender;
     private TelegramBot telegramBot;
-    private final DishDao dishDao = new SimpleDishDao();
+    private final DishDao dishDao = new DishDaoImpl();
     private final UserDao userDao = new UserDaoImpl();
     private final UserService userService = new UserService();
     private final DishService dishService = new DishService(dishDao);
+    private final APIService apiService = new APIService(userService);
 
     /**
      * Запускает бота.
      */
     public void start()
     {
-        IBot bot = new ChiefBot(this, dishDao, userDao, dishService, userService);
+        IBot bot = new ChiefBot(this, dishDao, userDao, dishService, userService, apiService);
         messageSender = new SendMessage();
         photoSender = new SendPhoto();
         telegramBot = new TelegramBot(bot);
@@ -76,26 +78,28 @@ public final class TelegramMessageProvider implements IMessageProvider
         if (!file.delete()) throw new Exception("Картинка не была удалена");
     }
 
-    private InlineKeyboardMarkup getMarkupInLine(User user, List<Button> buttons)
+    private InlineKeyboardMarkup getMarkupInLine(User user, List<List<Button>> buttons)
     {
         CallbackWaiter callbackWaiter = userService.getCallbackWaiter(user);
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for (Button button : buttons)
+        for (List<Button> messageButtonRow : buttons)
         {
-            Integer id = callbackWaiter.add(button.getCallback());
+            List<InlineKeyboardButton> inlineKeyboardButtonsRow = new ArrayList<>();
+            for (Button button : messageButtonRow)
+            {
+                Integer id = callbackWaiter.add(button.getCallback());
+                InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+                inlineKeyboardButton.setText(button.getText());
+                inlineKeyboardButton.setCallbackData(id.toString());
 
-            List<InlineKeyboardButton> row = new ArrayList<>();
-            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText(button.getText());
-            inlineKeyboardButton.setCallbackData(id.toString());
-
-            row.add(inlineKeyboardButton);
-            keyboard.add(row);
-            markupInline.setKeyboard(keyboard);
+                inlineKeyboardButtonsRow.add(inlineKeyboardButton);
+            }
+            keyboard.add(inlineKeyboardButtonsRow);
         }
 
+        markupInline.setKeyboard(keyboard);
         return markupInline;
     }
 }

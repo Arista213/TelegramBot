@@ -3,7 +3,6 @@ package commands;
 import constants.CommandsOutput;
 import constants.Numbers;
 import model.*;
-import service.APIService;
 
 import java.util.List;
 
@@ -30,19 +29,21 @@ public class DishByTitle extends Command
     private void dishByTitle(User user, Message message)
     {
         String dishTitle = message.getText();
-        Dish dishFromApi = findDishFromApi(dishTitle);
+        Dish dishFromApi = findDishFromApi(dishTitle, user);
         if (dishFromApi != null)
         {
             Message output = new Message(dishService.getStringFromDish(dishFromApi))
                     .setImageURL(dishFromApi.getImageUrl())
-                    .setButtons(List.of(new Button("Show products", u -> showProducts(u, dishFromApi))));
+                    .setButtons(List.of(List.of(new Button("Show products", u -> sendProducts(u, dishFromApi)))));
             bot.setOutput(user, output);
         }
         else
         {
             Dish dishFromDao = bot.getDishService().findDishByTitle(dishTitle);
             bot.setOutput(user, dishFromDao != null
-                    ? new Message(dishFromDao.toString())
+                    ? new Message(dishService.getStringFromDish(dishFromDao))
+                    .setImageURL(dishFromDao.getImageUrl())
+                    .setButtons(List.of(List.of(new Button("Show products", u -> sendProducts(u, dishFromDao)))))
                     : new Message(CommandsOutput.DISH_IS_NOT_FOUND.toStringValue()));
         }
     }
@@ -50,20 +51,23 @@ public class DishByTitle extends Command
     /**
      * Попытаться с 5 попыток достать блюдо из апи.
      */
-    private Dish findDishFromApi(String dishTitle)
+    private Dish findDishFromApi(String dishTitle, User user)
     {
         for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++)
         {
-            Dish dish = APIService.getDishByTitle(dishTitle);
+            Dish dish = apiService.getDishByTitle(dishTitle, user);
             if (dish != null) return dish;
         }
         return null;
     }
 
-    private void showProducts(User user, Dish dish)
+    /**
+     * Отправить пользователю продукты.
+     */
+    private void sendProducts(User user, Dish dish)
     {
         Recipe recipe = dish.getRecipe();
-        Message output = new Message(recipe.toString());
+        Message output = new Message(recipe.getProductsOutput());
         bot.setOutput(user, output);
     }
 }

@@ -2,6 +2,7 @@ package commands;
 
 import dao.DishDao;
 import model.ChiefBot;
+import service.APIService;
 import service.DishService;
 import service.UserService;
 
@@ -14,6 +15,7 @@ public abstract class Command implements ICommand
     protected final UserService userService;
     protected final DishService dishService;
     protected final DishDao dishDao;
+    protected final APIService apiService;
 
     public Command(ChiefBot bot)
     {
@@ -21,5 +23,6 @@ public abstract class Command implements ICommand
         userService = bot.getUserService();
         dishService = bot.getDishService();
         dishDao = bot.getDishDao();
+        apiService = bot.getApiService();
     }
 }

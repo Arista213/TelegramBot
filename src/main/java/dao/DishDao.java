@@ -22,12 +22,12 @@ public abstract class DishDao
     public abstract void save(Dish dish);
 
     /**
-     * Обновить блюдо
+     * Обновить блюдо.
      */
     public abstract void update(String title, Dish dish);
 
     /**
-     * Удалить блюдо
+     * Удалить блюдо.
      */
-    public abstract void delete(String title);
+    public abstract void delete(Dish dish);
 }

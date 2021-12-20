@@ -1,7 +1,7 @@
 import model.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
-import service.JSONService;
+import service.JsonService;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * Тесты на сервис для работы с json.
  */
-public class JSONServiceTests
+public class JsonServiceTests
 {
     /**
      * Тест проверяет JSONService на сохрание блюд и их загрузку.
@@ -34,8 +34,8 @@ public class JSONServiceTests
                 new Product(new Ingredient("молоко"), "2 стакана молока")),
                 null), null, null);
         List<Dish> expectedDishes = Arrays.asList(pancakes, friedEggs);
-        JSONService.saveDishes(expectedDishes, path);
-        List<Dish> actualDishes = JSONService.loadDishes(path);
+        JsonService.saveDishes(expectedDishes, path);
+        List<Dish> actualDishes = JsonService.loadDishes(path);
 
         assertEquals(expectedDishes, actualDishes);
     }
@@ -70,7 +70,7 @@ public class JSONServiceTests
         List<Dish> expectedDishes = List.of(soup);
         File file = new File(path);
         String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-        List<Dish> actualDishes = JSONService.GetDishes(json, 1);
+        List<Dish> actualDishes = JsonService.GetDishes(json, 1);
         assertEquals(expectedDishes, actualDishes);
     }
 

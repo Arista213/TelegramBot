@@ -8,13 +8,18 @@ import java.util.Objects;
 public class Dish
 {
     private final String title;
-    private final Recipe recipe;
-    private final String imageUrl;
-    private final String summary;
+    private Recipe recipe;
+    private String imageUrl;
+    private String summary;
 
-    public Dish(String name, Recipe recipe, String imageUrl, String summery)
+    public Dish(String title)
     {
-        this.title = name;
+        this.title = title;
+    }
+
+    public Dish(String title, Recipe recipe, String imageUrl, String summery)
+    {
+        this.title = title;
         this.recipe = recipe;
         this.imageUrl = imageUrl;
         this.summary = summery;
@@ -25,9 +30,22 @@ public class Dish
         return recipe;
     }
 
+    public Dish setRecipe(Recipe recipe)
+    {
+        this.recipe = recipe;
+        return this;
+    }
+
     public String getImageUrl()
     {
         return imageUrl;
+    }
+
+
+    public Dish setImageUrl(String imageUrl)
+    {
+        this.imageUrl = imageUrl;
+        return this;
     }
 
     public String getSummary()
@@ -35,10 +53,17 @@ public class Dish
         return summary;
     }
 
+    public Dish setSummary(String summary)
+    {
+        this.summary = summary;
+        return this;
+    }
+
     public String getTitle()
     {
         return title;
     }
+
 
     @Override
     public boolean equals(Object o)

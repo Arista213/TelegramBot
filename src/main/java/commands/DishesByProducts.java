@@ -3,7 +3,6 @@ package commands;
 import constants.CommandsOutput;
 import constants.Numbers;
 import model.*;
-import service.APIService;
 import service.IngredientService;
 
 import java.util.List;
@@ -39,7 +38,7 @@ public class DishesByProducts extends Command
         }
 
         List<Ingredient> ingredients = IngredientService.getIngredients(userText);
-        List<Dish> dishesFromAPI = findDishesFromAPI(ingredients);
+        List<Dish> dishesFromAPI = findDishesFromAPI(ingredients, user);
         if (dishesFromAPI != null)
         {
             sendDishes(user, dishesFromAPI);
@@ -57,11 +56,11 @@ public class DishesByProducts extends Command
     /**
      * Попытаться с 5 попыток достать блюдо из апи.
      */
-    private List<Dish> findDishesFromAPI(List<Ingredient> ingredientList)
+    private List<Dish> findDishesFromAPI(List<Ingredient> ingredientList, User user)
     {
         for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++)
         {
-            List<Dish> dishesList = APIService.getDishesByIngredients(ingredientList);
+            List<Dish> dishesList = apiService.getDishesByIngredients(ingredientList, user);
             if (dishesList != null) return dishesList;
         }
 
@@ -75,9 +74,20 @@ public class DishesByProducts extends Command
     {
         for (Dish dish : dishes)
         {
-            Message output = new Message(dishService.getStringFromDish(dish));
-            output.setImageURL(dish.getImageUrl());
+            Message output = new Message(dishService.getStringFromDish(dish))
+                    .setImageURL(dish.getImageUrl()).
+                    setButtons(List.of(List.of(new Button("Show products", u -> sendProducts(u, dish)))));
             bot.setOutput(user, output);
         }
+    }
+
+    /**
+     * Отправить пользователю продукты.
+     */
+    private void sendProducts(User user, Dish dish)
+    {
+        Recipe recipe = dish.getRecipe();
+        Message output = new Message(recipe.getProductsOutput());
+        bot.setOutput(user, output);
     }
 }
