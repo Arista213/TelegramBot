@@ -31,6 +31,8 @@ public enum CommandsOutput
 
     ALREADY_USER("You're already in user mode"),
 
+    SHOW_USER_PAGE("Here is your page with your diet and intolerances"),
+
     DISH_IS_NOT_FOUND("Unfortunately, the dish hasn't be found :("),
 
     HELP("That's what i can do\n" + Commands.DISH_BY_TITLE.toStringValue() + " - find the dish by title\n" +
@@ -40,9 +42,22 @@ public enum CommandsOutput
             Commands.USER_MODE.toStringValue() + " - switch to user mode\n" +
             Commands.ADMIN_MODE.toStringValue() + " - switch to admin mode\n" +
             Commands.ADD_DISH.toStringValue() + " - add dish\n" +
-            Commands.REMOVE_DISH.toStringValue() + " - remove dish\n"),
+            Commands.REMOVE_DISH.toStringValue() + " - remove dish\n" +
+            Commands.USER_PAGE.toStringValue() + " - Show user page"),
 
     START("The chef is here!\nText me help and a will tell you what i can do\n"),
+
+    CHOOSE_DIET("Choose your diet (just one)"),
+
+    CHOOSE_INTOLERANCES("Choose your intolerances"),
+
+    ADD_INTOLERANCES(" added to your intolerances"),
+
+    REMOVE_INTOLERANCES("All your intolerances have been removed"),
+
+    CHANGE_DIET("You've changed your diet. I'm glad you take care of your health"),
+
+    REMOVE_DIET("You've removed your diet. We all need a short break sometimes"),
 
     UNKNOWN_COMMAND("This is unknown command");
 

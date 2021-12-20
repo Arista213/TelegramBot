@@ -11,7 +11,7 @@ public class Message
 {
     private final String text;
     private URL image;
-    private List<Button> buttons;
+    private List<List<Button>> buttons;
 
     public Message(String text)
     {
@@ -42,12 +42,12 @@ public class Message
         return this;
     }
 
-    public List<Button> getButtons()
+    public List<List<Button>> getButtons()
     {
         return buttons;
     }
 
-    public Message setButtons(List<Button> buttons)
+    public Message setButtons(List<List<Button>> buttons)
     {
         this.buttons = buttons;
         return this;

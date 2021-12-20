@@ -3,6 +3,7 @@ package service;
 import constants.Config;
 import model.Dish;
 import model.Ingredient;
+import model.User;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 
@@ -23,13 +24,13 @@ public class APIService
      * @param title название искаемого блюда
      * @return найденное блюдо
      */
-    public static Dish getDishByTitle(String title)
+    public static Dish getDishByTitle(String title, User user)
     {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(String.format
-                        ("https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&number=1&addRecipeInformation=true&fillIngredients=true&query=%s"
-                                , Config.API_KEY.toStringValue(), title))
+                        ("https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&number=1&addRecipeInformation=true&fillIngredients=true&query=%s&diet=%s&intolerances=%s",
+                                Config.API_KEY.toStringValue(), title, user.getDiet(), user.getIntolerancesString()))
                 .get()
                 .build();
         try
@@ -55,7 +56,7 @@ public class APIService
      * @param ingredients ингредиенты блюда, которое ищется
      * @return найденное блюдо
      */
-    public static List<Dish> getDishesByIngredients(Collection<Ingredient> ingredients)
+    public static List<Dish> getDishesByIngredients(Collection<Ingredient> ingredients, User user)
     {
         OkHttpClient client = new OkHttpClient();
         List<String> ingredientsTitles = new ArrayList<>();
@@ -66,8 +67,8 @@ public class APIService
         String joinedIngredients = String.join(",", ingredientsTitles);
         Request request = new Request.Builder()
                 .url(String.format(
-                        "https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=%s"
-                        , Config.API_KEY.toStringValue(), joinedIngredients))
+                        "https://api.spoonacular.com/recipes/complexSearch?apiKey=%s&sort=min-missing-ingredients&fillIngredients=true&addRecipeInformation=true&includeIngredients=%s&diet=%s&intolerances=%s"
+                        , Config.API_KEY.toStringValue(), joinedIngredients, user.getDiet(), user.getIntolerancesString()))
                 .get()
                 .build();
         try

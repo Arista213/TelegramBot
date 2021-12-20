@@ -50,6 +50,7 @@ public final class ChiefBot implements IBot
         commands.put(REMOVE_DISH.toLowerCaseValue(), new RemoveDishByAdmin(this));
         commands.put(SAVE_DISHES.toLowerCaseValue(), new SaveDishes(this));
         commands.put(LOAD_DISHES.toLowerCaseValue(), new LoadDishes(this));
+        commands.put(USER_PAGE.toLowerCaseValue(), new UserPage(this));
     }
 
     /**

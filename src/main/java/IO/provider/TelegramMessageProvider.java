@@ -76,26 +76,28 @@ public final class TelegramMessageProvider implements IMessageProvider
         if (!file.delete()) throw new Exception("Картинка не была удалена");
     }
 
-    private InlineKeyboardMarkup getMarkupInLine(User user, List<Button> buttons)
+    private InlineKeyboardMarkup getMarkupInLine(User user, List<List<Button>> buttons)
     {
         CallbackWaiter callbackWaiter = user.getCallbackWaiter();
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for (Button button : buttons)
+        for (List<Button> messageButtonRow : buttons)
         {
-            Integer id = callbackWaiter.add(button.getCallback());
+            List<InlineKeyboardButton> inlineKeyboardButtonsRow = new ArrayList<>();
+            for (Button button : messageButtonRow)
+            {
+                Integer id = callbackWaiter.add(button.getCallback());
+                InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
+                inlineKeyboardButton.setText(button.getText());
+                inlineKeyboardButton.setCallbackData(id.toString());
 
-            List<InlineKeyboardButton> row = new ArrayList<>();
-            InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
-            inlineKeyboardButton.setText(button.getText());
-            inlineKeyboardButton.setCallbackData(id.toString());
-
-            row.add(inlineKeyboardButton);
-            keyboard.add(row);
-            markupInline.setKeyboard(keyboard);
+                inlineKeyboardButtonsRow.add(inlineKeyboardButton);
+            }
+            keyboard.add(inlineKeyboardButtonsRow);
         }
 
+        markupInline.setKeyboard(keyboard);
         return markupInline;
     }
 }

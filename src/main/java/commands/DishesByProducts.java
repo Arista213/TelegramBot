@@ -39,7 +39,7 @@ public class DishesByProducts extends Command
         }
 
         List<Ingredient> ingredients = IngredientService.getIngredients(userText);
-        List<Dish> dishesFromAPI = findDishesFromAPI(ingredients);
+        List<Dish> dishesFromAPI = findDishesFromAPI(ingredients, user);
         if (dishesFromAPI != null)
         {
             sendDishes(user, dishesFromAPI);
@@ -57,11 +57,11 @@ public class DishesByProducts extends Command
     /**
      * Попытаться с 5 попыток достать блюдо из апи.
      */
-    private List<Dish> findDishesFromAPI(List<Ingredient> ingredientList)
+    private List<Dish> findDishesFromAPI(List<Ingredient> ingredientList, User user)
     {
         for (int i = 0; i < Numbers.API_ATTEMPTS_TO_GET_REQUEST.toIntValue(); i++)
         {
-            List<Dish> dishesList = APIService.getDishesByIngredients(ingredientList);
+            List<Dish> dishesList = APIService.getDishesByIngredients(ingredientList, user);
             if (dishesList != null) return dishesList;
         }
 
