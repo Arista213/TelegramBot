@@ -1,8 +1,8 @@
-package service;
+package services;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
-import model.*;
+import models.*;
 import org.jsoup.Jsoup;
 
 import java.io.FileNotFoundException;

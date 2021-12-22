@@ -2,8 +2,8 @@ package commands;
 
 import constants.CommandsOutput;
 import constants.Numbers;
-import model.*;
-import service.IngredientService;
+import models.*;
+import services.IngredientService;
 
 import java.util.List;
 

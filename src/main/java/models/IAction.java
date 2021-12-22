@@ -1,4 +1,4 @@
-package model;
+package models;
 
 /**
  * Интерфейс для работы с MessageWaiter.

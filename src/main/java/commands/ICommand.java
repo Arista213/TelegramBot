@@ -1,6 +1,6 @@
 package commands;
 
-import model.User;
+import models.User;
 
 /**
  * Для реализации комманд для взаимодействия с ботом.

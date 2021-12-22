@@ -1,7 +1,7 @@
 package commands;
 
 import constants.CommandsOutput;
-import model.*;
+import models.*;
 
 /**
  * Удалить блюдо, если в режиме администратора.

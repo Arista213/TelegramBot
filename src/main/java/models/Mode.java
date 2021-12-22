@@ -1,4 +1,4 @@
-package model;
+package models;
 
 /**
  * Режимы работы для пользователя.

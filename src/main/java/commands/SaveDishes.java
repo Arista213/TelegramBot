@@ -1,9 +1,9 @@
 package commands;
 
 import constants.Config;
-import model.ChiefBot;
-import model.User;
-import service.JsonService;
+import models.ChiefBot;
+import models.User;
+import services.JsonService;
 
 /**
  * Сохранить блюда в json.

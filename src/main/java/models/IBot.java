@@ -1,9 +1,9 @@
-package model;
+package models;
 
 import dao.DishDao;
 import dao.UserDao;
-import service.DishService;
-import service.UserService;
+import services.DishService;
+import services.UserService;
 
 /**
  * Функционал бота.

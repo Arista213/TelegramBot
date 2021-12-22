@@ -1,6 +1,6 @@
-package model;
+package models;
 
-import service.JsonService;
+import services.JsonService;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

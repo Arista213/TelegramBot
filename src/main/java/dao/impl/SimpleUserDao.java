@@ -1,7 +1,7 @@
 package dao.impl;
 
 import dao.UserDao;
-import model.User;
+import models.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;

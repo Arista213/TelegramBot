@@ -1,10 +1,10 @@
 package dao.impl;
 
 import dao.DishDao;
-import model.Dish;
-import model.Ingredient;
-import model.Product;
-import model.Recipe;
+import models.Dish;
+import models.Ingredient;
+import models.Product;
+import models.Recipe;
 
 import java.util.*;
 

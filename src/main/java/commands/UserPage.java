@@ -3,10 +3,10 @@ package commands;
 import constants.CommandsOutput;
 import constants.Diets;
 import constants.Intolerances;
-import model.Button;
-import model.ChiefBot;
-import model.Message;
-import model.User;
+import models.Button;
+import models.ChiefBot;
+import models.Message;
+import models.User;
 
 import java.util.List;
 

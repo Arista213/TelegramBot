@@ -1,6 +1,6 @@
-import model.Ingredient;
+import models.Ingredient;
 import org.junit.jupiter.api.Test;
-import service.IngredientService;
+import services.IngredientService;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,10 +1,10 @@
 package commands;
 
 import constants.Config;
-import model.ChiefBot;
-import model.Dish;
-import model.User;
-import service.JsonService;
+import models.ChiefBot;
+import models.Dish;
+import models.User;
+import services.JsonService;
 
 import java.util.List;
 

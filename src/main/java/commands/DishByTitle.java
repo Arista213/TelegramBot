@@ -2,7 +2,7 @@ package commands;
 
 import constants.CommandsOutput;
 import constants.Numbers;
-import model.*;
+import models.*;
 
 import java.util.List;
 
@@ -66,8 +66,6 @@ public class DishByTitle extends Command
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Отправить пользователю рецепт.
      */
     private void sendRecipe(User user, Dish dish)
@@ -76,7 +74,6 @@ public class DishByTitle extends Command
     }
 
     /**
->>>>>>> c9b3d44b817163d4d6d15a302f40872b87a797c4
      * Отправить пользователю продукты.
      */
     private void sendProducts(User user, Dish dish)

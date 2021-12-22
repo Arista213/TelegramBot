@@ -1,11 +1,14 @@
 package utils;
 
-import model.JSONDish;
-import model.User;
+import models.JSONDish;
+import models.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * Утилита, для работы с Hibernate.
+ */
 public class HibernateSessionFactoryUtil
 {
     private static SessionFactory sessionFactory;

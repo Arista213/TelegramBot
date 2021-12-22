@@ -1,13 +1,16 @@
 package dao.impl;
 
 import dao.UserDao;
-import model.User;
+import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utils.HibernateSessionFactoryUtil;
 
 import java.util.List;
 
+/**
+ * Реализация UserDao через Hibernate.
+ */
 public class UserDaoImpl extends UserDao
 {
     @Override

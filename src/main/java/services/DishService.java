@@ -1,8 +1,8 @@
-package service;
+package services;
 
 import dao.DishDao;
-import model.Dish;
-import model.Ingredient;
+import models.Dish;
+import models.Ingredient;
 
 import java.util.Collection;
 import java.util.List;

@@ -1,7 +1,7 @@
 package IO.waiter;
 
-import model.ICallback;
-import model.User;
+import models.ICallback;
+import models.User;
 
 import java.util.HashMap;
 import java.util.Map;

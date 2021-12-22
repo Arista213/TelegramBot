@@ -1,8 +1,8 @@
 package dao.impl;
 
 import dao.DishDao;
-import model.Dish;
-import model.JSONDish;
+import models.Dish;
+import models.JSONDish;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import utils.HibernateSessionFactoryUtil;
@@ -10,6 +10,9 @@ import utils.HibernateSessionFactoryUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Реализация DishDao через Hibernate.
+ */
 public class DishDaoImpl extends DishDao
 {
     @Override

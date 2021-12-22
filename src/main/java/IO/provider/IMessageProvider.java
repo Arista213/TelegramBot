@@ -1,7 +1,7 @@
 package IO.provider;
 
-import model.Message;
-import model.User;
+import models.Message;
+import models.User;
 
 /**
  * Абстракция, ответственная за принятие сообщений пользователя и отправления ему ответов.

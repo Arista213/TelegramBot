@@ -1,8 +1,8 @@
 package IO.waiter;
 
-import model.IAction;
-import model.Message;
-import model.User;
+import models.IAction;
+import models.Message;
+import models.User;
 
 import java.util.LinkedList;
 import java.util.Objects;

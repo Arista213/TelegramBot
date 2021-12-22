@@ -1,7 +1,7 @@
-import model.*;
+import models.*;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
-import service.JsonService;
+import services.JsonService;
 
 import java.io.File;
 import java.io.IOException;

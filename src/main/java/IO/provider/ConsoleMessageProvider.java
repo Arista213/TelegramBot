@@ -5,12 +5,12 @@ import dao.DishDao;
 import dao.UserDao;
 import dao.impl.SimpleDishDao;
 import dao.impl.SimpleUserDao;
-import model.ChiefBot;
-import model.Message;
-import model.User;
-import service.APIService;
-import service.DishService;
-import service.UserService;
+import models.ChiefBot;
+import models.Message;
+import models.User;
+import services.APIService;
+import services.DishService;
+import services.UserService;
 
 import java.util.Scanner;
 

@@ -1,8 +1,8 @@
 package commands;
 
 import constants.CommandsOutput;
-import model.*;
-import service.IngredientService;
+import models.*;
+import services.IngredientService;
 
 import java.util.List;
 import java.util.stream.Collectors;

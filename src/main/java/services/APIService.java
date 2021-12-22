@@ -1,9 +1,9 @@
-package service;
+package services;
 
 import constants.Config;
-import model.Dish;
-import model.Ingredient;
-import model.User;
+import models.Dish;
+import models.Ingredient;
+import models.User;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 

@@ -1,17 +1,20 @@
-package service;
+package services;
 
 import IO.waiter.CallbackWaiter;
 import IO.waiter.MessageWaiter;
-import model.IAction;
-import model.ICallback;
-import model.Mode;
-import model.User;
+import models.IAction;
+import models.ICallback;
+import models.Mode;
+import models.User;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Сервис для рабоыт с User.
+ */
 public class UserService
 {
     private final Set<User> users = new HashSet<>();
@@ -37,19 +40,10 @@ public class UserService
         userModeMap.put(user, mode);
     }
 
-    /**
-     * Добавляет метод в очередь для пользователя.
-     */
     public void addMessageWait(User user, IAction action)
     {
         if (!users.contains(user)) addUser(user);
         messageWaiterMap.get(user).add(action);
-    }
-
-    public void addCallbackWait(User user, ICallback callback)
-    {
-        if (!users.contains(user)) addUser(user);
-        callbackWaiterMap.get(user).add(callback);
     }
 
     public MessageWaiter getMessageWaiter(User user)
@@ -60,9 +54,18 @@ public class UserService
 
     public CallbackWaiter getCallbackWaiter(User user)
     {
-        boolean a = users.contains(user);
         if (!users.contains(user)) addUser(user);
         return callbackWaiterMap.get(user);
+    }
+
+    /**
+     * Добавить ICallback кнопке, отправленной пользователю.
+     * Возвращает id кнопки, к которой добавили ICallback.
+     */
+    public Integer addCallbackWait(User user, ICallback callback)
+    {
+        if (!users.contains(user)) addUser(user);
+        return callbackWaiterMap.get(user).add(callback);
     }
 
     public Mode getMode(User user)
@@ -89,12 +92,18 @@ public class UserService
         intolerancesMap.get(user).add(intolerance);
     }
 
+    /**
+     * Удалить у пользователя все непереносимости.
+     */
     public void removeIntolerances(User user)
     {
         if (!users.contains(user)) addUser(user);
         intolerancesMap.get(user).clear();
     }
 
+    /**
+     * Получить строку непереносимостей пользователя.
+     */
     public String getIntolerancesString(User user)
     {
         if (!users.contains(user)) addUser(user);

@@ -1,10 +1,10 @@
 import dao.impl.SimpleDishDao;
-import model.Dish;
-import model.Ingredient;
-import model.Product;
-import model.Recipe;
+import models.Dish;
+import models.Ingredient;
+import models.Product;
+import models.Recipe;
 import org.junit.jupiter.api.Test;
-import service.DishService;
+import services.DishService;
 
 import java.util.*;
 

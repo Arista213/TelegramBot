@@ -1,13 +1,13 @@
-package model;
+package models;
 
 import IO.provider.IMessageProvider;
 import IO.waiter.MessageWaiter;
 import commands.*;
 import dao.DishDao;
 import dao.UserDao;
-import service.APIService;
-import service.DishService;
-import service.UserService;
+import services.APIService;
+import services.DishService;
+import services.UserService;
 
 import java.util.HashMap;
 import java.util.Locale;

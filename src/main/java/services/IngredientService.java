@@ -1,6 +1,6 @@
-package service;
+package services;
 
-import model.Ingredient;
+import models.Ingredient;
 
 import java.util.Arrays;
 import java.util.List;

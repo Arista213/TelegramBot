@@ -5,16 +5,16 @@ import dao.DishDao;
 import dao.UserDao;
 import dao.impl.DishDaoImpl;
 import dao.impl.UserDaoImpl;
-import model.*;
+import models.*;
 import org.apache.commons.io.FileUtils;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-import service.APIService;
-import service.DishService;
-import service.UserService;
+import services.APIService;
+import services.DishService;
+import services.UserService;
 
 import java.io.File;
 import java.net.URL;
@@ -80,7 +80,6 @@ public final class TelegramMessageProvider implements IMessageProvider
 
     private InlineKeyboardMarkup getMarkupInLine(User user, List<List<Button>> buttons)
     {
-        CallbackWaiter callbackWaiter = userService.getCallbackWaiter(user);
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
@@ -89,7 +88,7 @@ public final class TelegramMessageProvider implements IMessageProvider
             List<InlineKeyboardButton> inlineKeyboardButtonsRow = new ArrayList<>();
             for (Button button : messageButtonRow)
             {
-                Integer id = callbackWaiter.add(button.getCallback());
+                Integer id = userService.addCallbackWait(user, button.getCallback());
                 InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
                 inlineKeyboardButton.setText(button.getText());
                 inlineKeyboardButton.setCallbackData(id.toString());

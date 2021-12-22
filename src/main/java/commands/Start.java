@@ -1,9 +1,9 @@
 package commands;
 
 import constants.CommandsOutput;
-import model.ChiefBot;
-import model.Message;
-import model.User;
+import models.ChiefBot;
+import models.Message;
+import models.User;
 
 /**
  * Комманда для начала работы с пользователем.

@@ -1,10 +1,10 @@
 package commands;
 
 import dao.DishDao;
-import model.ChiefBot;
-import service.APIService;
-import service.DishService;
-import service.UserService;
+import models.ChiefBot;
+import services.APIService;
+import services.DishService;
+import services.UserService;
 
 /**
  * Абстракция команды.
