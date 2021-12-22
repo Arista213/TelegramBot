@@ -22,7 +22,7 @@ public class DishServiceTests
             new Product(new Ingredient("молоко"), "2 стакана молока")),
             null), null, null);
 
-    private final Dish friedEggs = new Dish("Яичница", new Recipe(List.of(
+    private final Dish friedEggs = new Dish("Яичница", new Recipe(Arrays.asList(
             new Product(new Ingredient("яйца"), "2 яица")), null),
             null, null);
 

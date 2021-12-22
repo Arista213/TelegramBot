@@ -18,8 +18,7 @@ import static constants.Commands.*;
 /**
  * Шеф Бот.
  */
-public final class ChiefBot implements IBot
-{
+public final class ChiefBot implements IBot {
     private final IMessageProvider provider;
 
     private final Map<String, ICommand> commands = new HashMap<>();
@@ -36,8 +35,7 @@ public final class ChiefBot implements IBot
 
     private final APIService apiService;
 
-    public ChiefBot(IMessageProvider provider, DishDao dishDao, UserDao userDao, DishService dishService, UserService userService, APIService apiService)
-    {
+    public ChiefBot(IMessageProvider provider, DishDao dishDao, UserDao userDao, DishService dishService, UserService userService, APIService apiService) {
         this.provider = provider;
         this.dishDao = dishDao;
         this.userDao = userDao;
@@ -50,8 +48,7 @@ public final class ChiefBot implements IBot
     /**
      * Заполняет словарь комманд.
      */
-    private void fillCommands()
-    {
+    private void fillCommands() {
         commands.put(START.toLowerCaseValue(), new Start(this));
         commands.put(HELP.toLowerCaseValue(), new Help(this));
         commands.put(DISH_BY_TITLE.toLowerCaseValue(), new DishByTitle(this));
@@ -68,8 +65,7 @@ public final class ChiefBot implements IBot
     /**
      * Отправить сообщению классу реализующего абстракцию MessageProvider чтобы отправить данные пользователю.
      */
-    public void setOutput(User user, Message output)
-    {
+    public void setOutput(User user, Message output) {
         provider.sendMessage(user, output);
     }
 
@@ -77,15 +73,11 @@ public final class ChiefBot implements IBot
      * Запуск комманды.
      */
     @Override
-    public void handleMessage(User user, Message message)
-    {
+    public void handleMessage(User user, Message message) {
         MessageWaiter mw = userService.getMessageWaiter(user);
-        if (mw.isWaiting())
-        {
+        if (mw.isWaiting()) {
             mw.execute(message);
-        }
-        else
-        {
+        } else {
             String input = message.getText().toLowerCase();
             ICommand command = commands.containsKey(input)
                     ? commands.get(input.toLowerCase(Locale.ROOT))
@@ -96,31 +88,26 @@ public final class ChiefBot implements IBot
     }
 
     @Override
-    public DishService getDishService()
-    {
+    public DishService getDishService() {
         return dishService;
     }
 
     @Override
-    public DishDao getDishDao()
-    {
+    public DishDao getDishDao() {
         return dishDao;
     }
 
     @Override
-    public UserService getUserService()
-    {
+    public UserService getUserService() {
         return userService;
     }
 
     @Override
-    public UserDao getUserDao()
-    {
+    public UserDao getUserDao() {
         return userDao;
     }
 
-    public APIService getApiService()
-    {
+    public APIService getApiService() {
         return apiService;
     }
 }

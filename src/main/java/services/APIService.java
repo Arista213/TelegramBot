@@ -16,12 +16,10 @@ import java.util.Objects;
 /**
  * Сервис для взаимодействия с API
  */
-public class APIService
-{
+public class APIService {
     private final UserService userService;
 
-    public APIService(UserService userService)
-    {
+    public APIService(UserService userService) {
         this.userService = userService;
     }
 
@@ -31,8 +29,7 @@ public class APIService
      * @param title название искаемого блюда
      * @return найденное блюдо
      */
-    public Dish getDishByTitle(String title, User user)
-    {
+    public Dish getDishByTitle(String title, User user) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(String.format
@@ -40,18 +37,14 @@ public class APIService
                                 Config.API_KEY.toStringValue(), title, userService.getDiet(user), userService.getIntolerancesString(user)))
                 .get()
                 .build();
-        try
-        {
+        try {
             String json = Objects.requireNonNull(client.newCall(request).execute().body()).string();
             List<Dish> dishes = JsonService.GetDishes(json, 1);
-            if (dishes == null)
-            {
+            if (dishes == null) {
                 return null;
             }
             return dishes.get(0);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         return null;
@@ -63,12 +56,10 @@ public class APIService
      * @param ingredients ингредиенты блюда, которое ищется
      * @return найденное блюдо
      */
-    public List<Dish> getDishesByIngredients(Collection<Ingredient> ingredients, User user)
-    {
+    public List<Dish> getDishesByIngredients(Collection<Ingredient> ingredients, User user) {
         OkHttpClient client = new OkHttpClient();
         List<String> ingredientsTitles = new ArrayList<>();
-        for (Ingredient ingredient : ingredients)
-        {
+        for (Ingredient ingredient : ingredients) {
             ingredientsTitles.add(ingredient.getTitle());
         }
         String joinedIngredients = String.join(",", ingredientsTitles);
@@ -78,13 +69,10 @@ public class APIService
                         , Config.API_KEY.toStringValue(), joinedIngredients, userService.getDiet(user), userService.getIntolerancesString(user)))
                 .get()
                 .build();
-        try
-        {
+        try {
             String json = Objects.requireNonNull(client.newCall(request).execute().body()).string();
             return JsonService.GetDishes(json, 5);
-        }
-        catch (IOException e)
-        {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         return null;

@@ -1,6 +1,5 @@
 package IO.provider;
 
-import IO.waiter.CallbackWaiter;
 import dao.DishDao;
 import dao.UserDao;
 import dao.impl.DishDaoImpl;
@@ -24,8 +23,7 @@ import java.util.List;
 /**
  * Реализация IMessageProvider предназначенный для работы с телеграм ботом.
  */
-public final class TelegramMessageProvider implements IMessageProvider
-{
+public final class TelegramMessageProvider implements IMessageProvider {
     private SendMessage messageSender;
     private SendPhoto photoSender;
     private TelegramBot telegramBot;
@@ -38,8 +36,7 @@ public final class TelegramMessageProvider implements IMessageProvider
     /**
      * Запускает бота.
      */
-    public void start()
-    {
+    public void start() {
         IBot bot = new ChiefBot(this, dishDao, userDao, dishService, userService, apiService);
         messageSender = new SendMessage();
         photoSender = new SendPhoto();
@@ -47,11 +44,9 @@ public final class TelegramMessageProvider implements IMessageProvider
     }
 
     @Override
-    public void sendMessage(User user, Message message)
-    {
-        try
-        {
-            if (message.getImageURL() != null) sendPhoto(user, message);
+    public void sendMessage(User user, Message message) {
+        try {
+//            if (message.getImageURL() != null) sendPhoto(user, message);
             if (message.getButtons() != null)
                 messageSender.setReplyMarkup(getMarkupInLine(user, message.getButtons()));
 
@@ -59,15 +54,12 @@ public final class TelegramMessageProvider implements IMessageProvider
             messageSender.setText(message.getText());
             telegramBot.execute(messageSender);
             messageSender = new SendMessage();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void sendPhoto(User user, Message message) throws Exception
-    {
+    private void sendPhoto(User user, Message message) throws Exception {
         URL url = message.getImageURL();
         File file = new File("target" + System.getProperty("file.separator") + "TempFile");
         FileUtils.copyURLToFile(url, file);
@@ -78,16 +70,13 @@ public final class TelegramMessageProvider implements IMessageProvider
         if (!file.delete()) throw new Exception("Картинка не была удалена");
     }
 
-    private InlineKeyboardMarkup getMarkupInLine(User user, List<List<Button>> buttons)
-    {
+    private InlineKeyboardMarkup getMarkupInLine(User user, List<List<Button>> buttons) {
         InlineKeyboardMarkup markupInline = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> keyboard = new ArrayList<>();
 
-        for (List<Button> messageButtonRow : buttons)
-        {
+        for (List<Button> messageButtonRow : buttons) {
             List<InlineKeyboardButton> inlineKeyboardButtonsRow = new ArrayList<>();
-            for (Button button : messageButtonRow)
-            {
+            for (Button button : messageButtonRow) {
                 Integer id = userService.addCallbackWait(user, button.getCallback());
                 InlineKeyboardButton inlineKeyboardButton = new InlineKeyboardButton();
                 inlineKeyboardButton.setText(button.getText());

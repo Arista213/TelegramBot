@@ -8,8 +8,7 @@ import services.UserService;
 /**
  * Функционал бота.
  */
-public interface IBot
-{
+public interface IBot {
     void handleMessage(User user, Message message);
 
     DishDao getDishDao();

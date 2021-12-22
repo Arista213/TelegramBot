@@ -13,25 +13,21 @@ import java.util.stream.Collectors;
 /**
  * Реализация DishDao через Hibernate.
  */
-public class DishDaoImpl extends DishDao
-{
+public class DishDaoImpl extends DishDao {
     @Override
-    public Dish get(String title)
-    {
+    public Dish get(String title) {
         JSONDish jsonDish = HibernateSessionFactoryUtil.getSessionFactory().openSession().get(JSONDish.class, title);
         return jsonDish.getDish();
     }
 
     @Override
-    public List<Dish> getAll()
-    {
+    public List<Dish> getAll() {
         List<JSONDish> jsonDishes = (List<JSONDish>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From JSONDish").list();
         return jsonDishes.stream().map(JSONDish::getDish).collect(Collectors.toList());
     }
 
     @Override
-    public void save(Dish dish)
-    {
+    public void save(Dish dish) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         if (HibernateSessionFactoryUtil.getSessionFactory().openSession().get(JSONDish.class, dish.getTitle()) != null)
             return;
@@ -43,8 +39,7 @@ public class DishDaoImpl extends DishDao
     }
 
     @Override
-    public void update(String title, Dish dish)
-    {
+    public void update(String title, Dish dish) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         JSONDish jsonDish = new JSONDish(dish);
@@ -54,8 +49,7 @@ public class DishDaoImpl extends DishDao
     }
 
     @Override
-    public void delete(Dish dish)
-    {
+    public void delete(Dish dish) {
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         Transaction tx1 = session.beginTransaction();
         JSONDish jsonDish = new JSONDish(dish);

@@ -7,8 +7,7 @@ import java.util.Map;
 /**
  * Контейнер для телеграм кнопки.
  */
-public class Button
-{
+public class Button {
     /**
      * Текст на кнопке.
      */
@@ -19,8 +18,7 @@ public class Button
      */
     private final ICallback callback;
 
-    public Button(String text, ICallback action)
-    {
+    public Button(String text, ICallback action) {
         this.text = text;
         this.callback = action;
     }
@@ -29,20 +27,17 @@ public class Button
      * @param buttonsMap Словарь названий кнопок и их методов.
      * @return Список кнопок.
      */
-    public static List<Button> createButtons(Map<String, ICallback> buttonsMap)
-    {
+    public static List<Button> createButtons(Map<String, ICallback> buttonsMap) {
         List<Button> buttons = new ArrayList<>();
         buttonsMap.forEach((title, action) -> buttons.add(new Button(title, action)));
         return buttons;
     }
 
-    public ICallback getCallback()
-    {
+    public ICallback getCallback() {
         return callback;
     }
 
-    public String getText()
-    {
+    public String getText() {
         return text;
     }
 }
