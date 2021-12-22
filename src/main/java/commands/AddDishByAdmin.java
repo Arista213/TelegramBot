@@ -36,6 +36,17 @@ public class AddDishByAdmin extends Command
     {
         String dishTitle = message.getText();
         Dish dish = new Dish(dishTitle);
+        bot.setOutput(user, new Message(CommandsOutput.SUMMARY_TO_ADD.toStringValue()));
+        userService.addMessageWait(user, (u, m) -> identifySummery(u, m, dish));
+    }
+
+    /**
+     * Сохранить описание блюда введенное пользователем.
+     */
+    private void identifySummery(User user, Message message, Dish dish)
+    {
+        String summary = message.getText();
+        dish.setSummary(summary);
         bot.setOutput(user, new Message(CommandsOutput.IMAGE_TO_ADD.toStringValue()));
         userService.addMessageWait(user, (u, m) -> identifyPicture(u, m, dish));
     }
@@ -63,28 +74,18 @@ public class AddDishByAdmin extends Command
             return;
         }
 
-        bot.setOutput(user, new Message(CommandsOutput.SUMMARY_TO_ADD.toStringValue()));
-        userService.addMessageWait(user, (u, m) -> identifySummery(user, message, dish));
+        List<Ingredient> ingredients = IngredientService.getIngredients(message.getText());
+        List<Product> products = ingredients.stream().map(ingredient -> new Product(ingredient, null)).collect(Collectors.toList());
+        dish.setRecipe(new Recipe(products, null));
+        outputAddedDish(user, dish);
     }
 
-    /**
-     * Сохранить описание блюда введенное пользователем.
-     */
-    private void identifySummery(User user, Message message, Dish dish)
-    {
-        String summary = message.getText();
-        dish.setSummary(summary);
-        List<Ingredient> ingredients = IngredientService.getIngredients(message.getText());
-        outputAddedDish(user, dish, ingredients);
-    }
 
     /**
      * Добавить блюдо в базу данных и вывести результат.
      */
-    private void outputAddedDish(User user, Dish dish, List<Ingredient> ingredients)
+    private void outputAddedDish(User user, Dish dish)
     {
-        List<Product> products = ingredients.stream().map(ingredient -> new Product(ingredient, null)).collect(Collectors.toList());
-        dish.setRecipe(new Recipe(products, null));
         dishDao.save(dish);
         bot.setOutput(user, new Message(CommandsOutput.DISH_ADDED.toStringValue()));
     }
