@@ -4,8 +4,7 @@ import models.Dish;
 
 import java.util.List;
 
-public abstract class DishDao
-{
+public abstract class DishDao {
     /**
      * Добавить блюдо по названию.
      */

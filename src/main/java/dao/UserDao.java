@@ -4,8 +4,7 @@ import models.User;
 
 import java.util.List;
 
-public abstract class UserDao
-{
+public abstract class UserDao {
     /**
      * Получить пользователя по id.
      */

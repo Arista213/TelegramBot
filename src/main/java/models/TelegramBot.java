@@ -20,63 +20,50 @@ import java.util.List;
 /**
  * Телеграм бот.
  */
-public final class TelegramBot extends TelegramLongPollingBot
-{
+public final class TelegramBot extends TelegramLongPollingBot {
     private final IBot bot;
     private final UserDao userDao;
     private final UserService userService;
 
-    public TelegramBot(IBot bot)
-    {
+    public TelegramBot(IBot bot) {
         this.bot = bot;
         this.userService = bot.getUserService();
         this.userDao = bot.getUserDao();
 
-        try
-        {
+        try {
             TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
             botsApi.registerBot(this);
-        }
-        catch (TelegramApiException e)
-        {
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public String getBotUsername()
-    {
+    public String getBotUsername() {
         return Config.BOT_NAME.toStringValue();
     }
 
     @Override
-    public String getBotToken()
-    {
+    public String getBotToken() {
         return Config.BOT_TOKEN.toStringValue();
     }
 
     @Override
-    public void onUpdateReceived(Update update)
-    {
-        if (update.hasMessage())
-        {
+    public void onUpdateReceived(Update update) {
+        if (update.hasMessage()) {
             String userName = update.getMessage().getChatId().toString();
             System.out.println(userName + ":\t" + update.getMessage().getText());
             Message message = new Message(update.getMessage().getText());
             long userId = update.getMessage().getChatId();
-            if (message.getText().equalsIgnoreCase(Commands.START.toStringValue()))
-            {
+            if (message.getText().equalsIgnoreCase(Commands.START.toStringValue())) {
                 Start(userId);
-            }
-            else
-            {
+            } else {
                 User user = userDao.get(userId);
                 bot.handleMessage(user, message);
             }
         }
 
-        if (update.hasCallbackQuery())
-        {
+        if (update.hasCallbackQuery()) {
             String callData = update.getCallbackQuery().getData();
             User user = userDao.get(update.getCallbackQuery().getMessage().getChatId());
             userService.getCallbackWaiter(user).execute(callData);
@@ -86,8 +73,7 @@ public final class TelegramBot extends TelegramLongPollingBot
     /**
      * Регистрация нового пользователя
      */
-    private void Start(long userId)
-    {
+    private void Start(long userId) {
         User user = new User(userId);
         userDao.save(user);
         sendKeyboardToUser(user);
@@ -96,8 +82,7 @@ public final class TelegramBot extends TelegramLongPollingBot
     /**
      * Выдача пользователю клавиатуры.
      */
-    private void sendKeyboardToUser(User user)
-    {
+    private void sendKeyboardToUser(User user) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         List<KeyboardRow> keyboardRow = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
@@ -118,12 +103,9 @@ public final class TelegramBot extends TelegramLongPollingBot
         sm.setText(CommandsOutput.START.toStringValue());
         sm.setChatId(user.getId().toString());
         sm.setReplyMarkup(replyKeyboardMarkup);
-        try
-        {
+        try {
             execute(sm);
-        }
-        catch (TelegramApiException e)
-        {
+        } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }

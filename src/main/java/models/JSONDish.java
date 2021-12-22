@@ -12,8 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "dishes")
-public class JSONDish
-{
+public class JSONDish {
     @Id
     @Column(name = "title", nullable = false)
     private String title;
@@ -21,12 +20,10 @@ public class JSONDish
     @Column(name = "json")
     private String jsonString;
 
-    protected JSONDish()
-    {
+    protected JSONDish() {
     }
 
-    public JSONDish(Dish dish)
-    {
+    public JSONDish(Dish dish) {
         this.title = dish.getTitle();
         this.jsonString = JsonService.getStringFromDish(dish);
     }
@@ -34,18 +31,15 @@ public class JSONDish
     /**
      * @return блюдо, созданное из json.
      */
-    public Dish getDish()
-    {
+    public Dish getDish() {
         return JsonService.getDishFromJsonString(jsonString);
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
-    public String getJsonString()
-    {
+    public String getJsonString() {
         return jsonString;
     }
 }

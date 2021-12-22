@@ -5,23 +5,19 @@ import java.util.Objects;
 /**
  * Ингредиент в блюдах.
  */
-public class Ingredient
-{
+public class Ingredient {
     private final String title;
 
-    public Ingredient(String title)
-    {
+    public Ingredient(String title) {
         this.title = title;
     }
 
-    public String getTitle()
-    {
+    public String getTitle() {
         return title;
     }
 
     @Override
-    public boolean equals(Object o)
-    {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
@@ -29,14 +25,12 @@ public class Ingredient
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(title);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Ingredient{" +
                 "title='" + title + '\'' +
                 '}';

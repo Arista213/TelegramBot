@@ -17,15 +17,13 @@ import java.util.Scanner;
 /**
  * Реализация абстракции MessageProvider предназначенный для работы с консолью.
  */
-public class ConsoleMessageProvider implements IMessageProvider
-{
+public class ConsoleMessageProvider implements IMessageProvider {
     private final Scanner scanner = new Scanner(System.in);
 
     /**
      * Начинает работу пользователя с консолью.
      */
-    public void start()
-    {
+    public void start() {
         User consoleUser = new User(0L);
         DishDao dishDao = new SimpleDishDao();
         UserDao userDao = new SimpleUserDao();
@@ -38,8 +36,7 @@ public class ConsoleMessageProvider implements IMessageProvider
         System.out.println("BOT_NAME: " + Config.BOT_NAME.toStringValue());
         System.out.println("TOKEN: " + Config.BOT_TOKEN.toStringValue());
 
-        while (true)
-        {
+        while (true) {
             String input = scanner.nextLine();
             bot.handleMessage(consoleUser, new Message(input));
         }
@@ -49,8 +46,7 @@ public class ConsoleMessageProvider implements IMessageProvider
      * Печатает вывод бота в консоль.
      */
     @Override
-    public void sendMessage(User user, Message message)
-    {
+    public void sendMessage(User user, Message message) {
         System.out.println(message.getText());
     }
 }

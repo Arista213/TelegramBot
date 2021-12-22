@@ -10,8 +10,7 @@ import java.util.Map;
  * Класс, преналдежит только одному пользователю.
  * Отвечает за нажатие пользователем кнопки.
  */
-public class CallbackWaiter
-{
+public class CallbackWaiter {
     /**
      * Map с ключом - идентификатором(id) кнопки и значением - ICallback,
      * который будут использован, когда пользователь нажмёт на кнопку.
@@ -24,8 +23,7 @@ public class CallbackWaiter
      */
     private Integer id = 0;
 
-    public CallbackWaiter(User user)
-    {
+    public CallbackWaiter(User user) {
         this.user = user;
     }
 
@@ -33,8 +31,7 @@ public class CallbackWaiter
      * @param callback, добавляется в
      * @return id кнопки, к который добавили ICallback.
      */
-    public Integer add(ICallback callback)
-    {
+    public Integer add(ICallback callback) {
         id++;
         callbacks.put(id.toString(), callback);
         return id;
@@ -45,8 +42,7 @@ public class CallbackWaiter
      *
      * @param callData - id кнопки
      */
-    public void execute(String callData)
-    {
+    public void execute(String callData) {
         callbacks.get(callData).execute(user);
     }
 }

@@ -3,8 +3,7 @@ package models;
 /**
  * Режимы работы для пользователя.
  */
-public enum Mode
-{
+public enum Mode {
     User,
     Admin
 }

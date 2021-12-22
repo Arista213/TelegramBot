@@ -9,23 +9,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Тесты на сервис для работы с json.
  */
-public class JsonServiceTests
-{
+public class JsonServiceTests {
     /**
      * Тест проверяет JSONService на сохрание блюд и их загрузку.
      */
     @Test
-    public void jsonServiceSaveAndLoadTest()
-    {
+    public void jsonServiceSaveAndLoadTest() {
         String path = "target" + System.getProperty("file.separator") + "JsonSerialisationTest.txt";
-        Dish friedEggs = new Dish("Яишница", new Recipe(List.of(
+        Dish friedEggs = new Dish("Яишница", new Recipe(Arrays.asList(
                 new Product(new Ingredient("яица"), "2 яица")),
                 null), null, null);
         Dish pancakes = new Dish("Блины", new Recipe(Arrays.asList(
@@ -44,11 +41,10 @@ public class JsonServiceTests
      * Тест проверяет JSONService на поиск определенного количества блюд из JSON.
      */
     @Test
-    public void getDishesTest() throws IOException
-    {
+    public void getDishesTest() throws IOException {
         String separator = System.getProperty("file.separator");
         String path = "src" + separator + "test" + separator + "testFiles" + separator + "JsonGetDishesTest.txt";
-        Dish soup = new Dish("African Chicken Peanut Stew", new Recipe(List.of(
+        Dish soup = new Dish("African Chicken Peanut Stew", new Recipe(Arrays.asList(
                 new Product(new Ingredient("bell peppers"), "Bell Peppers for garnishing"),
                 new Product(new Ingredient("chicken"), "1.5 cups of Chopped Chicken"),
                 new Product(new Ingredient("cooking oil"), "2.5 Cooking spoons of oil"),
@@ -67,15 +63,14 @@ public class JsonServiceTests
                 getSoupCookPhases()), "https://spoonacular.com/recipeImages/716268-312x231.jpg",
                 getCookSummary());
 
-        List<Dish> expectedDishes = List.of(soup);
+        List<Dish> expectedDishes = Arrays.asList(soup);
         File file = new File(path);
         String json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
         List<Dish> actualDishes = JsonService.GetDishes(json, 1);
         assertEquals(expectedDishes, actualDishes);
     }
 
-    private String getCookSummary()
-    {
+    private String getCookSummary() {
         return "Need a gluten free and dairy free main course? " +
                 "African Chicken Peanut Stew could be a tremendous recipe to try." +
                 " This recipe makes 1 servings with 1377 calories, 75g of protein, and 102g of fat each." +
@@ -90,9 +85,8 @@ public class JsonServiceTests
                 " and One-Pot African Peanut Stew for similar recipes.";
     }
 
-    private List<CookPhase> getSoupCookPhases()
-    {
-        return List.of(new CookPhase("", List.of(
+    private List<CookPhase> getSoupCookPhases() {
+        return Arrays.asList(new CookPhase("", Arrays.asList(
                 new CookPhaseStep("Season and Boil the Chicken for 10 minutes with salt, " +
                         "pepper, seasoning, a handful of onions.Once the chicken is ready, in the same stock, " +
                         "Boil the chopped sweet potatoes till its almost cooked. Save the stock in a separate " +
@@ -100,7 +94,7 @@ public class JsonServiceTests
                         "cooking spoon of oil and fry the chicken till it Browns. Take it out and heat up the " +
                         "other 1.5 cooking spoons of oil and fry the onions, tomatoes Both chopped " +
                         "and Blended, ginger and garlic.",
-                        new HashSet<>(Set.of(
+                        new HashSet<>(Arrays.asList(
                                 new Ingredient("sweet potato"), new Ingredient("seasoning"),
                                 new Ingredient("potato"), new Ingredient("tomato"),
                                 new Ingredient("whole chicken"), new Ingredient("garlic"),
@@ -109,7 +103,7 @@ public class JsonServiceTests
                                 new Ingredient("salt"), new Ingredient("cooking oil")
                         ))),
                 new CookPhaseStep("Add your seasoning, curry, thyme, parsley, salt and pepper to the pot.",
-                        new HashSet<>(Set.of(
+                        new HashSet<>(Arrays.asList(
                                 new Ingredient("salt and pepper"), new Ingredient("seasoning"),
                                 new Ingredient("parsley"), new Ingredient("curry powder"),
                                 new Ingredient("thyme")
@@ -117,14 +111,14 @@ public class JsonServiceTests
                 new CookPhaseStep("Pour in your stock, chicken and potatoes to cook further." +
                         "Stir in your peanut Butter and allow to cook for 10 minutes on low heat." +
                         "If your sauce gets too thick, add a little water to it.",
-                        new HashSet<>(Set.of(
+                        new HashSet<>(Arrays.asList(
                                 new Ingredient("peanut butter"), new Ingredient("potato"),
                                 new Ingredient("whole chicken"), new Ingredient("sauce"),
                                 new Ingredient("stock"), new Ingredient("water")
                         ))),
                 new CookPhaseStep("Serve with white rice or more sweet potatoes." +
                         "You could also garnish the dish with Bell peppers. ",
-                        new HashSet<>(Set.of(
+                        new HashSet<>(Arrays.asList(
                                 new Ingredient("sweet potato"), new Ingredient("bell pepper"),
                                 new Ingredient("white rice")
                         )))

@@ -15,8 +15,7 @@ import java.util.Set;
 /**
  * Сервис для рабоыт с User.
  */
-public class UserService
-{
+public class UserService {
     private final Set<User> users = new HashSet<>();
     private final Map<User, Mode> userModeMap = new HashMap<>();
     private final Map<User, CallbackWaiter> callbackWaiterMap = new HashMap<>();
@@ -24,8 +23,7 @@ public class UserService
     private final Map<User, HashSet<String>> intolerancesMap = new HashMap<>();
     private final Map<User, String> dietMap = new HashMap<>();
 
-    public void addUser(User user)
-    {
+    public void addUser(User user) {
         users.add(user);
         userModeMap.put(user, Mode.User);
         callbackWaiterMap.put(user, new CallbackWaiter(user));
@@ -34,26 +32,22 @@ public class UserService
         dietMap.put(user, "");
     }
 
-    public void setMode(User user, Mode mode)
-    {
+    public void setMode(User user, Mode mode) {
         if (!users.contains(user)) addUser(user);
         userModeMap.put(user, mode);
     }
 
-    public void addMessageWait(User user, IAction action)
-    {
+    public void addMessageWait(User user, IAction action) {
         if (!users.contains(user)) addUser(user);
         messageWaiterMap.get(user).add(action);
     }
 
-    public MessageWaiter getMessageWaiter(User user)
-    {
+    public MessageWaiter getMessageWaiter(User user) {
         if (!users.contains(user)) addUser(user);
         return messageWaiterMap.get(user);
     }
 
-    public CallbackWaiter getCallbackWaiter(User user)
-    {
+    public CallbackWaiter getCallbackWaiter(User user) {
         if (!users.contains(user)) addUser(user);
         return callbackWaiterMap.get(user);
     }
@@ -62,32 +56,27 @@ public class UserService
      * Добавить ICallback кнопке, отправленной пользователю.
      * Возвращает id кнопки, к которой добавили ICallback.
      */
-    public Integer addCallbackWait(User user, ICallback callback)
-    {
+    public Integer addCallbackWait(User user, ICallback callback) {
         if (!users.contains(user)) addUser(user);
         return callbackWaiterMap.get(user).add(callback);
     }
 
-    public Mode getMode(User user)
-    {
+    public Mode getMode(User user) {
         if (!users.contains(user)) addUser(user);
         return userModeMap.get(user);
     }
 
-    public String getDiet(User user)
-    {
+    public String getDiet(User user) {
         if (!users.contains(user)) addUser(user);
         return dietMap.get(user);
     }
 
-    public void setDiet(User user, String diet)
-    {
+    public void setDiet(User user, String diet) {
         if (!users.contains(user)) addUser(user);
         dietMap.put(user, diet);
     }
 
-    public void addIntolerance(User user, String intolerance)
-    {
+    public void addIntolerance(User user, String intolerance) {
         if (!users.contains(user)) addUser(user);
         intolerancesMap.get(user).add(intolerance);
     }
@@ -95,8 +84,7 @@ public class UserService
     /**
      * Удалить у пользователя все непереносимости.
      */
-    public void removeIntolerances(User user)
-    {
+    public void removeIntolerances(User user) {
         if (!users.contains(user)) addUser(user);
         intolerancesMap.get(user).clear();
     }
@@ -104,8 +92,7 @@ public class UserService
     /**
      * Получить строку непереносимостей пользователя.
      */
-    public String getIntolerancesString(User user)
-    {
+    public String getIntolerancesString(User user) {
         if (!users.contains(user)) addUser(user);
         HashSet<String> intolerances = intolerancesMap.get(user);
         return String.join(",", intolerances);
@@ -117,8 +104,7 @@ public class UserService
      * т.е. какую диету пользователь использует
      * и какую еду пользователь не переносит
      */
-    public String getUserPage(User user)
-    {
+    public String getUserPage(User user) {
         if (!users.contains(user)) addUser(user);
         String diet = dietMap.get(user);
         return "Diet: " + diet + "\n" + "Intolerances: " + getIntolerancesString(user);

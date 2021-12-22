@@ -8,16 +8,13 @@ import models.User;
 /**
  * Комманда для начала работы с пользователем.
  */
-public class Start extends Command
-{
-    public Start(ChiefBot bot)
-    {
+public class Start extends Command {
+    public Start(ChiefBot bot) {
         super(bot);
     }
 
     @Override
-    public void process(User user)
-    {
+    public void process(User user) {
         bot.setOutput(user, new Message(CommandsOutput.START.toStringValue()));
     }
 }
