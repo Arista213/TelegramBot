@@ -80,7 +80,6 @@ public class AddDishByAdmin extends Command
         outputAddedDish(user, dish);
     }
 
-
     /**
      * Добавить блюдо в базу данных и вывести результат.
      */

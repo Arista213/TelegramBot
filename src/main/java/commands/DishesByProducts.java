@@ -76,9 +76,19 @@ public class DishesByProducts extends Command
         {
             Message output = new Message(dishService.getStringFromDish(dish))
                     .setImageURL(dish.getImageUrl()).
-                    setButtons(List.of(List.of(new Button("Show products", u -> sendProducts(u, dish)))));
+                    setButtons(List.of(List.of(
+                            new Button("Show products", u -> sendProducts(u, dish)),
+                            new Button("Show recipe", u -> sendRecipe(u, dish)))));
             bot.setOutput(user, output);
         }
+    }
+
+    /**
+     * Отправить пользователю рецепт.
+     */
+    private void sendRecipe(User user, Dish dish)
+    {
+        bot.setOutput(user, new Message(dish.getRecipeOutput()));
     }
 
     /**
