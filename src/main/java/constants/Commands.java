@@ -6,15 +6,16 @@ package constants;
 public enum Commands
 {
     START("/start"),
-    HELP("help"),
-    DISH_BY_TITLE("dish by title"),
-    DISHES_BY_PRODUCTS("dishes by products"),
-    SAVE_DISHES("save dishes"),
-    LOAD_DISHES("load dishes"),
-    USER_MODE("user mode"),
-    ADMIN_MODE("admin mode"),
-    ADD_DISH("add dish"),
-    REMOVE_DISH("remove dish");
+    HELP("Help"),
+    DISH_BY_TITLE("Dish by title"),
+    DISHES_BY_PRODUCTS("Dishes by products"),
+    SAVE_DISHES("Save dishes"),
+    LOAD_DISHES("Load dishes"),
+    USER_MODE("User mode"),
+    ADMIN_MODE("Admin mode"),
+    USER_PAGE("User page"),
+    ADD_DISH("Add dish"),
+    REMOVE_DISH("Remove dish");
 
     private final String value;
 
@@ -26,5 +27,10 @@ public enum Commands
     public String toStringValue()
     {
         return value;
+    }
+
+    public String toLowerCaseValue()
+    {
+        return value.toLowerCase();
     }
 }

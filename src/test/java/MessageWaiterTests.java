@@ -1,7 +1,7 @@
-import message.MessageWaiter;
-import message.model.IAction;
-import message.model.Message;
-import model.User;
+import IO.waiter.MessageWaiter;
+import models.Message;
+import models.User;
+import models.IAction;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,7 +20,7 @@ public class MessageWaiterTests
     @Test
     void messageWaitingTest()
     {
-        MessageWaiter messageWaiter = new MessageWaiter();
+        MessageWaiter messageWaiter = new MessageWaiter(new User(0L));
         IAction testAction = (user, message) ->
         {
         };
@@ -34,10 +34,10 @@ public class MessageWaiterTests
     @Test
     void messageWaiterExecuteTest()
     {
-        MessageWaiter messageWaiter = new MessageWaiter();
+        MessageWaiter messageWaiter = new MessageWaiter(new User(0L));
         IAction testAction = (user, message) -> output = message.getText();
         messageWaiter.add(testAction);
-        messageWaiter.execute(new User(0L), new Message("Test!"));
+        messageWaiter.execute(new Message("Test!"));
         assertEquals("Test!", output);
     }
 }

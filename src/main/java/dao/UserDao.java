@@ -1,11 +1,10 @@
 package dao;
 
-import model.User;
+import models.User;
 
 import java.util.List;
 
-public abstract class UserDao
-{
+public abstract class UserDao {
     /**
      * Получить пользователя по id.
      */
@@ -22,9 +21,9 @@ public abstract class UserDao
     public abstract void save(User user);
 
     /**
-     * Обновить пользователя по id.
+     * Обновить пользователя.
      */
-    public abstract void update(long id, User user);
+    public abstract void update(User user);
 
     /**
      * Удалить пользователя по id.

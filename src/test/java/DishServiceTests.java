@@ -1,10 +1,10 @@
 import dao.impl.SimpleDishDao;
-import model.Dish;
-import model.Ingredient;
-import model.Product;
-import model.Recipe;
+import models.Dish;
+import models.Ingredient;
+import models.Product;
+import models.Recipe;
 import org.junit.jupiter.api.Test;
-import service.DishService;
+import services.DishService;
 
 import java.util.*;
 
@@ -22,7 +22,7 @@ public class DishServiceTests
             new Product(new Ingredient("молоко"), "2 стакана молока")),
             null), null, null);
 
-    private final Dish friedEggs = new Dish("Яичница", new Recipe(List.of(
+    private final Dish friedEggs = new Dish("Яичница", new Recipe(Arrays.asList(
             new Product(new Ingredient("яйца"), "2 яица")), null),
             null, null);
 
